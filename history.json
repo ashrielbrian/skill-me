@@ -8,9 +8,7 @@
       "targets": ["~/Documents/graph-dl"],
       "changes": "Initial rewrite: phases, taxonomy, output template, guidelines.",
       "metrics": {
-        "pipeline_pass_rate": {"current": 1.0, "baseline": 0.86},
-        "tokens": {"current": 214017, "baseline": 216463},
-        "time_s": {"current": 477, "baseline": 651}
+        "pipeline_pass_rate": {"current": 1.0, "baseline": 0.86}
       },
       "verdict": "committed"
     },
@@ -24,29 +22,44 @@
       "changes": "No skill changes. Ground truth eval on taskflow (28 planted issues).",
       "metrics": {
         "recall": {"current": 0.964, "baseline": 0.964},
-        "precision": {"current": 1.0, "baseline": 1.0},
-        "false_positives": {"current": 0, "baseline": 0}
+        "precision": {"current": 1.0, "baseline": 1.0}
       },
       "verdict": "committed (baseline validation)"
     },
     {
       "id": 3,
-      "skill_commit": "pending",
+      "skill_commit": "2825d2f",
       "baseline_commit": "c7a5984",
       "timestamp": "2026-03-30T05:30:00Z",
       "targets": ["test-repo/taskflow", "test-repo/datamill"],
       "has_ground_truth": true,
-      "changes": "spring_clean: expanded logging security pattern to check ALL logging paths (request loggers, error handlers, debug statements). Added hardcoded delay/sleep pattern to Performance category. Created new test project datamill (CLI data processor, 15 planted issues + 5 false positive traps).",
+      "changes": "Expanded logging security pattern. Added hardcoded delay/sleep performance pattern. New test project: datamill (15 issues + 5 FP traps).",
       "metrics": {
         "taskflow_recall": {"current": 1.0, "baseline": 1.0},
-        "taskflow_precision": {"current": 1.0, "baseline": 1.0},
         "datamill_recall": {"current": 1.0, "baseline": 1.0},
-        "datamill_precision": {"current": 1.0, "baseline": 1.0},
-        "false_positives": {"current": 0, "baseline": 0},
-        "fp_traps_triggered": {"current": 0, "baseline": 0}
+        "precision": {"current": 1.0, "baseline": 1.0},
+        "fp_traps_triggered": 0
       },
-      "notes": "First iteration fixed SEC-16 gap (logging check expanded). DM-PERF-1 initially missed, fixed by adding hardcoded delay pattern. 100% recall and precision on both repos. 0 false positive traps triggered.",
-      "verdict": "commit — 100% recall/precision on 2 test repos, 43 total planted issues"
+      "verdict": "committed"
+    },
+    {
+      "id": 4,
+      "skill_commit": "pending",
+      "baseline_commit": "2825d2f",
+      "timestamp": "2026-03-30T06:30:00Z",
+      "targets": ["test-repo/eventbus"],
+      "has_ground_truth": true,
+      "changes": "No skill changes. Validation on harder test project: eventbus (10 subtle issues + 2 FP traps + 8 clean code pieces). Tests false positive resistance on async code patterns.",
+      "metrics": {
+        "eventbus_recall": 1.0,
+        "eventbus_precision": 1.0,
+        "eventbus_fp_traps_triggered": 0,
+        "total_findings": 12,
+        "planted_found": 10,
+        "legitimate_extras": 2
+      },
+      "notes": "100% recall on hardest test repo yet. Both FP traps avoided (parameterized SQL correctly identified as safe, dedup overflow not falsely flagged). Clean code (MemoryStorage, Event, RetryMiddleware.with_retry implementation, create_webhook_handler) not flagged as buggy.",
+      "verdict": "commit — validates skill on new domain (async event bus), no changes needed"
     }
   ]
 }

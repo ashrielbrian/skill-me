@@ -1,0 +1,22 @@
+{
+  "description": "Ground truth for planted issues in test-repo/eventbus. This project is designed to be harder — more clean code, more subtle bugs, and deliberate false positive traps.",
+  "total_planted": 10,
+  "clean_code_count": 8,
+  "clean_code_note": "8 pieces of clean code should NOT be flagged: Event dataclass, create_event(), EventBus.status(), RetryMiddleware.with_retry(), MemoryStorage class (entire), create_webhook_handler(), SQLiteStorage.get_by_topic() (uses parameterized queries correctly), dedup _cleanup_expired max_seen overflow (actually correct despite misleading comment)",
+  "false_positive_traps": [
+    {"file": "eventbus/storage/sqlite.py", "line": 47, "description": "Parameterized SQL query — NOT injection despite a misleading comment"},
+    {"file": "eventbus/middleware/dedup.py", "line": 34, "description": "Dedup overflow drops oldest (correct) despite misleading comment claiming it drops newest"}
+  ],
+  "issues": [
+    {"id": "EB-PERF-1", "severity": "Medium", "category": "Performance", "file": "eventbus/bus.py", "line": 25, "description": "Dead letter list grows unbounded — no max size or cleanup"},
+    {"id": "EB-COR-1", "severity": "Medium", "category": "Correctness", "file": "eventbus/bus.py", "line": 33, "description": "Unsubscribe removes by value — fails silently if handler subscribed twice, not thread-safe"},
+    {"id": "EB-COR-2", "severity": "Medium", "category": "Correctness", "file": "eventbus/bus.py", "line": 52, "description": "stop() does not drain the queue — queued events are silently lost"},
+    {"id": "EB-ERR-1", "severity": "Medium", "category": "Error Handling", "file": "eventbus/bus.py", "line": 69, "description": "After middleware error, continues with original unprocessed event instead of skipping or stopping chain"},
+    {"id": "EB-SEC-1", "severity": "Medium", "category": "Security", "file": "eventbus/middleware/logging.py", "line": 24, "description": "Logs full event payload by default — may contain PII or credentials"},
+    {"id": "EB-PERF-2", "severity": "Low", "category": "Performance", "file": "eventbus/middleware/dedup.py", "line": 25, "description": "Dedup cleanup iterates ALL entries every event — O(n) per event"},
+    {"id": "EB-COR-3", "severity": "Low", "category": "Correctness", "file": "eventbus/storage/sqlite.py", "line": 37, "description": "json.dumps can fail on non-serializable payload types — no error handling"},
+    {"id": "EB-PERF-3", "severity": "Low", "category": "Performance", "file": "eventbus/storage/sqlite.py", "line": 40, "description": "SQLite commits after every single insert — should batch"},
+    {"id": "EB-COR-4", "severity": "Low", "category": "Correctness", "file": "eventbus/storage/sqlite.py", "line": 63, "description": "No async context manager — connection leaks if close() not called"},
+    {"id": "EB-PERF-4", "severity": "Medium", "category": "Performance", "file": "eventbus/handlers/webhook.py", "line": 43, "description": "Synchronous urllib.request.urlopen blocks the async event loop"}
+  ]
+}
