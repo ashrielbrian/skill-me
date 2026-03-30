@@ -42,7 +42,7 @@ Issues that could be exploited or leak sensitive data.
 - Missing input validation or sanitization on user-facing inputs
 - Insecure cryptographic practices (weak hashing, predictable randomness)
 - Overly permissive CORS, authentication, or authorization checks
-- Sensitive data in logs or error messages
+- Sensitive data leaking through logging — check ALL logging paths: request/response loggers, error handlers, debug statements, and audit logs. A codebase often has multiple logging functions (e.g., `log_request`, `log_error`, `logger.info`, `print`), and each one is a potential leak point. When you find one logging issue, search for other logging functions in the same file and nearby files to catch related leaks
 - Dependency vulnerabilities (check lock files for known-bad versions if feasible)
 
 ### Error Handling
@@ -61,6 +61,7 @@ Issues that cause measurable slowdowns or resource waste.
 - Synchronous I/O blocking an event loop or main thread
 - Unnecessary repeated computation (missing caching or memoization)
 - Memory-heavy operations on large datasets without streaming
+- Hardcoded delays or sleep calls where adaptive backoff (e.g., based on rate-limit headers or queue depth) would be more appropriate
 
 ### Maintainability
 Issues that make the code significantly harder to work with — not style nitpicks, but real structural problems.

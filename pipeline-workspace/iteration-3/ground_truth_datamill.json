@@ -1,0 +1,24 @@
+{
+  "description": "Ground truth for planted issues in test-repo/datamill",
+  "total_planted": 16,
+  "clean_code_count": 4,
+  "clean_code_note": "4 functions are explicitly clean and should NOT be flagged: deduplicate(), _validate_api_key(), merge_enrichment_results(), validate_config(), clear_cache()",
+  "issues": [
+    {"id": "DM-SEC-1", "severity": "Critical", "category": "Security", "file": "datamill/processor.py", "line": 15, "description": "eval() on user-supplied filter expression -- arbitrary code execution"},
+    {"id": "DM-SEC-2", "severity": "Critical", "category": "Security", "file": "datamill/processor.py", "line": 56, "description": "Shell injection via subprocess.run with shell=True and user-controlled format string"},
+    {"id": "DM-SEC-3", "severity": "High", "category": "Security", "file": "datamill/config.py", "line": 24, "description": "yaml.load with FullLoader instead of SafeLoader -- allows arbitrary Python execution"},
+    {"id": "DM-SEC-4", "severity": "High", "category": "Security", "file": "datamill/config.py", "line": 6, "description": "Hardcoded production API key as fallback"},
+    {"id": "DM-SEC-5", "severity": "High", "category": "Security", "file": "datamill/enricher.py", "line": 17, "description": "Default API endpoint uses HTTP not HTTPS"},
+    {"id": "DM-SEC-6", "severity": "High", "category": "Security", "file": "datamill/enricher.py", "line": 27, "description": "API key logged at INFO level"},
+    {"id": "DM-SEC-7", "severity": "Medium", "category": "Security", "file": "datamill/config.py", "line": 39, "description": "get_api_key falls back to hardcoded production API key"},
+    {"id": "DM-ERR-1", "severity": "Medium", "category": "Error Handling", "file": "datamill/processor.py", "line": 26, "description": "_load_file returns None implicitly for unknown file extensions"},
+    {"id": "DM-ERR-2", "severity": "Medium", "category": "Error Handling", "file": "datamill/enricher.py", "line": 39, "description": "No timeout on HTTP request to external API"},
+    {"id": "DM-ERR-3", "severity": "Medium", "category": "Error Handling", "file": "datamill/enricher.py", "line": 44, "description": "Recursive retry with no depth limit -- can stack overflow on sustained 429s"},
+    {"id": "DM-ERR-4", "severity": "Low", "category": "Error Handling", "file": "datamill/enricher.py", "line": 48, "description": "Silently returns empty list on API errors"},
+    {"id": "DM-COR-1", "severity": "Medium", "category": "Correctness", "file": "datamill/processor.py", "line": 41, "description": "aggregate_file returns empty DataFrame when neither sum_col nor mean_col provided"},
+    {"id": "DM-COR-2", "severity": "Low", "category": "Correctness", "file": "datamill/cache.py", "line": 23, "description": "Race condition between exists() check and open() -- TOCTOU"},
+    {"id": "DM-COR-3", "severity": "Low", "category": "Correctness", "file": "datamill/cache.py", "line": 38, "description": "Non-atomic write -- partial file on crash"},
+    {"id": "DM-PERF-1", "severity": "Low", "category": "Performance", "file": "datamill/enricher.py", "line": 33, "description": "Fixed 1-second sleep between batches regardless of rate limit headers"},
+    {"id": "DM-FP-CHECK", "severity": "N/A", "category": "False Positive Check", "file": "multiple", "line": 0, "description": "Clean code that should NOT be flagged: deduplicate(), _validate_api_key(), merge_enrichment_results(), validate_config(), clear_cache()"}
+  ]
+}
