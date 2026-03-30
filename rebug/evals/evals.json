@@ -1,0 +1,19 @@
+{
+  "skill_name": "rebug",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Validate these concerns about the graph-dl codebase at ~/Documents/graph-dl: there might be hardcoded AWS credentials or S3 paths in the source code, the data loading pipeline in custom_loader.py could have resource leaks, and the GNN training loop in project_constellation/main.py might have performance issues with how it handles large graph data. Are these real problems or am I overthinking it?",
+      "expected_output": "Structured validation report with verdicts for each issue, citing specific code evidence.",
+      "files": [],
+      "assertions": [
+        {"id": "has_summary", "text": "Report contains a Summary section"},
+        {"id": "each_issue_has_verdict", "text": "Each issue gets a verdict from the taxonomy"},
+        {"id": "verdicts_cite_evidence", "text": "Each verdict cites specific file paths and line numbers"},
+        {"id": "has_fix_assessment", "text": "Each issue includes a fix assessment"},
+        {"id": "independent_investigation", "text": "Investigation reads actual code rather than restating input"},
+        {"id": "handles_vague_input", "text": "Handles vague input proactively"}
+      ]
+    }
+  ]
+}

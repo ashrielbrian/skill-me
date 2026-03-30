@@ -1,0 +1,42 @@
+{
+  "eval_id": 0,
+  "eval_name": "pipeline-audit",
+  "configuration": "old_pipeline",
+  "expectations": [
+    {
+      "text": "Rebug produces a verdict for every finding from the spring_clean report",
+      "passed": true,
+      "evidence": "All 25 findings received individual verdicts (15 confirmed, 4 reseveritied, 3 partially valid, 3 disputed). Every finding has its own subsection."
+    },
+    {
+      "text": "Each verdict in the rebug report cites specific file paths and line numbers from the actual codebase",
+      "passed": true,
+      "evidence": "Every verdict cites file paths and line numbers. Code snippets included for most findings."
+    },
+    {
+      "text": "Rebug identifies at least one finding that is incorrect, over-severitied, or speculative",
+      "passed": true,
+      "evidence": "3 findings disputed. Tokenizer findings reseveritied from HIGH to MEDIUM (unused module). AssertionError finding reseveritied. ATM filter finding marked partially valid. Account features join finding disputed (incorrectly claims full outer join is wrong)."
+    },
+    {
+      "text": "Rebug confirms the real critical bugs",
+      "passed": true,
+      "evidence": "Both CRITICAL findings confirmed: optimizer TypeError and wrong torch import. Detailed investigation with cross-references to correct patterns elsewhere in codebase."
+    },
+    {
+      "text": "Rebug output follows a structured format with clear verdicts per finding",
+      "passed": false,
+      "evidence": "Uses structured format with Original severity/Verdict/Investigation/Fix assessment per finding. However, does NOT use the standard verdict taxonomy. Uses free-form text for verdicts: 'Confirmed', 'Confirmed, reseveritied', 'Partially valid', 'Disputed' — these happen to overlap with the new skill's taxonomy but were arrived at independently, not from skill guidance. The AssertionError finding has an extremely long, confused investigation spanning 20+ lines of self-contradictory reasoning."
+    },
+    {
+      "text": "Spring_clean output format is directly consumable by rebug without manual reformatting",
+      "passed": true,
+      "evidence": "Rebug processed the old spring_clean's format (which happened to use severity-prefixed titles and structured fields) without issues."
+    },
+    {
+      "text": "Rebug provides new insight beyond what spring_clean reported",
+      "passed": true,
+      "evidence": "Discovered 3 new issues: filter column type mismatch, degree_aware unbounded loop, StopIteration silent termination. Also correctly identified that tokenizer code and gnn/sage_hetero.py are not in the production path."
+    }
+  ]
+}

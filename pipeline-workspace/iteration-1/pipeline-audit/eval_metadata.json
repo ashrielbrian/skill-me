@@ -1,0 +1,14 @@
+{
+  "eval_id": 0,
+  "eval_name": "pipeline-audit",
+  "prompt": "Run spring_clean on ~/Documents/graph-dl, then pass its output to rebug for validation. Evaluate the end-to-end pipeline quality.",
+  "assertions": [
+    {"id": "rebug_processes_all_findings", "text": "Rebug produces a verdict for every finding from the spring_clean report"},
+    {"id": "rebug_cites_code_evidence", "text": "Each verdict in the rebug report cites specific file paths and line numbers from the actual codebase"},
+    {"id": "rebug_identifies_false_positives", "text": "Rebug identifies at least one finding that is incorrect, over-severitied, or speculative"},
+    {"id": "rebug_confirms_real_issues", "text": "Rebug confirms the real critical bugs (e.g., wrong torch import, generator concatenation)"},
+    {"id": "rebug_uses_structured_format", "text": "Rebug output follows a structured format with clear verdicts per finding"},
+    {"id": "pipeline_format_compatibility", "text": "Spring_clean output format is directly consumable by rebug without manual reformatting"},
+    {"id": "rebug_adds_value", "text": "Rebug provides new insight beyond what spring_clean reported (e.g., discovers new issues, corrects severity, identifies mitigations)"}
+  ]
+}

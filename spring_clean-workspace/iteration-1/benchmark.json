@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "skill_name": "spring-clean",
+    "timestamp": "2026-03-27T03:30:00Z",
+    "evals_run": ["audit-graph-dl"]
+  },
+  "runs": [
+    {
+      "configuration": "with_skill",
+      "eval_name": "audit-graph-dl",
+      "pass_rate": 0.91,
+      "passed": 10,
+      "total": 11,
+      "time_seconds": 264.5,
+      "tokens": 112341,
+      "expectations": [
+        {"text": "Report contains a Summary section", "passed": true, "evidence": "Summary section describes project and identifies most critical findings."},
+        {"text": "Report contains structured Findings section", "passed": true, "evidence": "19 individual findings each as separate subsections."},
+        {"text": "Each finding has a severity level", "passed": true, "evidence": "Every finding prefixed with [CRITICAL], [HIGH], [MEDIUM], or [LOW]."},
+        {"text": "Each finding has a category", "passed": true, "evidence": "Every finding includes Category line from the taxonomy."},
+        {"text": "Each finding cites file paths with line numbers", "passed": true, "evidence": "Every finding includes Location with file paths and line numbers."},
+        {"text": "Each finding includes code evidence", "passed": true, "evidence": "Every finding includes Evidence section with code snippets."},
+        {"text": "Each finding includes a suggested fix", "passed": true, "evidence": "Every finding includes Suggested fix line."},
+        {"text": "Each finding includes an effort estimate", "passed": true, "evidence": "Every finding includes Effort line using the defined scale."},
+        {"text": "Findings ordered by severity", "passed": true, "evidence": "Critical → High → Medium → Low ordering."},
+        {"text": "Includes Issues Not Found section", "passed": true, "evidence": "Section covers SQL Injection, Race Conditions, Dependencies, etc."},
+        {"text": "No speculative findings", "passed": false, "evidence": "AssertionError finding is self-contradictory and not properly verified."}
+      ]
+    },
+    {
+      "configuration": "without_skill",
+      "eval_name": "audit-graph-dl",
+      "pass_rate": 0.55,
+      "passed": 6,
+      "total": 11,
+      "time_seconds": 169.9,
+      "tokens": 107270,
+      "expectations": [
+        {"text": "Report contains a Summary section", "passed": true, "evidence": "Summary with finding counts by severity."},
+        {"text": "Report contains structured Findings section", "passed": true, "evidence": "36 findings organized by severity tiers."},
+        {"text": "Each finding has a severity level", "passed": false, "evidence": "Uses non-standard groupings: CRITICAL, HIGH (Security), MODERATE, PERFORMANCE, LOW."},
+        {"text": "Each finding has a category", "passed": false, "evidence": "No explicit category labels; Security and Performance used as severity levels."},
+        {"text": "Each finding cites file paths with line numbers", "passed": true, "evidence": "Most findings include file paths and line numbers."},
+        {"text": "Each finding includes code evidence", "passed": true, "evidence": "Most findings include code snippets."},
+        {"text": "Each finding includes a suggested fix", "passed": true, "evidence": "Most findings include Fix line."},
+        {"text": "Each finding includes an effort estimate", "passed": false, "evidence": "No effort estimates provided."},
+        {"text": "Findings ordered by severity", "passed": true, "evidence": "CRITICAL → HIGH → MODERATE → PERFORMANCE → LOW."},
+        {"text": "Includes Issues Not Found section", "passed": false, "evidence": "No Issues Not Found section. Has Remediation Plan and Architectural Observations instead."},
+        {"text": "No speculative findings", "passed": false, "evidence": "SQL pattern finding is speculative. AssertionError finding has contradictory text."}
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {"pass_rate": 0.91, "time_seconds": 264.5, "tokens": 112341},
+    "without_skill": {"pass_rate": 0.55, "time_seconds": 169.9, "tokens": 107270},
+    "delta": {
+      "pass_rate": "+0.36",
+      "time_seconds": "+94.6",
+      "tokens": "+5071"
+    }
+  }
+}

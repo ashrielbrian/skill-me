@@ -1,0 +1,72 @@
+{
+  "metadata": {
+    "skill_name": "spring-clean + rebug pipeline",
+    "timestamp": "2026-03-30T04:30:00Z",
+    "target": "test-repo/taskflow",
+    "has_ground_truth": true,
+    "planted_issues": 28,
+    "baseline_commit": "a8432cf"
+  },
+  "runs": [
+    {
+      "configuration": "current",
+      "spring_clean": {
+        "findings": 38,
+        "time_seconds": 318.9,
+        "tokens": 41394
+      },
+      "rebug": {
+        "findings_reviewed": 31,
+        "time_seconds": 431.6,
+        "tokens": 48524,
+        "verdicts": {"confirmed": 27, "confirmed_reseveritied": 1, "partially_valid": 3, "disputed": 0},
+        "new_issues_found": 4
+      },
+      "ground_truth": {
+        "recall": 0.964,
+        "precision": 1.0,
+        "planted_found": 27,
+        "planted_missed": ["SEC-16"],
+        "false_positives": 0,
+        "legitimate_extras": 6
+      },
+      "total_time_seconds": 750.5,
+      "total_tokens": 89918
+    },
+    {
+      "configuration": "baseline",
+      "spring_clean": {
+        "findings": 40,
+        "time_seconds": 187.0,
+        "tokens": 32840
+      },
+      "rebug": {
+        "findings_reviewed": 40,
+        "time_seconds": 617.9,
+        "tokens": 56199,
+        "verdicts": {"confirmed": 34, "confirmed_with_inaccuracies": 5, "partially_valid": 1, "disputed": 0},
+        "new_issues_found": 5
+      },
+      "ground_truth": {
+        "recall": 0.964,
+        "precision": 1.0,
+        "planted_found": 27,
+        "planted_missed": ["SEC-16"],
+        "false_positives": 0,
+        "legitimate_extras": 13
+      },
+      "total_time_seconds": 804.9,
+      "total_tokens": 89039
+    }
+  ],
+  "run_summary": {
+    "current": {"recall": 0.964, "precision": 1.0, "time_s": 750.5, "tokens": 89918},
+    "baseline": {"recall": 0.964, "precision": 1.0, "time_s": 804.9, "tokens": 89039},
+    "delta": {
+      "recall": "+0.00",
+      "precision": "+0.00",
+      "time_seconds": "-54.4",
+      "tokens": "+879"
+    }
+  }
+}

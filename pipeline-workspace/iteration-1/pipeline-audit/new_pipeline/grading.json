@@ -1,0 +1,42 @@
+{
+  "eval_id": 0,
+  "eval_name": "pipeline-audit",
+  "configuration": "new_pipeline",
+  "expectations": [
+    {
+      "text": "Rebug produces a verdict for every finding from the spring_clean report",
+      "passed": true,
+      "evidence": "All 22 findings from spring_clean received individual verdicts (15 confirmed, 3 reseveritied, 2 partially valid, 1 disputed, 1 self-retracted noted). Every finding has its own subsection."
+    },
+    {
+      "text": "Each verdict in the rebug report cites specific file paths and line numbers from the actual codebase",
+      "passed": true,
+      "evidence": "Every verdict cites absolute file paths and line numbers. E.g., '/Users/brian.tang/Documents/graph-dl/project_constellation/main.py line 10', 'preprocess.py lines 167-170', etc."
+    },
+    {
+      "text": "Rebug identifies at least one finding that is incorrect, over-severitied, or speculative",
+      "passed": true,
+      "evidence": "Multiple: HeteroGNN.forward bug marked 'Partially valid' (exists in unused copy only, reseveritied to MEDIUM). AccountATMTransactionsDataset reseveritied from HIGH to LOW (dead code). HGT.forward reseveritied from MEDIUM to LOW. Unused imports finding marked 'Partially valid' (report got specific import names wrong)."
+    },
+    {
+      "text": "Rebug confirms the real critical bugs",
+      "passed": true,
+      "evidence": "All 3 CRITICAL findings confirmed: wrong torch import, parameter name mismatch, generator concatenation. Each with detailed code evidence."
+    },
+    {
+      "text": "Rebug output follows a structured format with clear verdicts per finding",
+      "passed": true,
+      "evidence": "Follows exact template: Summary → Detailed Findings (each with Original severity, Verdict, Investigation, Fix assessment) → New Issues Discovered. Verdicts use the taxonomy (Confirmed, Partially valid, Disputed, Confirmed reseveritied)."
+    },
+    {
+      "text": "Spring_clean output format is directly consumable by rebug without manual reformatting",
+      "passed": true,
+      "evidence": "Rebug parsed each finding by title and investigated them sequentially. The structured format (severity in title, category, location, evidence) gave rebug clear targets to verify."
+    },
+    {
+      "text": "Rebug provides new insight beyond what spring_clean reported",
+      "passed": true,
+      "evidence": "Discovered 2 new issues: cross-package import fragility in preprocess.py, and divergent HeteroGNN parameter names. Also deepened the inverted filter finding by discovering the column type mismatch makes it a no-op regardless of inversion. Identified which code copies are production vs unused."
+    }
+  ]
+}

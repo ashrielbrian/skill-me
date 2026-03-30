@@ -1,0 +1,23 @@
+{
+  "skill_name": "spring-clean",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Perform a thorough audit of the codebase at ~/Documents/graph-dl. Find bugs, security issues, performance problems, and anything else worth fixing. Rank by severity.",
+      "expected_output": "Structured audit report with categorized findings, severity levels, file paths with line numbers, evidence, suggested fixes, and effort estimates.",
+      "files": [],
+      "assertions": [
+        {"id": "has_summary_section", "text": "Report contains a Summary section"},
+        {"id": "findings_have_severity", "text": "Each finding has a severity level (Critical/High/Medium/Low)"},
+        {"id": "findings_have_category", "text": "Each finding has a category from the taxonomy"},
+        {"id": "findings_cite_locations", "text": "Each finding cites specific file paths with line numbers"},
+        {"id": "findings_have_evidence", "text": "Each finding includes code evidence"},
+        {"id": "findings_have_fix", "text": "Each finding includes a suggested fix"},
+        {"id": "findings_have_effort", "text": "Each finding includes an effort estimate"},
+        {"id": "ordered_by_severity", "text": "Findings are ordered highest to lowest severity"},
+        {"id": "has_issues_not_found", "text": "Report includes Issues Not Found section"},
+        {"id": "no_speculative_findings", "text": "No speculative findings without evidence"}
+      ]
+    }
+  ]
+}

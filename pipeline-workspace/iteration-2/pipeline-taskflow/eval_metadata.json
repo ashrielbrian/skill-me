@@ -1,0 +1,22 @@
+{
+  "eval_id": 0,
+  "eval_name": "pipeline-taskflow",
+  "prompt": "Run spring_clean → rebug pipeline on a synthetic test repo with 28+ planted issues across Security, Correctness, Performance, and Error Handling.",
+  "assertions": [
+    {"id": "detects_sql_injection", "text": "Spring_clean detects the SQL injection in search_tasks (SEC-3)"},
+    {"id": "detects_hardcoded_creds", "text": "Spring_clean detects hardcoded database credentials (SEC-1)"},
+    {"id": "detects_hardcoded_jwt", "text": "Spring_clean detects hardcoded JWT secret key (SEC-2)"},
+    {"id": "detects_pickle_loads", "text": "Spring_clean detects pickle.loads on untrusted data (SEC-5)"},
+    {"id": "detects_wildcard_cors", "text": "Spring_clean detects wildcard CORS with credentials (SEC-6)"},
+    {"id": "detects_div_by_zero", "text": "Spring_clean detects division by zero in compute_task_stats (COR-2)"},
+    {"id": "detects_undefined_var", "text": "Spring_clean detects undefined variable assignee_id (COR-3)"},
+    {"id": "detects_n_plus_1", "text": "Spring_clean detects N+1 query pattern in get_user_tasks (PERF-1)"},
+    {"id": "detects_test_import_typo", "text": "Spring_clean detects import typo 'taks' in test file (COR-7)"},
+    {"id": "detects_arbitrary_sql", "text": "Spring_clean detects arbitrary SQL execution endpoint (SEC-4)"},
+    {"id": "spring_clean_recall", "text": "Spring_clean detects at least 20 of the 28+ planted issues (>70% recall)"},
+    {"id": "spring_clean_precision", "text": "Spring_clean has no more than 2 false positives (issues that don't exist)"},
+    {"id": "rebug_validates_all", "text": "Rebug produces a verdict for every finding from spring_clean"},
+    {"id": "rebug_confirms_real", "text": "Rebug confirms the genuinely planted issues rather than disputing them"},
+    {"id": "rebug_structured", "text": "Rebug uses the verdict taxonomy (Confirmed/Disputed/Partially valid/etc.)"}
+  ]
+}

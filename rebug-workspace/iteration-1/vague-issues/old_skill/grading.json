@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "eval_name": "vague-issues",
+  "configuration": "old_skill",
+  "expectations": [
+    {
+      "text": "Report contains a Summary section with counts of confirmed vs disputed issues",
+      "passed": false,
+      "evidence": "No formal Summary section. The report jumps straight into 'Concern 1' without an overview. There is a summary table at the very end (lines 149-154) but it's not at the top and doesn't count confirmed vs disputed."
+    },
+    {
+      "text": "Each issue gets a verdict from the taxonomy (Confirmed/Reseveritied/Partially valid/Disputed/Needs more context)",
+      "passed": false,
+      "evidence": "Uses non-standard verdict labels: 'PARTIALLY VALID', 'NOT A REAL PROBLEM -- You are overthinking this', 'VALID'. Does not use the defined taxonomy terms."
+    },
+    {
+      "text": "Each verdict includes investigation evidence citing specific file paths and line numbers",
+      "passed": true,
+      "evidence": "Extensive evidence throughout. Issue 1 cites main.py line 3, profile_scan.py line 23, iceburger.py. Issue 2 cites custom_loader.py lines 147-184. Issue 3 cites main.py lines 283, 211-212, 10, 243, 215, 246, 190."
+    },
+    {
+      "text": "Each issue includes a fix assessment evaluating or proposing solutions",
+      "passed": true,
+      "evidence": "Issue 1 recommends moving AWS_PROFILE inside __main__. Issue 2 notes no fix needed but flags performance concern. Issue 3 provides specific fixes for each sub-issue."
+    },
+    {
+      "text": "Investigation reads actual code and traces logic rather than just restating the input concerns",
+      "passed": true,
+      "evidence": "Thorough code reading throughout. Issue 2 traces the full data flow and correctly identifies it's all in-memory. Issue 3 identifies 7 sub-issues (3a-3g) from reading the actual code."
+    },
+    {
+      "text": "Searches for issues proactively when input is imprecise rather than refusing or asking for more info",
+      "passed": true,
+      "evidence": "All 3 vague concerns investigated proactively. Found sub-issues in the training loop beyond what was asked. However, did not formally flag new issues in a separate section."
+    }
+  ]
+}

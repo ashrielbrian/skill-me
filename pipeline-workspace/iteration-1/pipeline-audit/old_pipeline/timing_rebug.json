@@ -1,0 +1,6 @@
+{
+  "total_tokens": 95000,
+  "duration_ms": 310000,
+  "total_duration_seconds": 310.0,
+  "note": "Estimated from transcript - agent hit permission denial before completion notification"
+}

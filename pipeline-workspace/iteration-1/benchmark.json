@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "skill_name": "spring-clean + rebug pipeline",
+    "timestamp": "2026-03-27T04:10:00Z",
+    "evals_run": ["pipeline-audit"]
+  },
+  "runs": [
+    {
+      "configuration": "new_pipeline",
+      "eval_name": "pipeline-audit",
+      "pass_rate": 1.0,
+      "passed": 7,
+      "total": 7,
+      "time_seconds": 477,
+      "tokens": 214017,
+      "details": {
+        "spring_clean_time": 264.5,
+        "spring_clean_tokens": 112341,
+        "rebug_time": 212.4,
+        "rebug_tokens": 101676
+      },
+      "expectations": [
+        {"text": "Rebug produces a verdict for every finding", "passed": true, "evidence": "All 22 findings received verdicts."},
+        {"text": "Each verdict cites specific file paths and line numbers", "passed": true, "evidence": "Every verdict cites absolute paths and lines."},
+        {"text": "Rebug identifies false positives or over-severitied findings", "passed": true, "evidence": "Multiple reseveritied and partially valid findings."},
+        {"text": "Rebug confirms real critical bugs", "passed": true, "evidence": "All 3 CRITICAL confirmed with evidence."},
+        {"text": "Structured format with clear verdicts", "passed": true, "evidence": "Follows exact template with taxonomy verdicts."},
+        {"text": "Format compatibility (spring_clean → rebug)", "passed": true, "evidence": "Rebug parsed spring_clean output seamlessly."},
+        {"text": "Rebug adds new insight", "passed": true, "evidence": "2 new issues discovered, deeper analysis on filter bug."}
+      ]
+    },
+    {
+      "configuration": "old_pipeline",
+      "eval_name": "pipeline-audit",
+      "pass_rate": 0.86,
+      "passed": 6,
+      "total": 7,
+      "time_seconds": 651,
+      "tokens": 216463,
+      "details": {
+        "spring_clean_time": 341.4,
+        "spring_clean_tokens": 121463,
+        "rebug_time": 310.0,
+        "rebug_tokens": 95000
+      },
+      "expectations": [
+        {"text": "Rebug produces a verdict for every finding", "passed": true, "evidence": "All 25 findings received verdicts."},
+        {"text": "Each verdict cites specific file paths and line numbers", "passed": true, "evidence": "Every verdict cites paths and lines."},
+        {"text": "Rebug identifies false positives or over-severitied findings", "passed": true, "evidence": "3 disputed, 4 reseveritied."},
+        {"text": "Rebug confirms real critical bugs", "passed": true, "evidence": "Both CRITICAL confirmed."},
+        {"text": "Structured format with clear verdicts", "passed": false, "evidence": "No standard verdict taxonomy. AssertionError finding has 20+ lines of confused reasoning."},
+        {"text": "Format compatibility (spring_clean → rebug)", "passed": true, "evidence": "Old spring_clean format was processable."},
+        {"text": "Rebug adds new insight", "passed": true, "evidence": "3 new issues discovered."}
+      ]
+    }
+  ],
+  "run_summary": {
+    "new_pipeline": {"pass_rate": 1.0, "time_seconds": 477, "tokens": 214017},
+    "old_pipeline": {"pass_rate": 0.86, "time_seconds": 651, "tokens": 216463},
+    "delta": {
+      "pass_rate": "+0.14",
+      "time_seconds": "-174",
+      "tokens": "-2446"
+    }
+  }
+}

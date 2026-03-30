@@ -1,0 +1,18 @@
+{
+  "eval_id": 0,
+  "eval_name": "audit-graph-dl",
+  "prompt": "Perform a thorough audit of the codebase at ~/Documents/graph-dl. Find bugs, security issues, performance problems, and anything else worth fixing. Rank by severity.",
+  "assertions": [
+    {"id": "has_summary_section", "text": "Report contains a Summary section with a brief overview of the codebase and key findings"},
+    {"id": "has_findings_section", "text": "Report contains a structured Findings section with individual issues"},
+    {"id": "findings_have_severity", "text": "Each finding has a severity level (Critical/High/Medium/Low)"},
+    {"id": "findings_have_category", "text": "Each finding has a category (Correctness/Security/Error Handling/Performance/Maintainability)"},
+    {"id": "findings_cite_locations", "text": "Each finding cites specific file paths with line numbers"},
+    {"id": "findings_have_evidence", "text": "Each finding includes evidence such as code snippets or specific patterns"},
+    {"id": "findings_have_fix", "text": "Each finding includes a suggested fix"},
+    {"id": "findings_have_effort", "text": "Each finding includes an effort estimate (Small/Medium/Large/Architectural)"},
+    {"id": "ordered_by_severity", "text": "Findings are ordered from highest to lowest severity"},
+    {"id": "has_issues_not_found", "text": "Report includes an Issues Not Found section noting categories with no significant findings"},
+    {"id": "no_speculative_findings", "text": "No findings are speculative -- every issue is backed by specific code evidence"}
+  ]
+}
