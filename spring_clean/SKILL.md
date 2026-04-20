@@ -10,6 +10,18 @@ allowed-tools: Grep, Read
 
 You are performing a read-only audit of a codebase. Your job is to find real, actionable issues — not to nitpick style preferences or flag theoretical concerns that would never matter in practice. Focus on things that could cause bugs, outages, security incidents, or significant developer pain.
 
+## Scope
+
+Check `$ARGUMENTS` at the end of this file for a scope directive:
+
+- **If empty or missing**: audit the entire repository from the current working directory.
+- **If a path (or multiple paths) is provided**: focus the audit on that directory/those directories. Findings should come from inside the scoped path.
+- **If free-text guidance is provided** (e.g. "focus on the auth module", "only security issues in src/api"): interpret it as a focus hint and narrow accordingly.
+
+Scope is a focus, not a fence. Stepping outside the scoped path is expected and encouraged when it's needed to trace a root cause, confirm an issue is real, or understand how the scoped code is called. The deliverable is still a report about the scoped area — external forays should serve that goal, not become the audit themselves.
+
+When scoped, the orientation phase applies but is proportionally smaller — you are orienting to the subtree, not the whole project. Read top-level config files (package.json, pyproject.toml, etc.) as needed to understand the stack the scoped code runs in.
+
 ## Phase 1: Orientation
 
 Before looking for problems, understand the codebase. Rushing to identify issues without context leads to false positives and missed architectural concerns.
@@ -115,5 +127,10 @@ When in doubt between two severity levels, consider: "If I were on-call and this
 
 - **Be specific, not exhaustive.** Five well-evidenced findings are worth more than twenty vague ones. Every finding should include a file path and line number.
 - **Assume competent authors.** If something looks wrong but might be intentional (e.g., an unusual pattern with a comment explaining why), give benefit of the doubt and note the ambiguity rather than flagging it as a bug.
-- **Prioritize breadth first.** Scan across the full codebase before deep-diving into any one area. A critical security issue in an obscure file matters more than a medium-severity issue in the file you happened to read first.
+- **Prioritize breadth first.** Scan across the full scope before deep-diving into any one area. A critical security issue in an obscure file matters more than a medium-severity issue in the file you happened to read first.
 - **Calibrate to the project.** A missing CSRF token in a public-facing web app is Critical. The same issue in an internal CLI tool is Low. Context matters.
+- **Follow root causes wherever they lead.** If investigating a scoped finding requires reading code outside the scope, do it — just keep the reported findings anchored to the scoped area.
+
+## Scope directive
+
+$ARGUMENTS
