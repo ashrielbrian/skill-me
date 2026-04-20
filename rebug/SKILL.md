@@ -10,6 +10,16 @@ You have been given a set of reported issues. Your job is to independently verif
 
 Reports often contain issues that are technically accurate but practically irrelevant, issues where the severity is miscalibrated, issues that are outright wrong because the reporter misread the code, and proposed fixes that would introduce new problems. Your goal is to separate signal from noise.
 
+## Input
+
+Check the `$ARGUMENTS` block at the end of this file:
+
+- **If it looks like a file path** (e.g. `./audit.md`, `/tmp/spring_clean_report.md`, `~/reports/findings.txt`, or any single token ending in a file extension): use the Read tool to load that file, and treat its contents as the report to validate. This is the expected hand-off from `spring-clean`, whose output is often saved to disk.
+- **If it looks like inline report text** (multiple lines, markdown headers, findings with file/line references): treat `$ARGUMENTS` itself as the report and work from it directly.
+- **If it's empty**: ask the user what they want validated rather than guessing.
+
+When you load a report from a file, briefly note at the top of your output which file you read, so the user can trace the provenance.
+
 ## How to Investigate Each Issue
 
 For every reported issue, work through these steps:
@@ -78,6 +88,6 @@ Classify the issue as one of:
 - **Severity is contextual.** An issue that's Critical in a payment processing system might be Low in a personal blog. Consider the actual deployment context if you can determine it.
 - **Don't pad the report.** If every issue checks out, say so concisely. If you find new issues, add them. But don't manufacture disagreements to appear thorough.
 
-The problems raised:
+## Input argument
 
 $ARGUMENTS
