@@ -16,6 +16,14 @@ Issue validator. Takes a list of reported issues and independently verifies each
 
 Full pipeline in one command. Runs the spring-clean audit, then validates every finding with rebug's methodology — no copy/paste between steps. Trade-off: a single agent validates its own work, so for the strongest independent verification, run `/spring-clean` and `/rebug` as separate steps.
 
+### `/address-pr-comments`
+
+Reads the unresolved review comments on a GitHub PR and evaluates each one from first principles by reading the actual code. Produces a balanced verdict (Valid / Invalid / Partially valid / Needs discussion) with evidence and a suggested fix for each valid comment. Use with `/address-pr-comments`, `/address-pr-comments 123`, or `/address-pr-comments <PR URL>`.
+
+### `/pr-review`
+
+Independent first-principles review of a GitHub PR. Reads the diff and PR description, deliberately ignores other reviewers' comments to avoid anchoring, and walks a top-down taxonomy that puts architectural fit and API design ahead of line-level correctness. Produces a severity-ranked report; optionally creates a temporary git worktree for deeper inspection. Use with `/pr-review`, `/pr-review 123`, or `/pr-review https://github.com/owner/repo/pull/123`.
+
 ## Prerequisites
 
 - [Claude Code](https://claude.ai/code) installed and initialized (run `claude` at least once so `~/.claude` exists)
@@ -74,6 +82,8 @@ mkdir -p ~/.claude/skills
 ln -s /absolute/path/to/skill-me/spring_clean ~/.claude/skills/spring_clean
 ln -s /absolute/path/to/skill-me/rebug ~/.claude/skills/rebug
 ln -s /absolute/path/to/skill-me/audit ~/.claude/skills/audit
+ln -s /absolute/path/to/skill-me/address-pr-comments ~/.claude/skills/address-pr-comments
+ln -s /absolute/path/to/skill-me/pr-review ~/.claude/skills/pr-review
 ```
 
 ## Usage

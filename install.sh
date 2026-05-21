@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SKILLS=("spring_clean" "rebug" "audit")
+SKILLS=("spring_clean" "rebug" "audit" "address-pr-comments" "pr-review")
 DEFAULT_TARGET="$HOME/.claude/skills"
 
 MODE="install"
@@ -14,7 +14,7 @@ usage() {
     cat <<'EOF'
 Usage: ./install.sh [OPTIONS]
 
-Install spring-clean, rebug, and audit skills for Claude Code.
+Install spring-clean, rebug, audit, address-pr-comments, and pr-review skills for Claude Code.
 
 Options:
     --project <path>   Install to <path>/.claude/skills/ instead of ~/.claude/skills/
@@ -146,9 +146,11 @@ if [[ "$MODE" == "install" ]]; then
     done
     echo ""
     echo "Done. Available commands in Claude Code:"
-    echo "  /spring-clean  — audit a codebase"
-    echo "  /rebug         — validate reported issues"
-    echo "  /audit         — full pipeline (discover + validate)"
+    echo "  /spring-clean         — audit a codebase"
+    echo "  /rebug                — validate reported issues"
+    echo "  /audit                — full pipeline (discover + validate)"
+    echo "  /address-pr-comments  — evaluate unresolved PR review comments"
+    echo "  /pr-review            — independent first-principles review of a GitHub PR"
     if [[ "$COPY_MODE" != true ]]; then
         echo ""
         echo "Skills are symlinked — run 'git pull' in this repo to get updates."
