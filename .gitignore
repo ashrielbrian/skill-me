@@ -1,3 +1,16 @@
 __pycache__/
 *.pyc
 .venv/
+
+# Eval run artifacts: bulky transcripts and rendered prompts. The scored report,
+# timing.json, and benchmark.json are the durable record.
+pipeline-workspace/*/runs/*/raw.json
+pipeline-workspace/*/runs/*/stderr.log
+pipeline-workspace/*/runs/*/prompt.md
+
+# Runs against private repositories. This repo is public, so a report that quotes
+# a private PR's code or infrastructure must not be committed. benchmark.json
+# embeds example sentences from the reports it scores, so those runs are scored
+# into a separate, ignored file.
+pipeline-workspace/*/runs/pr-private*/
+pipeline-workspace/*/benchmark-private.json

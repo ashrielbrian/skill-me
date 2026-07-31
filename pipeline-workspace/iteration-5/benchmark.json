@@ -1,0 +1,1753 @@
+{
+  "apc-eventbus-base": {
+    "timing": {
+      "wall_seconds": 213,
+      "num_turns": 17,
+      "cost_usd": 0.7792669999999999,
+      "output_tokens": 15497,
+      "total_tokens": 262352,
+      "permission_denials": 4,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 7,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 10,
+      "template_passed": 10,
+      "template_pass_rate": 1.0,
+      "report_chars": 18978
+    },
+    "ste": {
+      "sentences": 119,
+      "words": 2558,
+      "mean_sentence_words": 21.5,
+      "max_sentence_words": 57,
+      "over_25_words": 45,
+      "over_25_rate": 0.378,
+      "over_20_words": 58,
+      "over_20_rate": 0.487,
+      "non_approved_total": 1,
+      "non_approved_terms": [
+        {
+          "term": "sufficient",
+          "approved": "enough",
+          "count": 1
+        }
+      ],
+      "idiom_total": 1,
+      "idiom_terms": [
+        {
+          "term": "papering over",
+          "count": 1
+        }
+      ],
+      "passive_total": 23,
+      "passive_per_100_sentences": 19.3,
+      "passive_examples": [
+        {
+          "match": "been anchored",
+          "sentence": "Both invalid comments are @dana's, and both appear to have been anchored by misleading CODE comments sitting on the lines above the code \u2014 t"
+        },
+        {
+          "match": "is compared",
+          "sentence": "With CODE placeholders, sqlite3 binds CODE as a value, so CODE is compared as a literal 61-character topic string and matches zero rows \u2014 it"
+        },
+        {
+          "match": "is truncated",
+          "sentence": "The likely source of the misread is twofold: the snippet quoted in the comment is truncated at line 55, stopping just before the CODE clause"
+        },
+        {
+          "match": "is already parameterized",
+          "sentence": "Good instinct, but I think the diff hunk cut off right before the relevant line \u2014 the query is already parameterized:"
+        },
+        {
+          "match": "is appended",
+          "sentence": "CODE is appended to on every failed handler with no removal path, so a persistently failing handler grows it until OOM."
+        },
+        {
+          "match": "are logged",
+          "sentence": "In CODE , CODE starts CODE and is set CODE only after a handler returns successfully ( PATH ); handler exceptions are logged and swallowed ("
+        },
+        {
+          "match": "is appended",
+          "sentence": "If CODE is still CODE after all patterns, the event is appended ( PATH -95)."
+        },
+        {
+          "match": "is retained",
+          "sentence": "The list is write-only and unbounded, and both growth paths are easy to hit in production. @sam's stated trigger holds: with a single persis"
+        },
+        {
+          "match": "is also retained",
+          "sentence": "The exposure is actually broader than the comment says \u2014 CODE ( PATH -52) confirms that any event with no matching subscriber is also retain"
+        },
+        {
+          "match": "are also amortized",
+          "sentence": "Preferred: switch to CODE (or CODE ) with a client instance held on the handler and reused across calls, so connection pooling and TLS hands"
+        },
+        {
+          "match": "is never closed",
+          "sentence": "CODE raises CODE on 4xx/5xx rather than returning, so the CODE branch at PATH -45 is effectively dead and those failures fall into the CODE "
+        },
+        {
+          "match": "is typed",
+          "sentence": "CODE is typed CODE ( PATH ) and is populated from arbitrary caller kwargs via CODE ( PATH -32)."
+        }
+      ],
+      "ing_opener_total": 2,
+      "ing_opener_examples": [
+        {
+          "opener": "Reading",
+          "sentence": "Reading the first line of that comment plus a truncated hunk gets you exactly this conclusion."
+        },
+        {
+          "opener": "Grepping",
+          "sentence": "Grepping the whole package, the only other reference is CODE in CODE ( PATH ) \u2014 there is no pop, clear, slice, cap, or accessor anywhere."
+        }
+      ],
+      "longest_sentences": [
+        "When it is enabled, pass the payload through a redactor rather than logging it raw: a default deny-list of key patterns ( CODE , CODE , CODE , CODE , CODE , CODE , CODE ) replaced with CODE , applied recursively for nested dicts, plus a CODE truncation so a large payload can't flood the log.",
+        "If that isn't enough, add an explicit CODE that batches into one transaction and let the bus accumulate a small window \u2014 but that does change the durability contract, so it should be an opt-in parameter ( CODE , CODE ) rather than the default, and needs a CODE call wired into shutdown.",
+        "CODE at PATH raises CODE on a non-serializable payload ( CODE , CODE , a custom object), which surfaces as a middleware exception \u2014 and the handler at PATH -78 logs it and CODE s the chain while still dispatching the event, so the remaining middleware is silently skipped.",
+        "CODE raises CODE on 4xx/5xx rather than returning, so the CODE branch at PATH -45 is effectively dead and those failures fall into the CODE handler at line 46 ( CODE subclasses CODE ); and CODE is never closed, so use it as a context manager.",
+        "Secure-by-default is the right posture here because the failure mode is silent and unrecoverable \u2014 credentials in an aggregated log store are a disclosure incident that no later code change undoes, and the caller who gets burned is the one who never read the constructor signature.",
+        "The exposure is actually broader than the comment says \u2014 CODE ( PATH -52) confirms that any event with no matching subscriber is also retained, so a single mistyped topic on a hot publisher leaks at full event rate with no failures involved at all."
+      ]
+    },
+    "detail": {
+      "findings": 7,
+      "chars": 18978,
+      "chars_per_finding": 2711,
+      "quantities": 42,
+      "quantities_per_finding": 6.0,
+      "quantity_examples": [
+        "58",
+        "61",
+        "55",
+        "51",
+        "53",
+        "57",
+        "51",
+        "53",
+        "33",
+        "43",
+        "19",
+        "3.7",
+        "19",
+        "41"
+      ],
+      "citations": 59,
+      "citations_per_finding": 8.43,
+      "unique_files_cited": 12,
+      "code_refs": 203,
+      "code_refs_per_finding": 29.0,
+      "causal_links": 12,
+      "causal_per_finding": 1.71
+    },
+    "verdicts": {
+      "threads_reported": 7,
+      "expected_threads": 7,
+      "verdict_correct": 7,
+      "verdict_accuracy": 1.0,
+      "fp_traps_caught": 2,
+      "fp_traps_total": 2,
+      "rows": [
+        {
+          "comment": "sqlite.py:47",
+          "expected": "Invalid",
+          "got": "Invalid",
+          "ok": true,
+          "why": "FP trap: parameterized query"
+        },
+        {
+          "comment": "dedup.py:34",
+          "expected": "Invalid",
+          "got": "Invalid",
+          "ok": true,
+          "why": "FP trap: evicts oldest, which is correct"
+        },
+        {
+          "comment": "bus.py:25",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-1 unbounded dead letter"
+        },
+        {
+          "comment": "webhook.py:43",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-4 blocking urlopen"
+        },
+        {
+          "comment": "logging.py:24",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-SEC-1 payload in logs"
+        },
+        {
+          "comment": "bus.py:52",
+          "expected": "Valid",
+          "got": "Partially valid",
+          "ok": true,
+          "why": "EB-COR-2 stop() drops queued events"
+        },
+        {
+          "comment": "sqlite.py:40",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-3 commit per insert"
+        }
+      ]
+    }
+  },
+  "apc-eventbus-ste": {
+    "timing": {
+      "wall_seconds": 157,
+      "num_turns": 14,
+      "cost_usd": 0.615051,
+      "output_tokens": 12279,
+      "total_tokens": 171723,
+      "permission_denials": 1,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 7,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 10,
+      "template_passed": 10,
+      "template_pass_rate": 1.0,
+      "report_chars": 17232
+    },
+    "ste": {
+      "sentences": 170,
+      "words": 2270,
+      "mean_sentence_words": 13.4,
+      "max_sentence_words": 42,
+      "over_25_words": 10,
+      "over_25_rate": 0.059,
+      "over_20_words": 32,
+      "over_20_rate": 0.188,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 2,
+      "passive_per_100_sentences": 1.2,
+      "passive_examples": [
+        {
+          "match": "is already parameterized",
+          "sentence": "The query is already parameterized."
+        },
+        {
+          "match": "is already parameterized",
+          "sentence": "The statement is already parameterized."
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "This limits the write rate to the fsync rate of the device, which is often a few hundred writes per second on a spinning disk and well below the rate the queue can feed ( CODE defaults to 10000 at CODE ).",
+        "Two more consequences follow from the missing reference: the event loop keeps only a weak reference to a task, so the worker can disappear during garbage collection, and a second CODE call creates a second worker on the same queue.",
+        "Two details differ from the comment, but neither changes the fix: the code appends one time per event, not one time per failed handler, and it also appends when no pattern matches the topic.",
+        "Nothing yields to the event loop between the DNS lookup and the response, so the loop thread stops for the full request \u2014 up to 30 seconds with the default timeout.",
+        "CODE at line 51 discards the task object, so there is no handle to cancel, and the loop exits on its own up to 0.1 seconds after the flag drops.",
+        "One detail: the append runs one time per event at line 95, not one time per failed handler, and it also fires when no pattern matches the topic."
+      ]
+    },
+    "detail": {
+      "findings": 7,
+      "chars": 17232,
+      "chars_per_finding": 2462,
+      "quantities": 32,
+      "quantities_per_finding": 4.57,
+      "quantity_examples": [
+        "54",
+        "58",
+        "55",
+        "56",
+        "57",
+        "51",
+        "53",
+        "38",
+        "43",
+        "19",
+        "42",
+        "43",
+        "35",
+        "41"
+      ],
+      "citations": 57,
+      "citations_per_finding": 8.14,
+      "unique_files_cited": 12,
+      "code_refs": 210,
+      "code_refs_per_finding": 30.0,
+      "causal_links": 23,
+      "causal_per_finding": 3.29
+    },
+    "verdicts": {
+      "threads_reported": 7,
+      "expected_threads": 7,
+      "verdict_correct": 7,
+      "verdict_accuracy": 1.0,
+      "fp_traps_caught": 2,
+      "fp_traps_total": 2,
+      "rows": [
+        {
+          "comment": "sqlite.py:47",
+          "expected": "Invalid",
+          "got": "Invalid",
+          "ok": true,
+          "why": "FP trap: parameterized query"
+        },
+        {
+          "comment": "dedup.py:34",
+          "expected": "Invalid",
+          "got": "Invalid",
+          "ok": true,
+          "why": "FP trap: evicts oldest, which is correct"
+        },
+        {
+          "comment": "bus.py:25",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-1 unbounded dead letter"
+        },
+        {
+          "comment": "webhook.py:43",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-4 blocking urlopen"
+        },
+        {
+          "comment": "logging.py:24",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-SEC-1 payload in logs"
+        },
+        {
+          "comment": "bus.py:52",
+          "expected": "Valid",
+          "got": "Partially valid",
+          "ok": true,
+          "why": "EB-COR-2 stop() drops queued events"
+        },
+        {
+          "comment": "sqlite.py:40",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-3 commit per insert"
+        }
+      ]
+    }
+  },
+  "apc-eventbus-ste2": {
+    "timing": {
+      "wall_seconds": 320,
+      "num_turns": 18,
+      "cost_usd": 0.826255,
+      "output_tokens": 16841,
+      "total_tokens": 347122,
+      "permission_denials": 4,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 7,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 10,
+      "template_passed": 10,
+      "template_pass_rate": 1.0,
+      "report_chars": 15162
+    },
+    "ste": {
+      "sentences": 170,
+      "words": 2115,
+      "mean_sentence_words": 12.4,
+      "max_sentence_words": 26,
+      "over_25_words": 1,
+      "over_25_rate": 0.006,
+      "over_20_words": 13,
+      "over_20_rate": 0.076,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 2,
+      "passive_per_100_sentences": 1.2,
+      "passive_examples": [
+        {
+          "match": "is parameterized",
+          "sentence": "This query is parameterized."
+        },
+        {
+          "match": "is then",
+          "sentence": "A burst of new events is then treated as unseen."
+        }
+      ],
+      "ing_opener_total": 1,
+      "ing_opener_examples": [
+        {
+          "opener": "During",
+          "sentence": "During the stall the loop does neither."
+        }
+      ],
+      "longest_sentences": [
+        "A search across the package finds three references only: the field at PATH , the append at PATH , and the length read at PATH ."
+      ]
+    },
+    "detail": {
+      "findings": 7,
+      "chars": 15162,
+      "chars_per_finding": 2166,
+      "quantities": 59,
+      "quantities_per_finding": 8.43,
+      "quantity_examples": [
+        "47",
+        "54",
+        "58",
+        "50",
+        "56",
+        "63",
+        "56",
+        "55",
+        "56",
+        "57",
+        "44",
+        "57",
+        "38",
+        "43"
+      ],
+      "citations": 77,
+      "citations_per_finding": 11.0,
+      "unique_files_cited": 12,
+      "code_refs": 179,
+      "code_refs_per_finding": 25.57,
+      "causal_links": 22,
+      "causal_per_finding": 3.14
+    },
+    "verdicts": {
+      "threads_reported": 7,
+      "expected_threads": 7,
+      "verdict_correct": 7,
+      "verdict_accuracy": 1.0,
+      "fp_traps_caught": 2,
+      "fp_traps_total": 2,
+      "rows": [
+        {
+          "comment": "sqlite.py:47",
+          "expected": "Invalid",
+          "got": "Invalid",
+          "ok": true,
+          "why": "FP trap: parameterized query"
+        },
+        {
+          "comment": "dedup.py:34",
+          "expected": "Invalid",
+          "got": "Invalid",
+          "ok": true,
+          "why": "FP trap: evicts oldest, which is correct"
+        },
+        {
+          "comment": "bus.py:25",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-1 unbounded dead letter"
+        },
+        {
+          "comment": "webhook.py:43",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-4 blocking urlopen"
+        },
+        {
+          "comment": "logging.py:24",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-SEC-1 payload in logs"
+        },
+        {
+          "comment": "bus.py:52",
+          "expected": "Valid",
+          "got": "Partially valid",
+          "ok": true,
+          "why": "EB-COR-2 stop() drops queued events"
+        },
+        {
+          "comment": "sqlite.py:40",
+          "expected": "Valid",
+          "got": "Valid",
+          "ok": true,
+          "why": "EB-PERF-3 commit per insert"
+        }
+      ]
+    }
+  },
+  "rebug-eventbus-base": {
+    "timing": {
+      "wall_seconds": 623,
+      "num_turns": 35,
+      "cost_usd": 2.1095965000000003,
+      "output_tokens": 41827,
+      "total_tokens": 1142748,
+      "permission_denials": 8,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 17,
+      "heading_format": "deviates: 17/17 numbered",
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 7,
+      "template_passed": 7,
+      "template_pass_rate": 1.0,
+      "report_chars": 49512
+    },
+    "ste": {
+      "sentences": 340,
+      "words": 5891,
+      "mean_sentence_words": 17.3,
+      "max_sentence_words": 50,
+      "over_25_words": 79,
+      "over_25_rate": 0.232,
+      "over_20_words": 117,
+      "over_20_rate": 0.344,
+      "non_approved_total": 7,
+      "non_approved_terms": [
+        {
+          "term": "terminates",
+          "approved": "stop",
+          "count": 2
+        },
+        {
+          "term": "obtain",
+          "approved": "get",
+          "count": 1
+        },
+        {
+          "term": "sufficient",
+          "approved": "enough",
+          "count": 1
+        },
+        {
+          "term": "demonstrate",
+          "approved": "show",
+          "count": 1
+        },
+        {
+          "term": "attempt",
+          "approved": "try",
+          "count": 1
+        },
+        {
+          "term": "attempts",
+          "approved": "try",
+          "count": 1
+        }
+      ],
+      "idiom_total": 2,
+      "idiom_terms": [
+        {
+          "term": "landmine",
+          "count": 1
+        },
+        {
+          "term": "blast radius",
+          "count": 1
+        }
+      ],
+      "passive_total": 37,
+      "passive_per_100_sentences": 10.9,
+      "passive_examples": [
+        {
+          "match": "is blocked",
+          "sentence": "Python execution is blocked in this sandbox, so the two runtime-behavior claims (test flakiness, pytest-asyncio mode) are assessed from stdl"
+        },
+        {
+          "match": "are assessed",
+          "sentence": "Python execution is blocked in this sandbox, so the two runtime-behavior claims (test flakiness, pytest-asyncio mode) are assessed from stdl"
+        },
+        {
+          "match": "is logged",
+          "sentence": "Finding 1 claims the fatal exception is QUOTE It is logged, via asyncio's QUOTE"
+        },
+        {
+          "match": "is never cleared",
+          "sentence": "(3) CODE is never cleared on abnormal exit, so CODE passes its guard at CODE and CODE at CODE succeeds until 10 000 events accumulate, then "
+        },
+        {
+          "match": "is unchanged",
+          "sentence": "Worth adding that this does not raise, because the dict size is unchanged \u2014 so a self-cancelling one-shot handler (arguably a more common pa"
+        },
+        {
+          "match": "is imported",
+          "sentence": "The note that CODE is imported at CODE and never used is correct (I confirmed by grep;"
+        },
+        {
+          "match": "is broken",
+          "sentence": "Confirmed \u2014 but the proposed fix is broken"
+        },
+        {
+          "match": "are dropped",
+          "sentence": "The worker notices only at the next CODE check, so up to ~100 ms later, and up to 10 000 queued events are dropped with no log line."
+        },
+        {
+          "match": "is written",
+          "sentence": "CODE is written per event and never read or deleted anywhere."
+        },
+        {
+          "match": "is understated",
+          "sentence": "The leak arithmetic is understated, not overstated: at 1 000 events/s, 3.6 M entries/hour with 36-char UUID string keys is roughly 185 bytes"
+        },
+        {
+          "match": "is added",
+          "sentence": "If CODE is added instead, its ordering relative to CODE middleware becomes a design question that needs answering explicitly."
+        },
+        {
+          "match": "is delivered",
+          "sentence": "So the event is delivered with all subsequent middleware bypassed."
+        }
+      ],
+      "ing_opener_total": 13,
+      "ing_opener_examples": [
+        {
+          "opener": "Finding",
+          "sentence": "Finding 1 claims the fatal exception is QUOTE It is logged, via asyncio's QUOTE"
+        },
+        {
+          "opener": "Finding",
+          "sentence": "Finding 9 claims dedup QUOTE It works fine if the caller passes CODE explicitly, which is a public dataclass field."
+        },
+        {
+          "opener": "Finding",
+          "sentence": "Finding 12 inherits a wrong claim straight from the in-source comment it elsewhere criticizes (duplicate-subscription removal is correct beh"
+        },
+        {
+          "opener": "Finding",
+          "sentence": "Finding 17's flakiness mechanism and its pytest-asyncio claim are both wrong."
+        },
+        {
+          "opener": "Applying",
+          "sentence": "Applying that fix as written converts a data-loss bug into a permanent shutdown deadlock."
+        },
+        {
+          "opener": "Fixing",
+          "sentence": "Fixing that one overload improves both findings."
+        },
+        {
+          "opener": "Deleting",
+          "sentence": "Deleting CODE is right \u2014 it has no reader."
+        },
+        {
+          "opener": "Holding",
+          "sentence": "Holding at Medium."
+        },
+        {
+          "opener": "Flipping",
+          "sentence": "Flipping CODE to CODE is a behavior change for existing users, but toward safety, and belongs in a minor version bump."
+        },
+        {
+          "opener": "Ordering",
+          "sentence": "Ordering matters exactly as stated, since CODE is a subclass."
+        },
+        {
+          "opener": "Deleting",
+          "sentence": "Deleting the trap comments, stating dedup's insertion-order invariant as a normal comment, and adding a test that fails if it's violated is "
+        },
+        {
+          "opener": "Pinning",
+          "sentence": "Pinning an upper bound is the change that actually protects these tests."
+        }
+      ],
+      "longest_sentences": [
+        "The suggested content-hash default would work but is a breaking semantic change for any caller relying on explicit-id dedup, and canonical-JSON hashing of arbitrary CODE payloads reintroduces exactly the serialization fragility that Issue 5 identifies in CODE \u2014 an unhashable or unserializable payload would now break dedup instead of logging.",
+        "For hashability, CODE on CODE makes CODE work over the remaining fields \u2014 but that also removes CODE from CODE , so two events with identical ids and different payloads compare equal; acceptable if CODE is treated as the identity, which is how the codebase already uses it.",
+        "Downstream: no retryability signal means Issue 4's retry can't be wired usefully even after the extension point exists (it would blindly retry permanent 4xx); and combined with Issue 7, a webhook failure alongside a successful sibling handler produces one generic log line and no durable record.",
+        "CODE : opens with CODE , then reverses itself mid-comment \u2014 CODE and CODE I independently verified the code is correct: duplicates return early at CODE , so no key is ever re-inserted, dict insertion order therefore equals timestamp order, and CODE at CODE evicts oldest-first.",
+        "The silent body loss is the likelier everyday harm: a webhook provider adds a routine CODE or path-normalization 301, and from that moment every event is delivered as an empty GET while the handler reports success and the bus marks it CODE .",
+        "The reporter also correctly refused to trust the in-source CODE / CODE annotations, which is the single most valuable judgment call in the document: the two classes marked CODE do contain real defects, and the two loudest CODE markers are non-issues."
+      ]
+    },
+    "detail": {
+      "findings": 23,
+      "chars": 49512,
+      "chars_per_finding": 2153,
+      "quantities": 64,
+      "quantities_per_finding": 2.78,
+      "quantity_examples": [
+        "34 KB",
+        "17",
+        "17",
+        "14",
+        "12",
+        "17",
+        "10",
+        "10 000 events",
+        "30 s",
+        "100 ms",
+        "10 000",
+        "10",
+        "1 000 events",
+        "3.6"
+      ],
+      "citations": 108,
+      "citations_per_finding": 4.7,
+      "unique_files_cited": 18,
+      "code_refs": 530,
+      "code_refs_per_finding": 23.04,
+      "causal_links": 28,
+      "causal_per_finding": 1.22
+    }
+  },
+  "rebug-eventbus-ste": {
+    "timing": {
+      "wall_seconds": 642,
+      "num_turns": 32,
+      "cost_usd": 2.2673110000000003,
+      "output_tokens": 45056,
+      "total_tokens": 1133021,
+      "permission_denials": 7,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 18,
+      "heading_format": "template",
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 7,
+      "template_passed": 7,
+      "template_pass_rate": 1.0,
+      "report_chars": 37362
+    },
+    "ste": {
+      "sentences": 420,
+      "words": 4927,
+      "mean_sentence_words": 11.7,
+      "max_sentence_words": 38,
+      "over_25_words": 8,
+      "over_25_rate": 0.019,
+      "over_20_words": 36,
+      "over_20_rate": 0.086,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 2,
+      "passive_per_100_sentences": 0.5,
+      "passive_examples": [
+        {
+          "match": "is unchanged",
+          "sentence": "This part of CODE is unchanged in 3.11 through 3.13, except that 3.11 adds 308 to the codes for GET and HEAD."
+        },
+        {
+          "match": "is not broken",
+          "sentence": "The middleware is not broken, though."
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "The third outcome is the worst: when one of two handlers succeeds and the other raises, CODE is CODE , so the event does not reach the dead-letter list and the failed delivery leaves only a log line.",
+        "Every one of the 7 QUOTE entries is also correct, and the reporter caught two false traps that the source comments plant: the SQL injection comment at CODE and the eviction order comment at CODE .",
+        "Python execution needed an approval that this non-interactive session cannot give, so I verified the runtime claims from the standard library source and from language semantics, not from a test run.",
+        "If the loop is inside CODE at line 62 when the flag changes, it still receives that event and runs the full middleware chain and the full dispatch.",
+        "Worse, a payload that holds CODE , a CODE , or a custom object raises CODE at that point, even when the operator turns the level down.",
+        "A CODE that drains the queue and awaits the task makes the tests deterministic by construction, and then the CODE guard covers the handler side only."
+      ]
+    },
+    "detail": {
+      "findings": 23,
+      "chars": 37362,
+      "chars_per_finding": 1624,
+      "quantities": 92,
+      "quantities_per_finding": 4.0,
+      "quantity_examples": [
+        "11",
+        "18",
+        "7 entries",
+        "14",
+        "18",
+        "88",
+        "92",
+        "20",
+        "28",
+        "89",
+        "101",
+        "44",
+        "46",
+        "3.8"
+      ],
+      "citations": 43,
+      "citations_per_finding": 1.87,
+      "unique_files_cited": 19,
+      "code_refs": 443,
+      "code_refs_per_finding": 19.26,
+      "causal_links": 47,
+      "causal_per_finding": 2.04
+    }
+  },
+  "rebug-eventbus-ste2": {
+    "timing": {
+      "wall_seconds": 559,
+      "num_turns": 34,
+      "cost_usd": 2.1619065000000006,
+      "output_tokens": 43852,
+      "total_tokens": 1072791,
+      "permission_denials": 9,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 19,
+      "heading_format": "template",
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 7,
+      "template_passed": 7,
+      "template_pass_rate": 1.0,
+      "report_chars": 41892
+    },
+    "ste": {
+      "sentences": 506,
+      "words": 5265,
+      "mean_sentence_words": 10.4,
+      "max_sentence_words": 29,
+      "over_25_words": 4,
+      "over_25_rate": 0.008,
+      "over_20_words": 19,
+      "over_20_rate": 0.038,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 1,
+      "passive_per_100_sentences": 0.2,
+      "passive_examples": [
+        {
+          "match": "is documented",
+          "sentence": "The dataclass rule is documented and certain."
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "A default that hashes the topic and the payload changes the behavior for a current user, and it drops two events that are legitimately distinct but carry identical content.",
+        "The CODE check is valuable on its own, because line 30 pays the full serialization cost for every event even when the log level blocks the record.",
+        "No code in the package calls CODE on an CODE , and no code puts an CODE in a CODE or uses it as a dict key.",
+        "The dead code at lines 44-45 is still a real defect, and the log line still has no structure, but the stated consequence is not correct."
+      ]
+    },
+    "detail": {
+      "findings": 24,
+      "chars": 41892,
+      "chars_per_finding": 1746,
+      "quantities": 107,
+      "quantities_per_finding": 4.46,
+      "quantity_examples": [
+        "19",
+        "13",
+        "69",
+        "78",
+        "88",
+        "92",
+        "10000",
+        "89",
+        "86 calls",
+        "80",
+        "86",
+        "84",
+        "95",
+        "12"
+      ],
+      "citations": 109,
+      "citations_per_finding": 4.54,
+      "unique_files_cited": 12,
+      "code_refs": 536,
+      "code_refs_per_finding": 22.33,
+      "causal_links": 41,
+      "causal_per_finding": 1.71
+    }
+  },
+  "sc-eventbus-base": {
+    "timing": {
+      "wall_seconds": 398,
+      "num_turns": 26,
+      "cost_usd": 1.2372554999999998,
+      "output_tokens": 29518,
+      "total_tokens": 468890,
+      "permission_denials": 3,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 18,
+      "heading_format": null,
+      "severity_case": "deviates: CRITICAL, HIGH, LOW, MEDIUM",
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 10,
+      "template_passed": 10,
+      "template_pass_rate": 1.0,
+      "report_chars": 34069
+    },
+    "ste": {
+      "sentences": 188,
+      "words": 3649,
+      "mean_sentence_words": 19.4,
+      "max_sentence_words": 71,
+      "over_25_words": 57,
+      "over_25_rate": 0.303,
+      "over_20_words": 77,
+      "over_20_rate": 0.41,
+      "non_approved_total": 2,
+      "non_approved_terms": [
+        {
+          "term": "attempt",
+          "approved": "try",
+          "count": 1
+        },
+        {
+          "term": "attempts",
+          "approved": "try",
+          "count": 1
+        }
+      ],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 44,
+      "passive_per_100_sentences": 23.4,
+      "passive_examples": [
+        {
+          "match": "are never wired",
+          "sentence": "Despite the CODE version and a description promising QUOTE the project has no README, no CI, three timing-based tests covering only CODE , a"
+        },
+        {
+          "match": "is never logged",
+          "sentence": "(2) CODE discards the CODE return value, so nothing ever retrieves the task's exception \u2014 the CODE is never logged and never surfaces (the a"
+        },
+        {
+          "match": "being iterated",
+          "sentence": "The same iteration hazard applies to the inner CODE loop: an CODE called from within a handler mutates the list being iterated, silently ski"
+        },
+        {
+          "match": "is also capped",
+          "sentence": "Because CODE awaits handlers serially and inline, throughput is also capped at one webhook round-trip per event across all topics: a slow CO"
+        },
+        {
+          "match": "is imported",
+          "sentence": "Note CODE is imported in CODE but never used \u2014 the intent to go async was never completed."
+        },
+        {
+          "match": "was never completed",
+          "sentence": "Note CODE is imported in CODE but never used \u2014 the intent to go async was never completed."
+        },
+        {
+          "match": "is dropped",
+          "sentence": "Every event still sitting in the queue (up to 10 000) is dropped without a log line \u2014 for an event bus, that is unacknowledged data loss on "
+        },
+        {
+          "match": "is unacknowledged",
+          "sentence": "Every event still sitting in the queue (up to 10 000) is dropped without a log line \u2014 for an event bus, that is unacknowledged data loss on "
+        },
+        {
+          "match": "is never called",
+          "sentence": "CODE \u2014 the only method containing retry logic \u2014 is never called from anywhere in the codebase (grep-verified: the sole occurrence is its own"
+        },
+        {
+          "match": "are retried",
+          "sentence": "Concrete harm: operators believe failed webhook deliveries are retried with backoff; in reality CODE logs the exception once and the event i"
+        },
+        {
+          "match": "is discarded",
+          "sentence": "Concrete harm: operators believe failed webhook deliveries are retried with backoff; in reality CODE logs the exception once and the event i"
+        },
+        {
+          "match": "is written",
+          "sentence": "Separately, CODE is written for every event and never read and never deleted \u2014 an unbounded dict that grows for the lifetime of the process "
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "Iterate a snapshot ( CODE , and CODE ); store the task on CODE and attach a done-callback that logs exceptions and clears CODE ; wrap the whole loop body in a CODE that logs and continues so one bad event can't kill the worker; give CODE a bounded CODE on CODE (or use CODE and raise a CODE the caller can handle) so backpressure is visible instead of a hang.",
+        "Because CODE is a CODE , the subscript also creates an empty list for a pattern that has none \u2014 so a stray unsubscribe permanently adds a phantom CODE entry to CODE , and grows CODE (which the dispatch loop iterates for every event, calling CODE against each dead pattern).",
+        "Either wire it up \u2014 CODE with a CODE Protocol, persisting in CODE before dispatch (which also gives the dead-letter path somewhere durable to go) \u2014 or, if BYO is the intent, say so in a README, export the classes from CODE , and show the wiring in an example.",
+        "The most important finding is a causal chain in CODE where a routine usage pattern (subscribing from inside a handler) kills the unsupervised processing task with no log output, after which CODE silently accepts events until the queue fills and then blocks forever \u2014 a total, invisible pipeline halt.",
+        "Despite the CODE version and a description promising QUOTE the project has no README, no CI, three timing-based tests covering only CODE , and \u2014 verified by grep \u2014 the storage backends and the retry logic are never wired into the bus at all.",
+        "Separately, CODE filters on CODE and sorts CODE , but the only index is on CODE alone, so every query does a filesort over all rows for that topic; a hot topic with millions of rows re-sorts the whole partition to return 100 rows."
+      ]
+    },
+    "detail": {
+      "findings": 18,
+      "chars": 34069,
+      "chars_per_finding": 1893,
+      "quantities": 32,
+      "quantities_per_finding": 1.78,
+      "quantity_examples": [
+        "510 lines",
+        "500",
+        "3.11",
+        "10 000 events",
+        "30 s",
+        "10 000",
+        "100 ms",
+        "10",
+        "100 bytes",
+        "1 000 events",
+        "350 MB",
+        "301",
+        "302",
+        "303"
+      ],
+      "citations": 77,
+      "citations_per_finding": 4.28,
+      "unique_files_cited": 21,
+      "code_refs": 402,
+      "code_refs_per_finding": 22.33,
+      "causal_links": 16,
+      "causal_per_finding": 0.89
+    },
+    "ground_truth": {
+      "planted_total": 10,
+      "planted_found": 10,
+      "recall": 1.0,
+      "findings_reported": 18,
+      "matched": [
+        {
+          "id": "EB-PERF-1",
+          "finding": "[MEDIUM] Dead-letter list is unbounded, has no read/drain API, and conflates two different",
+          "overlap": 0.57,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-1",
+          "finding": "[CRITICAL] Subscribing during dispatch kills the processing loop, which then fails silentl",
+          "overlap": 0.6,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-2",
+          "finding": "[HIGH] `stop()` silently discards queued events and never awaits the worker",
+          "overlap": 1.0,
+          "line_hit": true
+        },
+        {
+          "id": "EB-ERR-1",
+          "finding": "[HIGH] A middleware exception fails *open*: the rest of the chain is skipped but the event",
+          "overlap": 0.5,
+          "line_hit": true
+        },
+        {
+          "id": "EB-SEC-1",
+          "finding": "[MEDIUM] Sensitive data reaches logs through two paths: full payloads by default, and secr",
+          "overlap": 0.71,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-2",
+          "finding": "[LOW] Dedup cleanup is O(n) on every event",
+          "overlap": 0.6,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-3",
+          "finding": "[LOW] Test suite relies on wall-clock sleeps, covers one module, and has no CI",
+          "overlap": 0.38,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-3",
+          "finding": "[MEDIUM] SQLite storage commits (fsyncs) once per event and its index doesn't cover the qu",
+          "overlap": 1.0,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-4",
+          "finding": "[LOW] Test suite relies on wall-clock sleeps, covers one module, and has no CI",
+          "overlap": 0.43,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-4",
+          "finding": "[HIGH] Synchronous `urllib` in an async handler blocks the event loop and serializes the e",
+          "overlap": 1.0,
+          "line_hit": true
+        }
+      ],
+      "missed": [],
+      "unmatched_findings": [
+        {
+          "index": 3,
+          "title": "[HIGH] `RetryMiddleware` performs no retries and leaks one dict entry per event",
+          "locations": [
+            "eventbus/middleware/retry.py:20",
+            "eventbus/middleware/retry.py:28",
+            "bus.py:92"
+          ]
+        },
+        {
+          "index": 5,
+          "title": "[MEDIUM] Webhook redirects silently drop the event body and forward the bearer token to th",
+          "locations": [
+            "eventbus/handlers/webhook.py:33",
+            "eventbus/handlers/webhook.py:52",
+            "urllib/request.py:633"
+          ]
+        },
+        {
+          "index": 7,
+          "title": "[MEDIUM] `MemoryStorage.max_events` does not bound memory, and `get_recent` copies the who",
+          "locations": [
+            "eventbus/storage/memory.py:12",
+            "eventbus/storage/memory.py:28"
+          ]
+        },
+        {
+          "index": 8,
+          "title": "[MEDIUM] Deduplication is keyed on a random UUID, so it can never deduplicate anything",
+          "locations": [
+            "eventbus/middleware/dedup.py:14",
+            "eventbus/event.py:15",
+            "event.py:15"
+          ]
+        },
+        {
+          "index": 11,
+          "title": "[MEDIUM] `unsubscribe()` is not idempotent and silently pollutes the handler registry",
+          "locations": [
+            "eventbus/bus.py:26",
+            "eventbus/bus.py:20"
+          ]
+        },
+        {
+          "index": 12,
+          "title": "[LOW] Webhook error handling: unreachable status check, unclosed response, and no retryabi",
+          "locations": [
+            "eventbus/handlers/webhook.py:43",
+            "urllib/request.py:612",
+            "urllib/error.py:35"
+          ]
+        },
+        {
+          "index": 13,
+          "title": "[LOW] Storage backends are unreachable from the bus \u2014 advertised persistence is unimplemen",
+          "locations": [
+            "eventbus/storage/sqlite.py:None",
+            "eventbus/storage/memory.py:None",
+            "eventbus/bus.py:None"
+          ]
+        },
+        {
+          "index": 14,
+          "title": "[LOW] Multi-segment wildcard patterns silently match nothing",
+          "locations": [
+            "eventbus/event.py:19"
+          ]
+        },
+        {
+          "index": 15,
+          "title": "[LOW] In-source `BUG` annotations are self-contradictory and misidentify a non-issue",
+          "locations": [
+            "eventbus/middleware/dedup.py:35",
+            "eventbus/storage/sqlite.py:51",
+            "eventbus/storage/memory.py:8"
+          ]
+        }
+      ],
+      "trap_location_hits": [
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[MEDIUM] SQLite storage commits (fsyncs) once per event and its index doesn't cover the qu",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[LOW] In-source `BUG` annotations are self-contradictory and misidentify a non-issue",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[LOW] Test suite relies on wall-clock sleeps, covers one module, and has no CI",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Dedup overflow drops oldest (correct) despite misleading comment claim",
+          "finding": "[LOW] In-source `BUG` annotations are self-contradictory and misidentify a non-issue",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Dedup overflow drops oldest (correct) despite misleading comment claim",
+          "finding": "[LOW] Dedup cleanup is O(n) on every event",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        }
+      ]
+    }
+  },
+  "sc-eventbus-ste": {
+    "timing": {
+      "wall_seconds": 313,
+      "num_turns": 23,
+      "cost_usd": 1.0775540000000001,
+      "output_tokens": 24770,
+      "total_tokens": 360917,
+      "permission_denials": 4,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 18,
+      "heading_format": null,
+      "severity_case": "template",
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 10,
+      "template_passed": 10,
+      "template_pass_rate": 1.0,
+      "report_chars": 20438
+    },
+    "ste": {
+      "sentences": 208,
+      "words": 2147,
+      "mean_sentence_words": 10.3,
+      "max_sentence_words": 35,
+      "over_25_words": 1,
+      "over_25_rate": 0.005,
+      "over_20_words": 6,
+      "over_20_rate": 0.029,
+      "non_approved_total": 1,
+      "non_approved_terms": [
+        {
+          "term": "attempts",
+          "approved": "try",
+          "count": 1
+        }
+      ],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 3,
+      "passive_per_100_sentences": 1.4,
+      "passive_examples": [
+        {
+          "match": "is also wasted",
+          "sentence": "The work is also wasted, because most entries are not expired."
+        },
+        {
+          "match": "are not expired",
+          "sentence": "The work is also wasted, because most entries are not expired."
+        },
+        {
+          "match": "be checked",
+          "sentence": "No lock file exists, so no version pin can be checked."
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "The code is clean and readable, but the runtime behavior has serious defects: the event loop of the bus can stop without a signal, CODE discards queued events, and CODE gives no retry at all."
+      ]
+    },
+    "detail": {
+      "findings": 18,
+      "chars": 20438,
+      "chars_per_finding": 1135,
+      "quantities": 27,
+      "quantities_per_finding": 1.5,
+      "quantity_examples": [
+        "3.11",
+        "1.3",
+        "85",
+        "10000 items",
+        "1 hour",
+        "1 hour",
+        "1 hour",
+        "30 seconds",
+        "30 seconds",
+        "1 hour",
+        "1 hour",
+        "301",
+        "302",
+        "303"
+      ],
+      "citations": 35,
+      "citations_per_finding": 1.94,
+      "unique_files_cited": 11,
+      "code_refs": 226,
+      "code_refs_per_finding": 12.56,
+      "causal_links": 15,
+      "causal_per_finding": 0.83
+    },
+    "ground_truth": {
+      "planted_total": 10,
+      "planted_found": 10,
+      "recall": 1.0,
+      "findings_reported": 18,
+      "matched": [
+        {
+          "id": "EB-PERF-1",
+          "finding": "[Medium] The dead-letter list has no size limit",
+          "overlap": 0.86,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-1",
+          "finding": "[Medium] The dead-letter list has no size limit",
+          "overlap": 0.2,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-2",
+          "finding": "[High] `stop()` discards every queued event",
+          "overlap": 0.86,
+          "line_hit": true
+        },
+        {
+          "id": "EB-ERR-1",
+          "finding": "[High] The bus delivers an event after a middleware raises an exception",
+          "overlap": 0.5,
+          "line_hit": true
+        },
+        {
+          "id": "EB-SEC-1",
+          "finding": "[High] `LoggingMiddleware` writes the full event payload to the log by default",
+          "overlap": 0.57,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-2",
+          "finding": "[Medium] The cleanup of the deduplication cache scans every entry for each event",
+          "overlap": 0.8,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-3",
+          "finding": "[Medium] `SQLiteStorage.store` commits once per event and can raise `TypeError`",
+          "overlap": 0.5,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-3",
+          "finding": "[Medium] `SQLiteStorage.store` commits once per event and can raise `TypeError`",
+          "overlap": 1.0,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-4",
+          "finding": "[Low] `SQLiteStorage` has no async context manager and leaks the connection",
+          "overlap": 0.86,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-4",
+          "finding": "[High] `WebhookHandler` blocks the event loop with synchronous HTTP",
+          "overlap": 1.0,
+          "line_hit": true
+        }
+      ],
+      "missed": [],
+      "unmatched_findings": [
+        {
+          "index": 0,
+          "title": "[Critical] An exception in the loop that dispatches events stops the bus without a signal",
+          "locations": [
+            "eventbus/bus.py:48",
+            "eventbus/bus.py:84",
+            "eventbus/bus.py:42"
+          ]
+        },
+        {
+          "index": 3,
+          "title": "[High] `RetryMiddleware` gives no retry and leaks memory",
+          "locations": [
+            "eventbus/middleware/retry.py:22",
+            "eventbus/middleware/retry.py:28",
+            "eventbus/bus.py:88"
+          ]
+        },
+        {
+          "index": 6,
+          "title": "[High] `MemoryStorage` has no limit on the per-topic index",
+          "locations": [
+            "eventbus/storage/memory.py:12"
+          ]
+        },
+        {
+          "index": 8,
+          "title": "[Medium] An HTTP redirect drops the webhook body and sends the auth token to a new host",
+          "locations": [
+            "eventbus/handlers/webhook.py:33",
+            "eventbus/handlers/webhook.py:52"
+          ]
+        },
+        {
+          "index": 9,
+          "title": "[Medium] `DeduplicationMiddleware` cannot detect a duplicate event",
+          "locations": [
+            "eventbus/middleware/dedup.py:6",
+            "eventbus/event.py:15"
+          ]
+        },
+        {
+          "index": 10,
+          "title": "[Medium] The two storage backends return `get_by_topic` results in opposite order",
+          "locations": [
+            "eventbus/storage/sqlite.py:54",
+            "eventbus/storage/memory.py:23"
+          ]
+        },
+        {
+          "index": 13,
+          "title": "[Medium] The unsubscribe function raises an error and corrupts dispatch",
+          "locations": [
+            "eventbus/bus.py:26",
+            "eventbus/bus.py:87"
+          ]
+        },
+        {
+          "index": 14,
+          "title": "[Medium] Tests cover only `bus.py` and depend on fixed sleep calls",
+          "locations": [
+            "bus.py:None",
+            "tests/test_bus.py:1"
+          ]
+        },
+        {
+          "index": 16,
+          "title": "[Low] `Event` is frozen, but the payload dictionary stays mutable",
+          "locations": [
+            "eventbus/event.py:10"
+          ]
+        },
+        {
+          "index": 17,
+          "title": "[Low] The bus never uses a storage backend, but the description promises persistence",
+          "locations": [
+            "eventbus/__init__.py:1",
+            "eventbus/bus.py:1",
+            "eventbus/storage/sqlite.py:51"
+          ]
+        }
+      ],
+      "trap_location_hits": [
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[Medium] The two storage backends return `get_by_topic` results in opposite order",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[Low] The bus never uses a storage backend, but the description promises persistence",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Dedup overflow drops oldest (correct) despite misleading comment claim",
+          "finding": "[Low] The bus never uses a storage backend, but the description promises persistence",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        }
+      ]
+    }
+  },
+  "sc-eventbus-ste2": {
+    "timing": {
+      "wall_seconds": 324,
+      "num_turns": 22,
+      "cost_usd": 1.052607,
+      "output_tokens": 25489,
+      "total_tokens": 353198,
+      "permission_denials": 4,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 19,
+      "heading_format": null,
+      "severity_case": "template",
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 10,
+      "template_passed": 10,
+      "template_pass_rate": 1.0,
+      "report_chars": 29839
+    },
+    "ste": {
+      "sentences": 323,
+      "words": 3335,
+      "mean_sentence_words": 10.3,
+      "max_sentence_words": 27,
+      "over_25_words": 1,
+      "over_25_rate": 0.003,
+      "over_20_words": 8,
+      "over_20_rate": 0.025,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 3,
+      "passive_per_100_sentences": 0.9,
+      "passive_examples": [
+        {
+          "match": "is blocked",
+          "sentence": "While the loop is blocked, CODE keeps filling the 10000-item queue."
+        },
+        {
+          "match": "is capped",
+          "sentence": "CODE returns CODE , which is capped."
+        },
+        {
+          "match": "is not capped",
+          "sentence": "CODE reads from CODE , which is not capped."
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "The package is not healthy: the core loop in CODE can die without a signal, the middleware chain fails open, and CODE does not retry at all."
+      ]
+    },
+    "detail": {
+      "findings": 19,
+      "chars": 29839,
+      "chars_per_finding": 1570,
+      "quantities": 77,
+      "quantities_per_finding": 4.05,
+      "quantity_examples": [
+        "3.11",
+        "1.3",
+        "51",
+        "100",
+        "46 calls",
+        "10000 events",
+        "85",
+        "89",
+        "73",
+        "80",
+        "95",
+        "1 hour",
+        "28",
+        "89"
+      ],
+      "citations": 65,
+      "citations_per_finding": 3.42,
+      "unique_files_cited": 15,
+      "code_refs": 382,
+      "code_refs_per_finding": 20.11,
+      "causal_links": 29,
+      "causal_per_finding": 1.53
+    },
+    "ground_truth": {
+      "planted_total": 10,
+      "planted_found": 10,
+      "recall": 1.0,
+      "findings_reported": 19,
+      "matched": [
+        {
+          "id": "EB-PERF-1",
+          "finding": "[Medium] The dead-letter list grows without a limit and no API can read it",
+          "overlap": 0.71,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-1",
+          "finding": "[Low] The test suite is thin, depends on `sleep`, and has no CI",
+          "overlap": 0.4,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-2",
+          "finding": "[High] `stop()` loses queued events, and `start()` can run two loops",
+          "overlap": 0.86,
+          "line_hit": true
+        },
+        {
+          "id": "EB-ERR-1",
+          "finding": "[High] A middleware error fails open and the bus still dispatches the event",
+          "overlap": 0.5,
+          "line_hit": true
+        },
+        {
+          "id": "EB-SEC-1",
+          "finding": "[High] `LoggingMiddleware` writes the full event payload to the log by default",
+          "overlap": 0.57,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-2",
+          "finding": "[Medium] `DeduplicationMiddleware` does not remove duplicate events",
+          "overlap": 0.8,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-3",
+          "finding": "[Medium] `SQLiteStorage` leaks the connection and fails on a non-JSON payload",
+          "overlap": 0.62,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-3",
+          "finding": "[Medium] `SQLiteStorage` commits after every insert and lacks an index for the sort order",
+          "overlap": 1.0,
+          "line_hit": true
+        },
+        {
+          "id": "EB-COR-4",
+          "finding": "[Medium] `SQLiteStorage` leaks the connection and fails on a non-JSON payload",
+          "overlap": 0.57,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-4",
+          "finding": "[Medium] The bus dispatches handlers one after the other, and `WebhookHandler` blocks the ",
+          "overlap": 1.0,
+          "line_hit": true
+        }
+      ],
+      "missed": [],
+      "unmatched_findings": [
+        {
+          "index": 0,
+          "title": "[Critical] The event process loop can die without a signal, and then `publish()` blocks fo",
+          "locations": [
+            "eventbus/bus.py:51",
+            "eventbus/bus.py:58",
+            "eventbus/bus.py:42"
+          ]
+        },
+        {
+          "index": 2,
+          "title": "[High] `RetryMiddleware` never retries anything",
+          "locations": [
+            "eventbus/middleware/retry.py:22",
+            "eventbus/middleware/retry.py:28",
+            "eventbus/bus.py:88"
+          ]
+        },
+        {
+          "index": 7,
+          "title": "[Medium] `MemoryStorage` ignores `max_events` for the per-topic index and leaks memory",
+          "locations": [
+            "eventbus/storage/memory.py:12",
+            "eventbus/storage/memory.py:19",
+            "eventbus/storage/memory.py:23"
+          ]
+        },
+        {
+          "index": 11,
+          "title": "[Medium] `RetryMiddleware._retry_counts` grows without a limit",
+          "locations": [
+            "eventbus/middleware/retry.py:20",
+            "eventbus/middleware/retry.py:25"
+          ]
+        },
+        {
+          "index": 12,
+          "title": "[Medium] `Event` is not hashable, and the \"immutable\" docstring is wrong",
+          "locations": [
+            "eventbus/event.py:10",
+            "eventbus/bus.py:88"
+          ]
+        },
+        {
+          "index": 13,
+          "title": "[Medium] Comments in the source contradict the code and mislead a maintainer",
+          "locations": [
+            "eventbus/middleware/dedup.py:35",
+            "eventbus/storage/sqlite.py:51",
+            "eventbus/storage/memory.py:8"
+          ]
+        },
+        {
+          "index": 14,
+          "title": "[Low] The package advertises persistent storage, but the bus never uses it",
+          "locations": [
+            "eventbus/__init__.py:1",
+            "eventbus/__init__.py:5",
+            "eventbus/bus.py:16"
+          ]
+        },
+        {
+          "index": 15,
+          "title": "[Low] `unsubscribe()` raises `ValueError` on a second call and leaves empty pattern keys",
+          "locations": [
+            "eventbus/bus.py:26",
+            "eventbus/bus.py:85"
+          ]
+        },
+        {
+          "index": 16,
+          "title": "[Low] `Event.matches` ignores an unsupported wildcard pattern without an error",
+          "locations": [
+            "eventbus/event.py:19"
+          ]
+        },
+        {
+          "index": 17,
+          "title": "[Low] `WebhookHandler` has a dead status check and sends a bearer token over any URL schem",
+          "locations": [
+            "eventbus/handlers/webhook.py:43",
+            "eventbus/handlers/webhook.py:52"
+          ]
+        }
+      ],
+      "trap_location_hits": [
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[Medium] `SQLiteStorage` commits after every insert and lacks an index for the sort order",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[Medium] Comments in the source contradict the code and mislead a maintainer",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[Low] The test suite is thin, depends on `sleep`, and has no CI",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Dedup overflow drops oldest (correct) despite misleading comment claim",
+          "finding": "[Medium] Comments in the source contradict the code and mislead a maintainer",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Dedup overflow drops oldest (correct) despite misleading comment claim",
+          "finding": "[Low] The test suite is thin, depends on `sleep`, and has no CI",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        }
+      ]
+    }
+  }
+}

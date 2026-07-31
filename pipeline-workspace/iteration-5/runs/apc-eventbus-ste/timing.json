@@ -1,0 +1,15 @@
+{
+  "run_id": "apc-eventbus-ste",
+  "wall_seconds": 157,
+  "duration_api_ms": 154137,
+  "num_turns": 14,
+  "cost_usd": 0.615051,
+  "input_tokens": 9,
+  "output_tokens": 12279,
+  "cache_read_input_tokens": 135402,
+  "cache_creation_input_tokens": 24033,
+  "total_tokens": 171723,
+  "is_error": false,
+  "permission_denials": 1,
+  "exit_status": 0
+}

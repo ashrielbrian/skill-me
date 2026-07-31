@@ -3,6 +3,23 @@
   "total_planted": 10,
   "clean_code_count": 8,
   "clean_code_note": "8 pieces of clean code should NOT be flagged: Event dataclass, create_event(), EventBus.status(), RetryMiddleware.with_retry(), MemoryStorage class (entire), create_webhook_handler(), SQLiteStorage.get_by_topic() (uses parameterized queries correctly), dedup _cleanup_expired max_seen overflow (actually correct despite misleading comment)",
+  "corrections": [
+    {
+      "found_in_iteration": 5,
+      "item": "MemoryStorage class (entire)",
+      "was_labelled": "clean — should NOT be flagged",
+      "actually": "MemoryStorage.store appends to self._by_topic[topic], a plain list with no bound and no trim path. Only self._events is a deque with maxlen, so max_events does not bound memory: the per-topic index grows without limit. get_recent also copies the whole deque to return `limit` items.",
+      "impact": "Every arm in iteration 5 reported this, correctly. Precision scored against this manifest penalises a true finding, so precision figures for iterations 4 and 5 understate the skills. Do not treat a MemoryStorage finding as a false positive.",
+      "recommended_fix": "Either bound _by_topic in the fixture and keep the clean label, or move this to the planted-issue list and raise total_planted."
+    },
+    {
+      "found_in_iteration": 5,
+      "item": "RetryMiddleware",
+      "was_labelled": "clean — with_retry() correctly implemented",
+      "actually": "with_retry() itself is correct, and the label is right about it. Two separate defects sit in the same class: __call__ writes self._retry_counts[event.event_id] and nothing ever removes the entry, and no caller in bus.py ever calls with_retry, so registering the middleware gives no retries at all.",
+      "impact": "Both arms distinguished these from with_retry() correctly. The clean label needs to name the method, not the class, or it invites a wrong false-positive charge."
+    }
+  ],
   "false_positive_traps": [
     {"file": "eventbus/storage/sqlite.py", "line": 47, "description": "Parameterized SQL query — NOT injection despite a misleading comment"},
     {"file": "eventbus/middleware/dedup.py", "line": 34, "description": "Dedup overflow drops oldest (correct) despite misleading comment claiming it drops newest"}

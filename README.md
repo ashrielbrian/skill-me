@@ -24,6 +24,11 @@ Reads the unresolved review comments on a GitHub PR and evaluates each one from 
 
 Independent first-principles review of a GitHub PR. Reads the diff and PR description, deliberately ignores other reviewers' comments to avoid anchoring, and walks a top-down taxonomy that puts architectural fit, simplicity, and API design ahead of line-level correctness. Sketches the minimal solution to the PR's underlying problem before judging the implementation, so it catches code bloat, duplication, speculative generality, and AI-slop tells alongside correctness issues. Produces a severity-ranked report; optionally creates a temporary git worktree for deeper inspection. Use with `/pr-review`, `/pr-review 123`, or `/pr-review https://github.com/owner/repo/pull/123`.
 
+## Output language
+
+All five skills write their reports in [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) — short active sentences, one meaning per word, no idioms or metaphors, and no `-ing` clauses. The intent is precision: a finding stated in 20 words of plain English is harder to misread, harder to wave away, and readable by a team that doesn't share a first language.
+
+Structural elements are exempt and stay verbatim, so downstream tooling keeps parsing: report headings and field names, severity and verdict labels, code snippets, file paths, symbol names, and any text quoted from a diff, a review comment, or the report under validation.
 
 ## Prerequisites
 

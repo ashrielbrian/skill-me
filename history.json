@@ -5,10 +5,15 @@
       "skill_commit": "c7a5984",
       "baseline_commit": "a8432cf",
       "timestamp": "2026-03-27T03:30:00Z",
-      "targets": ["~/Documents/graph-dl"],
+      "targets": [
+        "~/Documents/graph-dl"
+      ],
       "changes": "Initial rewrite: phases, taxonomy, output template, guidelines.",
       "metrics": {
-        "pipeline_pass_rate": {"current": 1.0, "baseline": 0.86}
+        "pipeline_pass_rate": {
+          "current": 1.0,
+          "baseline": 0.86
+        }
       },
       "verdict": "committed"
     },
@@ -17,12 +22,20 @@
       "skill_commit": "c7a5984",
       "baseline_commit": "a8432cf",
       "timestamp": "2026-03-30T04:30:00Z",
-      "targets": ["test-repo/taskflow"],
+      "targets": [
+        "test-repo/taskflow"
+      ],
       "has_ground_truth": true,
       "changes": "No skill changes. Ground truth eval on taskflow (28 planted issues).",
       "metrics": {
-        "recall": {"current": 0.964, "baseline": 0.964},
-        "precision": {"current": 1.0, "baseline": 1.0}
+        "recall": {
+          "current": 0.964,
+          "baseline": 0.964
+        },
+        "precision": {
+          "current": 1.0,
+          "baseline": 1.0
+        }
       },
       "verdict": "committed (baseline validation)"
     },
@@ -31,13 +44,25 @@
       "skill_commit": "2825d2f",
       "baseline_commit": "c7a5984",
       "timestamp": "2026-03-30T05:30:00Z",
-      "targets": ["test-repo/taskflow", "test-repo/datamill"],
+      "targets": [
+        "test-repo/taskflow",
+        "test-repo/datamill"
+      ],
       "has_ground_truth": true,
       "changes": "Expanded logging security pattern. Added hardcoded delay/sleep performance pattern. New test project: datamill (15 issues + 5 FP traps).",
       "metrics": {
-        "taskflow_recall": {"current": 1.0, "baseline": 1.0},
-        "datamill_recall": {"current": 1.0, "baseline": 1.0},
-        "precision": {"current": 1.0, "baseline": 1.0},
+        "taskflow_recall": {
+          "current": 1.0,
+          "baseline": 1.0
+        },
+        "datamill_recall": {
+          "current": 1.0,
+          "baseline": 1.0
+        },
+        "precision": {
+          "current": 1.0,
+          "baseline": 1.0
+        },
         "fp_traps_triggered": 0
       },
       "verdict": "committed"
@@ -47,7 +72,9 @@
       "skill_commit": "pending",
       "baseline_commit": "2825d2f",
       "timestamp": "2026-03-30T06:30:00Z",
-      "targets": ["test-repo/eventbus"],
+      "targets": [
+        "test-repo/eventbus"
+      ],
       "has_ground_truth": true,
       "changes": "No skill changes. Validation on harder test project: eventbus (10 subtle issues + 2 FP traps + 8 clean code pieces). Tests false positive resistance on async code patterns.",
       "metrics": {
@@ -59,7 +86,197 @@
         "legitimate_extras": 2
       },
       "notes": "100% recall on hardest test repo yet. Both FP traps avoided (parameterized SQL correctly identified as safe, dedup overflow not falsely flagged). Clean code (MemoryStorage, Event, RetryMiddleware.with_retry implementation, create_webhook_handler) not flagged as buggy.",
-      "verdict": "commit — validates skill on new domain (async event bus), no changes needed"
+      "verdict": "commit \u2014 validates skill on new domain (async event bus), no changes needed"
+    },
+    {
+      "id": 5,
+      "skill_commit": "pending",
+      "baseline_commit": "3d156fb (pr-review Simplicity & economy), c1019cd for the other four skills",
+      "timestamp": "2026-07-31T00:00:00Z",
+      "targets": [
+        "test-repo/eventbus",
+        "a private real-world PR (2 files, +49/-3; artifacts gitignored)"
+      ],
+      "has_ground_truth": true,
+      "changes": "Added an ASD-STE100 Simplified Technical English output-language section to all five skills (spring_clean, rebug, audit, address-pr-comments, pr-review). Iterated once inside the iteration: v1 measurably shed file:line citations, so v2 adds a 'Do not lose information' rule \u2014 STE limits sentence length, not the number of sentences or facts; keep every number, citation, and downstream effect; the six-sentence cap is per paragraph, so use more paragraphs or a vertical list.",
+      "arms": {
+        "base": "c1019cd, no STE requirement",
+        "ste": "STE section v1",
+        "ste2": "STE section v1 + 'Do not lose information'"
+      },
+      "metrics": {
+        "spring_clean_eventbus": {
+          "template_pass_rate": {
+            "base": 1.0,
+            "ste": 1.0,
+            "ste2": 1.0
+          },
+          "recall": {
+            "base": 1.0,
+            "ste": 1.0,
+            "ste2": 1.0
+          },
+          "over_25_rate": {
+            "base": 0.303,
+            "ste": 0.005,
+            "ste2": 0.003
+          },
+          "passive_per_100_sentences": {
+            "base": 23.4,
+            "ste": 1.4,
+            "ste2": 0.9
+          },
+          "mean_sentence_words": {
+            "base": 19.4,
+            "ste": 10.3,
+            "ste2": 10.3
+          },
+          "citations_per_finding": {
+            "base": 4.28,
+            "ste": 1.94,
+            "ste2": 3.42
+          },
+          "quantities_per_finding": {
+            "base": 1.78,
+            "ste": 1.5,
+            "ste2": 4.05
+          },
+          "findings": {
+            "base": 18,
+            "ste": 18,
+            "ste2": 19
+          },
+          "cost_usd": {
+            "base": 1.24,
+            "ste": 1.08,
+            "ste2": 1.05
+          }
+        },
+        "address_pr_comments_eventbus": {
+          "verdict_accuracy": {
+            "base": 1.0,
+            "ste": 1.0,
+            "ste2": 1.0
+          },
+          "fp_traps_caught": {
+            "base": 2,
+            "ste": 2,
+            "ste2": 2
+          },
+          "over_25_rate": {
+            "base": 0.378,
+            "ste": 0.059,
+            "ste2": 0.006
+          },
+          "passive_per_100_sentences": {
+            "base": 19.3,
+            "ste": 1.2,
+            "ste2": 1.2
+          },
+          "citations_per_finding": {
+            "base": 8.43,
+            "ste": 8.14,
+            "ste2": 11.0
+          },
+          "cost_usd": {
+            "base": 0.78,
+            "ste": 0.62,
+            "ste2": 0.83
+          }
+        },
+        "rebug_eventbus": {
+          "template_pass_rate": {
+            "base": 1.0,
+            "ste": 1.0,
+            "ste2": 1.0
+          },
+          "over_25_rate": {
+            "base": 0.232,
+            "ste": 0.019,
+            "ste2": 0.008
+          },
+          "passive_per_100_sentences": {
+            "base": 10.9,
+            "ste": 0.5,
+            "ste2": 0.2
+          },
+          "mean_sentence_words": {
+            "base": 17.3,
+            "ste": 11.7,
+            "ste2": 10.4
+          },
+          "non_approved_words": {
+            "base": 7,
+            "ste": 0,
+            "ste2": 0
+          },
+          "idioms": {
+            "base": 2,
+            "ste": 0,
+            "ste2": 0
+          },
+          "ing_openers": {
+            "base": 13,
+            "ste": 0,
+            "ste2": 0
+          },
+          "citations_per_finding": {
+            "base": 4.7,
+            "ste": 1.87,
+            "ste2": 4.54
+          },
+          "quantities_per_finding": {
+            "base": 2.78,
+            "ste": 4.0,
+            "ste2": 4.46
+          },
+          "issues_validated": {
+            "base": 17,
+            "ste": 18,
+            "ste2": 19
+          },
+          "cost_usd": {
+            "base": 2.11,
+            "ste": 2.27,
+            "ste2": 2.16
+          }
+        },
+        "pr_review_private_pr": {
+          "template_pass_rate": {
+            "base": 1.0,
+            "ste": 1.0,
+            "ste2": 1.0
+          },
+          "over_25_rate": {
+            "base": 0.224,
+            "ste": 0.088,
+            "ste2": 0.068
+          },
+          "passive_per_100_sentences": {
+            "base": 12.9,
+            "ste": 0.0,
+            "ste2": 1.5
+          },
+          "quantities_per_finding": {
+            "base": 10.33,
+            "ste": 10.2,
+            "ste2": 17.5
+          },
+          "findings": {
+            "base": 6,
+            "ste": 5,
+            "ste2": 6
+          },
+          "cost_usd": {
+            "base": 1.48,
+            "ste": 1.58,
+            "ste2": 1.34
+          }
+        }
+      },
+      "notes": "STE conformance improved on every skill with no structural regression: template_pass_rate stayed 1.0 in all arms, recall stayed 1.0, and address-pr-comments kept 100% verdict accuracy with both false-positive traps caught. The one real regression in v1 was information loss \u2014 citations per finding roughly halved on spring_clean (4.28 -> 1.94) and rebug (4.7 -> 1.87), because a sentence-length budget invites dropping the subordinate clause that carried a quantity or an extra location. v2 fixes it: citations recover to 3.42 and quantities rise above baseline (1.78 -> 4.05), while conformance holds or improves. Side benefit: the 'keep the section titles and field names exactly as they are' rule hardened template fidelity \u2014 the base arm drifted to [CRITICAL] casing and numbered '### Issue 3:' headings, the STE arms did not. Two eval-asset defects found and recorded in iteration-4/ground_truth_eventbus.json corrections: MemoryStorage is mislabelled clean, and the RetryMiddleware clean label needs to name with_retry() rather than the class.",
+      "caveats": "One sample per arm, so differences under roughly 10 percent are inside run-to-run variance. Recall saturates at 1.0 because test-repo sources carry greppable '# BUG [CATEGORY]:' annotations, so recall cannot detect a small loss of discovery \u2014 a blind copy is the next harness fix. pr-review is confounded: its base arm came from c1019cd, which predates both the STE section and the uncommitted 'Simplicity & economy' taxonomy, so its base-vs-ste delta mixes two changes. That work is committed separately, immediately before this iteration, so the next pr-review measurement has a clean baseline.",
+      "verdict": "committed"
     }
   ]
 }

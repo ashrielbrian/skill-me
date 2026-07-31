@@ -1,0 +1,15 @@
+{
+  "run_id": "rebug-eventbus-ste2",
+  "wall_seconds": 559,
+  "duration_api_ms": 556711,
+  "num_turns": 34,
+  "cost_usd": 2.1619065000000006,
+  "input_tokens": 63,
+  "output_tokens": 43852,
+  "cache_read_input_tokens": 971197,
+  "cache_creation_input_tokens": 57679,
+  "total_tokens": 1072791,
+  "is_error": false,
+  "permission_denials": 9,
+  "exit_status": 0
+}
