@@ -5,7 +5,9 @@
 set -uo pipefail
 IT="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$IT/../.." && pwd)"
-SP=/private/tmp/claude-501/-Users-briant-Documents-Programming-skill-me/81b2b2aa-ea01-414f-bcb7-1df8d3566a40/scratchpad
+# Where the copied audit targets live. Copy them OUT of this repo: an agent
+# auditing a target inside pipeline-workspace/ can read ground_truth.json.
+SP="${TARGETS_DIR:?set TARGETS_DIR to the dir holding the copied targets}"
 TOOLS="Read Grep Glob Bash"
 
 "$IT/run_skill.sh" pr-private-ste  "$REPO/pr-review/SKILL.md" "${PR_NUMBER:?set PR_NUMBER}" "${PR_REPO_DIR:?set PR_REPO_DIR}" "$TOOLS" &
