@@ -1,0 +1,15 @@
+{
+  "run_id": "perf-perfburn-v3-g",
+  "wall_seconds": 553,
+  "duration_api_ms": 550199,
+  "num_turns": 30,
+  "cost_usd": 2.029203,
+  "input_tokens": 23,
+  "output_tokens": 43609,
+  "cache_read_input_tokens": 517446,
+  "cache_creation_input_tokens": 68014,
+  "total_tokens": 629092,
+  "is_error": false,
+  "permission_denials": 4,
+  "exit_status": 0
+}

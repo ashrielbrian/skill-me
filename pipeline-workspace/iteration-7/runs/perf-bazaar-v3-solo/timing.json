@@ -1,0 +1,15 @@
+{
+  "run_id": "perf-bazaar-v3-solo",
+  "wall_seconds": 1143,
+  "duration_api_ms": 1138820,
+  "num_turns": 145,
+  "cost_usd": 11.182431499999996,
+  "input_tokens": 275,
+  "output_tokens": 72155,
+  "cache_read_input_tokens": 15077623,
+  "cache_creation_input_tokens": 183837,
+  "total_tokens": 15333890,
+  "is_error": false,
+  "permission_denials": 6,
+  "exit_status": 0
+}

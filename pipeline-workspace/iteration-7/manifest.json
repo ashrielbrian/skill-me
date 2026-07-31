@@ -1,0 +1,30 @@
+{
+  "iteration": 7,
+  "timestamp": "2026-08-01T00:00:00Z",
+  "skill_under_test": "perform-like-jeff-dean",
+  "current_skill_commit": "adff035",
+  "baseline_skill_commit": "adff035",
+  "baseline_note": "No skill change this iteration - iteration 7 adds test surface: the large bazaar target and the solo-vs-fanout differential that measures the parallel-exploration behavior committed in adff035.",
+  "targets": ["test-repo/bazaar", "test-repo/perfburn (guard)"],
+  "has_ground_truth": true,
+  "ground_truth_files": {
+    "bazaar": "ground_truth_bazaar.json (31 issues after adjudication, 10 traps, 8 clean items)",
+    "perfburn": "../iteration-6/ground_truth_perfburn.json"
+  },
+  "arms": {
+    "adjudicate": "fanout tools, run against the DRAFT ground truth to validate it before freeze; its findings shaped the corrections, so treat its scores as in-sample",
+    "solo": "Read Grep Glob only - subagents disallowed",
+    "fanout": "Read Grep Glob Task Agent - the skill's parallel-exploration cue active; fresh run against the frozen ground truth",
+    "v3-g": "perfburn regression guard, same skill version"
+  },
+  "headline": "The fan-out differential on the 250-file target: fanout matches or beats solo on quality (strict precision 1.0 vs 0.885, pairwise 0.884 vs 0.862, coverage 7/7 both, cross-subsystem recall 4/4 both, 0 traps both) at 43% of the cost ($4.89 vs $11.18), 78% fewer tokens (3.3M vs 15.3M), and 75% of the wall time (853s vs 1143s). Solo found one more planted issue (recall 0.968 vs 0.935).",
+  "known_limitations": [
+    "One sample per arm; iteration 6 measured ~10% run-to-run noise and an ordering spread of 0.78-0.95 - single-sample deltas within that band are not signal.",
+    "The adjudicate arm's scores are in-sample: its findings produced the ground-truth corrections. The solo/fanout arms ran fresh against the frozen GT.",
+    "All three designed P4 plants adjudicated down to P2/P3 - the written code offered Small fixes the designs did not anticipate (an existing total_cents column, a schema-preserving frame walk, a Counter-based update). Constructing a true P4 that survives contact with real code is open work; p4_* metrics are currently vacuous (p4_total 0).",
+    "Solo produced 3 unmatched P3-grade findings (sequential detail-handler queries, a candidate-row copy, settlement full-table load) pending adjudication review - candidates for future corrections, not counted against precision conclusions.",
+    "The perfburn guard again ranked the score_term lru_cache key critique as a P3 finding (the known borderline trap PB-TRAP-3: a real Low/Small design smell that the matrix itself derives to P3).",
+    "Impact/tier label accuracy on bazaar (0.52-0.625) is below perfburn levels for both arms - Medium/High boundary judgment at this issue density; the calibration fields in the GT make per-case review cheap.",
+    "bazaar tests import a few module paths that do not exactly exist (cosmetic; imports never resolve in the static audit)."
+  ]
+}
