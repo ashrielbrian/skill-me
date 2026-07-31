@@ -1,12 +1,12 @@
 {
   "iteration": 5,
   "timestamp": "2026-07-31T00:00:00Z",
-  "current_skill_commit": "working tree (uncommitted)",
-  "baseline_skill_commit": "c1019cd",
+  "current_skill_commit": "dfe7b21",
+  "baseline_skill_commit": "3d156fb for pr-review, c1019cd for the other four",
   "skill_changes_summary": "Added an ASD-STE100 Simplified Technical English output-language section to all five skills. Iterated once within the same session: v2 adds a 'Do not lose information' rule after v1 measurably shed file:line citations.",
   "targets": [
     "test-repo/eventbus (copied to a scratchpad dir so no agent can read ground_truth.json)",
-    "a private real-world PR — 2 files, +49/-3, infrastructure config (shallow clone, read-only). Run artifacts are gitignored: this repo is public."
+    "a private real-world PR \u2014 2 files, +49/-3, infrastructure config (shallow clone, read-only). Run artifacts are gitignored: this repo is public."
   ],
   "has_ground_truth": true,
   "ground_truth_file": "../iteration-4/ground_truth_eventbus.json",
@@ -16,7 +16,7 @@
     "ste2": "working tree, STE section v1 + 'Do not lose information'"
   },
   "harness": {
-    "runner": "run_skill.sh — renders SKILL.md (frontmatter stripped, $ARGUMENTS substituted) and runs it as a standalone prompt in a separate headless process via `cbt -p --output-format json`",
+    "runner": "run_skill.sh \u2014 renders SKILL.md (frontmatter stripped, $ARGUMENTS substituted) and runs it as a standalone prompt in a separate headless process via `cbt -p --output-format json`",
     "why_not_installed_skills": "Running the rendered body keeps the current working-tree version and the previous commit's version comparable in the same session, with no writes to ~/.claude/skills.",
     "tools_granted": "Read Grep Glob (plus Bash for pr-review). Identical across arms, so the comparison stays differential.",
     "model": "claude-opus-5, one sample per arm"
@@ -24,7 +24,7 @@
   "scorers": {
     "ste_score.py": "sentence length, non-approved words, idioms, passive voice, -ing openers. Prose only: code fences, inline code, headings, field labels, paths, and quoted text are stripped first, because the skills exempt them.",
     "structure_score.py": "template headings and field names present verbatim; enum values valid; severity casing tracked separately",
-    "detail_score.py": "information density — quantities, file:line citations, code refs, causal links, all per finding",
+    "detail_score.py": "information density \u2014 quantities, file:line citations, code refs, causal links, all per finding",
     "gt_score.py": "recall against the planted-issue manifest, plus unmatched findings for manual review",
     "apc_verdict_score.py": "verdict accuracy against an answer key built from the planted issues and the false-positive traps"
   },

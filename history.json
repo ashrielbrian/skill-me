@@ -90,7 +90,7 @@
     },
     {
       "id": 5,
-      "skill_commit": "pending",
+      "skill_commit": "dfe7b21",
       "baseline_commit": "3d156fb (pr-review Simplicity & economy), c1019cd for the other four skills",
       "timestamp": "2026-07-31T00:00:00Z",
       "targets": [
