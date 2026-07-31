@@ -1,0 +1,372 @@
+{
+  "description": "Ground truth for planted performance issues in test-repo/perfburn. Unlike earlier targets, the source carries NO BUG comments - hotness is documented legitimately (README throughput numbers, module docstrings stating call frequency) but defects are never labeled. This fixes the recall-saturation limitation recorded in iteration-5/manifest.json.",
+  "target": "test-repo/perfburn",
+  "design_note": "Telemetry ingestion service. Hot path: per-event ingest pipeline (~5,000 events/s per README). Warm path: query/search (a few/s). Cold paths: cli, config, migrate, reportgen (daily), archive (hourly), tests.",
+  "tier_rule": "Priority tier from the skill's matrix: P1 = High impact + Small/Medium effort; P2 = High+Large, Medium+Small, Medium+Medium; P3 = High+Architectural, Medium+Large, Low+Small; P4 = Medium+Architectural, Low+Medium/Large/Architectural",
+  "line_window": 6,
+  "line_window_note": "Tighter than the default 12: pipeline.py packs 4 planted issues into 62 lines, and a 12-line window lets a finding for one issue line-hit its neighbor. All planted issues and traps are pairwise more than 6 lines apart.",
+  "total_planted": 18,
+  "clean_code_count": 4,
+  "clean_code_note": "4 pieces of clean code should NOT be flagged - see clean_code array.",
+  "corrections": [
+    {
+      "found_in_iteration": 6,
+      "item": "PB-WORK-1",
+      "was_labelled": "High/Small/tier 1",
+      "actually": "Low/Small/tier 3",
+      "impact": "Python's re module caches compiled patterns; the per-call cost is a ~0.4 us cache lookup, under 1% of the per-event path cost"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-ALLOC-2",
+      "was_labelled": "High/Small/tier 1",
+      "actually": "Medium/Small/tier 2",
+      "impact": "deepcopy of a small two-level dict of strings costs ~10 us/event (~5% of one core at 5,000 events/s) - a clear per-item cost, not path-dominant"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-IO-2",
+      "was_labelled": "High/Medium/tier 1",
+      "actually": "Medium/Small/tier 2",
+      "impact": "SQLite is in-process: a PK lookup costs ~10 us, not a network round trip; the fix is a small dict cache, not a batch API"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-ALGO-2",
+      "was_labelled": "Medium/Small/tier 2",
+      "actually": "High/Medium/tier 1",
+      "impact": "at the documented 5,000 events/s a day holds 432M rows; the per-query full-day load and Python-side scan dominates everything - fix requires pushing filter+limit into SQL"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-ALLOC-1",
+      "was_labelled": "Medium/Small/tier 2",
+      "actually": "Low/Small/tier 3",
+      "impact": "the concat loop is bounded by ~6 fields per event (~1.5 us), under 1% of the per-event path cost"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-ALLOC-3",
+      "was_labelled": "Medium/Small/tier 2",
+      "actually": "Low/Small/tier 3",
+      "impact": "rebuilding a 4-entry dict costs ~0.7 us/event, under 1% of the per-event path cost"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-WORK-2",
+      "was_labelled": "Medium/Small/tier 2",
+      "actually": "High/Small/tier 1",
+      "impact": "re-parsing the region CSV costs ~26-260 us/event, at or above the whole 200 us/event budget at 5,000 events/s"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-HYG-2",
+      "was_labelled": "Medium/Medium/tier 2",
+      "actually": "Medium/Small/tier 2",
+      "impact": "the fix is a property that sorts on read - under an hour, not hours"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-LAYOUT-1",
+      "was_labelled": "Medium/Small/tier 2",
+      "actually": "High/Medium/tier 1",
+      "impact": "same arithmetic as PB-ALGO-2: SELECT * materializes 432M row dicts (~170 GB); the column fix is coupled to the SQL filter change"
+    },
+    {
+      "found_in_iteration": 6,
+      "item": "PB-WORK-4",
+      "was_labelled": "Low/Medium/tier 4",
+      "actually": "Medium/Small/tier 2",
+      "impact": "the startup-only premise was wrong: cli.py runs app.main() per query invocation, and the index has no reader at all - deleting dead code is Small"
+    }
+  ],
+  "issues": [
+    {
+      "id": "PB-ALGO-1",
+      "severity": "High",
+      "category": "Algorithms",
+      "file": "perfburn/ingest/dedupe.py",
+      "line": 10,
+      "description": "Dedupe membership test scans a plain list per event - event_id in self._seen is O(n) with n up to 50000, and pop(0) shifts the whole list; a set plus deque gives O(1)",
+      "expected_impact": "High",
+      "expected_effort": "Small",
+      "expected_priority_tier": 1,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-WORK-1",
+      "severity": "Low",
+      "category": "Redundant Work",
+      "file": "perfburn/ingest/parser.py",
+      "line": 15,
+      "description": "re.compile(FIELD_PATTERN) executes inside parse_line on every event instead of once at module level",
+      "expected_impact": "Low",
+      "expected_effort": "Small",
+      "expected_priority_tier": 3,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-IO-1",
+      "severity": "High",
+      "category": "I/O and Round Trips",
+      "file": "perfburn/store/db.py",
+      "line": 26,
+      "description": "conn.commit() after every single event insert - one fsync per event at 5000 events/s; batch inserts and commit per batch",
+      "expected_impact": "High",
+      "expected_effort": "Small",
+      "expected_priority_tier": 1,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-IO-4",
+      "severity": "High",
+      "category": "I/O and Round Trips",
+      "file": "perfburn/ingest/pipeline.py",
+      "line": 59,
+      "description": "Blocking urllib.request.urlopen called inside async notify() - stalls the event loop for every alert webhook, blocking all other event processing",
+      "expected_impact": "High",
+      "expected_effort": "Small",
+      "expected_priority_tier": 1,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-ALLOC-2",
+      "severity": "Medium",
+      "category": "Allocation and Copies",
+      "file": "perfburn/ingest/enrich.py",
+      "line": 33,
+      "description": "copy.deepcopy(event) per event where a shallow copy is safe - the enricher only adds new top-level keys",
+      "expected_impact": "Medium",
+      "expected_effort": "Small",
+      "expected_priority_tier": 2,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-IO-2",
+      "severity": "Medium",
+      "category": "I/O and Round Trips",
+      "file": "perfburn/ingest/enrich.py",
+      "line": 15,
+      "description": "N+1 query: lookup_source runs one SELECT per event for source metadata; sources are few and static - preload a map or batch with IN",
+      "expected_impact": "Medium",
+      "expected_effort": "Small",
+      "expected_priority_tier": 2,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-IO-3",
+      "severity": "Medium",
+      "category": "I/O and Round Trips",
+      "file": "perfburn/ingest/pipeline.py",
+      "line": 47,
+      "description": "process_batch awaits process_one sequentially per line; the inserts are independent and could overlap with asyncio.gather or grouped batch inserts",
+      "expected_impact": "Medium",
+      "expected_effort": "Medium",
+      "expected_priority_tier": 2,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-ALGO-2",
+      "severity": "High",
+      "category": "Algorithms",
+      "file": "perfburn/query/search.py",
+      "line": 29,
+      "description": "match_tags splits row tags and scans them per query tag for every row - O(rows x tags) with a re-split per check; split once per row into a set",
+      "expected_impact": "High",
+      "expected_effort": "Medium",
+      "expected_priority_tier": 1,
+      "path_heat": "warm"
+    },
+    {
+      "id": "PB-ALLOC-1",
+      "severity": "Low",
+      "category": "Allocation and Copies",
+      "file": "perfburn/ingest/parser.py",
+      "line": 26,
+      "description": "normalize builds the canonical string with += in a loop per event - quadratic reallocation; use str.join",
+      "expected_impact": "Low",
+      "expected_effort": "Small",
+      "expected_priority_tier": 3,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-ALLOC-3",
+      "severity": "Low",
+      "category": "Allocation and Copies",
+      "file": "perfburn/ingest/pipeline.py",
+      "line": 28,
+      "description": "route() rebuilds the destination routing dict from the config routes list for each routed event - the mapping from level to destination never changes after startup; build the routing dict in the constructor and reuse it",
+      "expected_impact": "Low",
+      "expected_effort": "Small",
+      "expected_priority_tier": 3,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-WORK-2",
+      "severity": "High",
+      "category": "Redundant Work",
+      "file": "perfburn/ingest/enrich.py",
+      "line": 23,
+      "description": "tag_region re-parses the region CSV text and rebuilds the prefix map on every event - the text is static; parse once in __init__",
+      "expected_impact": "High",
+      "expected_effort": "Small",
+      "expected_priority_tier": 1,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-HYG-1",
+      "severity": "Medium",
+      "category": "Observability Overhead",
+      "file": "perfburn/ingest/pipeline.py",
+      "line": 38,
+      "description": "logger.debug argument json.dumps(event) is evaluated eagerly on every event even when DEBUG is off - serialization cost paid unconditionally",
+      "expected_impact": "Medium",
+      "expected_effort": "Small",
+      "expected_priority_tier": 2,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-HYG-2",
+      "severity": "Medium",
+      "category": "Observability Overhead",
+      "file": "perfburn/metrics.py",
+      "line": 15,
+      "description": "observe() sorts the whole 1024-sample window on every event to recompute p95 - O(window log window) per event; compute on snapshot or sample",
+      "expected_impact": "Medium",
+      "expected_effort": "Small",
+      "expected_priority_tier": 2,
+      "path_heat": "hot"
+    },
+    {
+      "id": "PB-LAYOUT-1",
+      "severity": "High",
+      "category": "Data Layout",
+      "file": "perfburn/query/search.py",
+      "line": 21,
+      "description": "load_rows does SELECT * and materializes every column into a dict per row; search uses only id, day, and tags - select the three columns into tuples",
+      "expected_impact": "High",
+      "expected_effort": "Medium",
+      "expected_priority_tier": 1,
+      "path_heat": "warm"
+    },
+    {
+      "id": "PB-ALGO-3",
+      "severity": "Low",
+      "category": "Algorithms",
+      "file": "perfburn/query/reportgen.py",
+      "line": 20,
+      "description": "top_events sorts all rows to take the top 10 - heapq.nlargest is O(n log 10); but this runs once per day",
+      "expected_impact": "Low",
+      "expected_effort": "Small",
+      "expected_priority_tier": 3,
+      "path_heat": "cold"
+    },
+    {
+      "id": "PB-WORK-3",
+      "severity": "Low",
+      "category": "Redundant Work",
+      "file": "perfburn/query/reportgen.py",
+      "line": 51,
+      "description": "render() calls summarize(conn, day) four times with identical arguments - same GROUP BY query and aggregation repeated per section; call once and reuse - but this runs once per day",
+      "expected_impact": "Low",
+      "expected_effort": "Small",
+      "expected_priority_tier": 3,
+      "path_heat": "cold"
+    },
+    {
+      "id": "PB-IO-5",
+      "severity": "Low",
+      "category": "I/O and Round Trips",
+      "file": "perfburn/store/archive.py",
+      "line": 9,
+      "description": "compress_day reads the whole day file into memory before writing - streaming in chunks bounds memory; runs hourly on small files",
+      "expected_impact": "Low",
+      "expected_effort": "Small",
+      "expected_priority_tier": 3,
+      "path_heat": "cold"
+    },
+    {
+      "id": "PB-WORK-4",
+      "severity": "Medium",
+      "category": "Redundant Work",
+      "file": "perfburn/app.py",
+      "line": 34,
+      "description": "main() eagerly builds the full historical query index at startup even in ingest-only mode where nothing reads it - build lazily or only for query mode; startup-only cost",
+      "expected_impact": "Medium",
+      "expected_effort": "Small",
+      "expected_priority_tier": 2,
+      "path_heat": "cold"
+    }
+  ],
+  "false_positive_traps": [
+    {
+      "id": "PB-TRAP-1",
+      "file": "perfburn/cli.py",
+      "line": 17,
+      "description": "Nested loop over commands and aliases in resolve_alias looks O(n^2)",
+      "why_not_an_issue": "Runs once per process invocation on a list of 4 commands"
+    },
+    {
+      "id": "PB-TRAP-2",
+      "file": "perfburn/config.py",
+      "line": 56,
+      "description": "re.compile inside the per-key loop in config.load looks like repeated compilation",
+      "why_not_an_issue": "load() runs once at process start over 20 keys"
+    },
+    {
+      "id": "PB-TRAP-3",
+      "file": "perfburn/query/search.py",
+      "line": 8,
+      "description": "score_term looks like repeated pure computation per row",
+      "why_not_an_issue": "Already wrapped in functools.lru_cache(maxsize=4096)"
+    },
+    {
+      "id": "PB-TRAP-4",
+      "file": "perfburn/store/db.py",
+      "line": 39,
+      "description": "flush_metrics has an insert pattern that superficially looks per-item",
+      "why_not_an_issue": "Metrics are buffered in a list and written with one executemany plus a single commit every 200 rows - already batched"
+    },
+    {
+      "id": "PB-TRAP-5",
+      "file": "tests/test_pipeline.py",
+      "line": 12,
+      "description": "make_events builds a 10000-line blob with string += in a loop",
+      "why_not_an_issue": "Test fixture helper - cold path, runs only in the test suite"
+    },
+    {
+      "id": "PB-TRAP-6",
+      "file": "perfburn/migrate.py",
+      "line": 37,
+      "description": "Per-row conn.commit() in the legacy-row copy loop - deliberate mirror of PB-IO-1",
+      "why_not_an_issue": "One-shot migration script run manually during upgrades; the same pattern that is P1 on the hot path is acceptable here. Sharpest hot/cold discrimination test."
+    }
+  ],
+  "clean_code": [
+    {
+      "item": "Bounded metrics window",
+      "file": "perfburn/metrics.py",
+      "line": 8,
+      "note": "deque(maxlen=window) bounds memory correctly"
+    },
+    {
+      "item": "Sanitizer fast path",
+      "file": "perfburn/ingest/parser.py",
+      "line": 11,
+      "note": "str.translate with a precomputed table is the fast way to strip control characters"
+    },
+    {
+      "item": "WAL journal mode",
+      "file": "perfburn/store/db.py",
+      "line": 12,
+      "note": "PRAGMA journal_mode=WAL is the right setting for concurrent read/write"
+    },
+    {
+      "item": "Bounded ingest queue",
+      "file": "perfburn/ingest/pipeline.py",
+      "line": 20,
+      "note": "asyncio.Queue(maxsize=...) provides backpressure; not an unbounded buffer"
+    }
+  ],
+  "tier_note": "After the iteration-6 corrections the planted issues span tiers 1-3 (6/6/6). No planted issue derives to P4 any more; a true P4 plant is future test-surface work."
+}

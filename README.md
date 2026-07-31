@@ -24,9 +24,13 @@ Reads the unresolved review comments on a GitHub PR and evaluates each one from 
 
 Independent first-principles review of a GitHub PR. Reads the diff and PR description, deliberately ignores other reviewers' comments to avoid anchoring, and walks a top-down taxonomy that puts architectural fit, simplicity, and API design ahead of line-level correctness. Sketches the minimal solution to the PR's underlying problem before judging the implementation, so it catches code bloat, duplication, speculative generality, and AI-slop tells alongside correctness issues. Produces a severity-ranked report; optionally creates a temporary git worktree for deeper inspection. Use with `/pr-review`, `/pr-review 123`, or `/pr-review https://github.com/owner/repo/pull/123`.
 
+### `/perform-like-jeff-dean`
+
+Read-only performance audit distilled from Abseil's ["Performance Hints"](https://abseil.io/fast/hints.html). Maps hot and cold paths first, then hunts six categories of waste (algorithms, I/O round trips, allocation, redundant work, data layout, observability overhead). Every finding carries a back-of-envelope estimate anchored in the classic latency-numbers table, and the report is ordered by a priority matrix that weighs impact against effort — the low-hanging, high-impact fruit ranks first, and real-but-cold inefficiencies get a one-line note instead of a finding. Use with `/perform-like-jeff-dean`, or scope it: `/perform-like-jeff-dean src/ingest`.
+
 ## Output language
 
-All five skills write their reports in [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) — short active sentences, one meaning per word, no idioms or metaphors, and no `-ing` clauses. The intent is precision: a finding stated in 20 words of plain English is harder to misread, harder to wave away, and readable by a team that doesn't share a first language.
+All six skills write their reports in [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) — short active sentences, one meaning per word, no idioms or metaphors, and no `-ing` clauses. The intent is precision: a finding stated in 20 words of plain English is harder to misread, harder to wave away, and readable by a team that doesn't share a first language.
 
 Structural elements are exempt and stay verbatim, so downstream tooling keeps parsing: report headings and field names, severity and verdict labels, code snippets, file paths, symbol names, and any text quoted from a diff, a review comment, or the report under validation.
 
@@ -90,6 +94,7 @@ ln -s /absolute/path/to/skill-me/rebug ~/.claude/skills/rebug
 ln -s /absolute/path/to/skill-me/audit ~/.claude/skills/audit
 ln -s /absolute/path/to/skill-me/address-pr-comments ~/.claude/skills/address-pr-comments
 ln -s /absolute/path/to/skill-me/pr-review ~/.claude/skills/pr-review
+ln -s /absolute/path/to/skill-me/perform-like-jeff-dean ~/.claude/skills/perform-like-jeff-dean
 ```
 
 ## Usage

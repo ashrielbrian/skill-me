@@ -1,0 +1,1213 @@
+{
+  "perf-eventbus-base": {
+    "timing": {
+      "wall_seconds": 388,
+      "num_turns": 25,
+      "cost_usd": 1.3061875,
+      "output_tokens": 28740,
+      "total_tokens": 595958,
+      "permission_denials": 7,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 0,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [
+        "# Performance Audit Report",
+        "## Summary",
+        "## Findings",
+        "## Cold-Code Notes",
+        "## Not Found"
+      ],
+      "missing_fields": [
+        "**Category**",
+        "**Location**",
+        "**Hot path**",
+        "**Problem**",
+        "**Evidence**",
+        "**Estimate**",
+        "**Impact**",
+        "**Effort**",
+        "**Suggested fix**"
+      ],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 14,
+      "template_passed": 0,
+      "template_pass_rate": 0.0,
+      "report_chars": 22499
+    },
+    "ste": {
+      "sentences": 153,
+      "words": 2512,
+      "mean_sentence_words": 16.4,
+      "max_sentence_words": 54,
+      "over_25_words": 28,
+      "over_25_rate": 0.183,
+      "over_20_words": 43,
+      "over_20_rate": 0.281,
+      "non_approved_total": 1,
+      "non_approved_terms": [
+        {
+          "term": "additionally",
+          "approved": "also",
+          "count": 1
+        }
+      ],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 15,
+      "passive_per_100_sentences": 9.8,
+      "passive_examples": [
+        {
+          "match": "is denied",
+          "sentence": "Execution is denied in this sandbox ( CODE , heredocs, and CODE all require approval that can't be granted non-interactively), so the figure"
+        },
+        {
+          "match": "be granted",
+          "sentence": "Execution is denied in this sandbox ( CODE , heredocs, and CODE all require approval that can't be granted non-interactively), so the figure"
+        },
+        {
+          "match": "was verified",
+          "sentence": "Every code claim was verified by reading the source and checking the call graph with grep."
+        },
+        {
+          "match": "is already imported",
+          "sentence": "CODE is already imported."
+        },
+        {
+          "match": "are pooled",
+          "sentence": "Better still, add CODE and share one CODE across events so TCP/TLS connections are pooled \u2014 as written, every single event pays a fresh TCP "
+        },
+        {
+          "match": "is awaited",
+          "sentence": "There is a single consumer task ( CODE ) and every handler is awaited sequentially."
+        },
+        {
+          "match": "is already imported",
+          "sentence": "CODE is already imported in the module's dependency set ( CODE )."
+        },
+        {
+          "match": "is written",
+          "sentence": "Grep confirms CODE is written here and read nowhere \u2014 CODE uses its local CODE counter."
+        },
+        {
+          "match": "is annotated",
+          "sentence": "This file is annotated CODE ."
+        },
+        {
+          "match": "is also appended",
+          "sentence": "The CODE looks like a retention cap, but every event is also appended to a plain list in CODE that is never trimmed."
+        },
+        {
+          "match": "is never trimmed",
+          "sentence": "The CODE looks like a retention cap, but every event is also appended to a plain list in CODE that is never trimmed."
+        },
+        {
+          "match": "is only cleared",
+          "sentence": "CODE is only cleared by an explicit CODE call."
+        }
+      ],
+      "ing_opener_total": 3,
+      "ing_opener_examples": [
+        {
+          "opener": "Amortizing",
+          "sentence": "Amortizing one fsync over a 100-event batch plus WAL is typically 1\u20132 orders of magnitude on this path."
+        },
+        {
+          "opener": "Removing",
+          "sentence": "Removing it makes inserts faster too, which compounds with finding 3."
+        },
+        {
+          "opener": "Missing",
+          "sentence": "Missing CODE / CODE on CODE ( CODE ) \u2014 a real ergonomics/leak issue, but not a performance problem; out of scope for this audit."
+        }
+      ],
+      "longest_sentences": [
+        "CODE is a blocking syscall inside a coroutine, so for its full duration (up to 30 s on a hung endpoint, or the TCP connect timeout on a black-holed host) nothing else in the event loop runs: no other handler, no CODE iteration, no HTTP server sharing the loop, no health check, no heartbeat.",
+        "Then the structural work: 2 (concurrent bounded dispatch) and 3 (WAL + batched commits) are where the order-of-magnitude throughput gains live, and 2 is what makes fixing 1 actually translate into throughput. 6 (bounded CODE ) needs an API decision about whether the topic index should exist at all.",
+        "Better still, add CODE and share one CODE across events so TCP/TLS connections are pooled \u2014 as written, every single event pays a fresh TCP + TLS handshake (1\u20132 extra RTTs, ~50\u2013200 ms on a WAN) because CODE opens and closes a connection per call.",
+        "Because CODE is a fresh CODE per event ( CODE ), this adds one permanent dict entry per event: a 36-char string (~85 B) plus dict-entry overhead \u2248 ~175 B/event, or ~175 MB per million events, never reclaimed (Python dicts don't shrink).",
+        "If CODE only ever needs recent events (it takes a CODE ), the cleanest option is to drop CODE entirely and filter CODE on read \u2014 O(max_events) per query, but with strictly bounded memory and no second copy of every event.",
+        "Every event scans the entire CODE table (up to CODE ) and allocates a result list; once the table is full, the overflow branch additionally copies all 10 000 keys into a new list just to take the first few."
+      ]
+    },
+    "detail": {
+      "findings": 1,
+      "chars": 22499,
+      "chars_per_finding": 22499,
+      "quantities": 53,
+      "quantities_per_finding": 53.0,
+      "quantity_examples": [
+        "30 s",
+        "48",
+        "50",
+        "200 ms",
+        "10",
+        "20 ms",
+        "5 events",
+        "10 000",
+        "7 s",
+        "0.5",
+        "5 ms",
+        "200",
+        "2 000 events",
+        "100"
+      ],
+      "citations": 35,
+      "citations_per_finding": 35.0,
+      "unique_files_cited": 14,
+      "code_refs": 195,
+      "code_refs_per_finding": 195.0,
+      "causal_links": 15,
+      "causal_per_finding": 15.0
+    },
+    "ground_truth": {
+      "planted_total": 4,
+      "planted_found": 0,
+      "recall": 0.0,
+      "findings_reported": 0,
+      "matched": [],
+      "missed": [
+        {
+          "id": "EB-PERF-1",
+          "file": "eventbus/bus.py",
+          "line": 25,
+          "description": "Dead letter list grows unbounded \u2014 no max size or cleanup"
+        },
+        {
+          "id": "EB-PERF-2",
+          "file": "eventbus/middleware/dedup.py",
+          "line": 25,
+          "description": "Dedup cleanup iterates ALL entries every event \u2014 O(n) per event"
+        },
+        {
+          "id": "EB-PERF-3",
+          "file": "eventbus/storage/sqlite.py",
+          "line": 40,
+          "description": "SQLite commits after every single insert \u2014 should batch"
+        },
+        {
+          "id": "EB-PERF-4",
+          "file": "eventbus/handlers/webhook.py",
+          "line": 43,
+          "description": "Synchronous urllib.request.urlopen blocks the async event loop"
+        }
+      ],
+      "unmatched_findings": [],
+      "trap_location_hits": []
+    }
+  },
+  "perf-eventbus-v1": {
+    "timing": {
+      "wall_seconds": 467,
+      "num_turns": 24,
+      "cost_usd": 1.662429,
+      "output_tokens": 36248,
+      "total_tokens": 530203,
+      "permission_denials": 5,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 15,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 14,
+      "template_passed": 14,
+      "template_pass_rate": 1.0,
+      "report_chars": 33454
+    },
+    "ste": {
+      "sentences": 321,
+      "words": 4458,
+      "mean_sentence_words": 13.9,
+      "max_sentence_words": 38,
+      "over_25_words": 17,
+      "over_25_rate": 0.053,
+      "over_20_words": 64,
+      "over_20_rate": 0.199,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 3,
+      "passive_per_100_sentences": 0.9,
+      "passive_examples": [
+        {
+          "match": "was not permitted",
+          "sentence": "Bash execution was not permitted in this session, so the CPU costs come from the latency table and from the anchor of 10\u2013100 ns for one inte"
+        },
+        {
+          "match": "is attached",
+          "sentence": "If the level is off, or no handler is attached, the whole cost is waste."
+        },
+        {
+          "match": "is bounded",
+          "sentence": "CODE is a CODE with CODE , so it is bounded at 100,000 events by default."
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "The single best quick win is CODE at CODE : it scans up to 10,000 dictionary entries for every event, which costs about 600 \u00b5s per event and alone caps the bus at about 1,600 events per second.",
+        "With a cold cache the scan must read the pages from SSD; 1,000,000 rows at about 200 bytes each is about 200 MB, which costs about 200 ms at the rate of 1 MB per 1 ms.",
+        "Bash execution was not permitted in this session, so the CPU costs come from the latency table and from the anchor of 10\u2013100 ns for one interpreted statement, not from a measurement on this machine.",
+        "The code holds no map that a dense integer array replaces, no nested map that costs several lookups per access, and no repeated string compare that stands in for an enum on a hot path.",
+        "A second waste sits on line 42: when the dictionary goes over the cap, the code allocates a new 10,000-element list of keys and then uses only the first few.",
+        "With a cold cache, the row reads are random 4 KB SSD reads at 20 \u00b5s each; even a 10% miss rate adds 10,000 \u00d7 20 \u00b5s = 200 ms."
+      ]
+    },
+    "detail": {
+      "findings": 15,
+      "chars": 33454,
+      "chars_per_finding": 2230,
+      "quantities": 260,
+      "quantities_per_finding": 17.33,
+      "quantity_examples": [
+        "510 lines",
+        "3.11",
+        "10,000 events",
+        "10,000",
+        "600",
+        "1,600 events",
+        "1,000 events",
+        "10",
+        "100 ns",
+        "10,000 entries",
+        "16",
+        "42",
+        "10,000",
+        "42"
+      ],
+      "citations": 82,
+      "citations_per_finding": 5.47,
+      "unique_files_cited": 10,
+      "code_refs": 280,
+      "code_refs_per_finding": 18.67,
+      "causal_links": 37,
+      "causal_per_finding": 2.47
+    },
+    "ground_truth": {
+      "planted_total": 4,
+      "planted_found": 4,
+      "recall": 1.0,
+      "findings_reported": 15,
+      "matched": [
+        {
+          "id": "EB-PERF-1",
+          "finding": "[P2] The dead-letter list has no bound and grows for the life of the process",
+          "finding_index": 6,
+          "overlap": 0.86,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-2",
+          "finding": "[P1] The deduplication middleware scans all 10,000 entries for every event",
+          "finding_index": 0,
+          "overlap": 0.75,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-3",
+          "finding": "[P1] SQLite storage commits one time for every event",
+          "finding_index": 2,
+          "overlap": 1.0,
+          "line_hit": true
+        },
+        {
+          "id": "EB-PERF-4",
+          "finding": "[P1] The webhook handler makes a blocking HTTP call and stalls the whole event loop",
+          "finding_index": 1,
+          "overlap": 0.83,
+          "line_hit": true
+        }
+      ],
+      "missed": [],
+      "unmatched_findings": [
+        {
+          "index": 3,
+          "title": "[P1] The dispatch loop awaits handlers one at a time, so handler latencies add up",
+          "locations": [
+            "eventbus/bus.py:83",
+            "eventbus/bus.py:60",
+            "eventbus/bus.py:51"
+          ]
+        },
+        {
+          "index": 4,
+          "title": "[P1] The dispatch loop tests every registered pattern for every event",
+          "locations": [
+            "eventbus/bus.py:85",
+            "eventbus/event.py:19",
+            "eventbus/bus.py:34"
+          ]
+        },
+        {
+          "index": 5,
+          "title": "[P2] The logging middleware serializes every event even when the log level is off",
+          "locations": [
+            "eventbus/middleware/logging.py:18",
+            "eventbus/middleware/logging.py:12",
+            "eventbus/bus.py:70"
+          ]
+        },
+        {
+          "index": 7,
+          "title": "[P2] The retry middleware writes to a dictionary that nothing reads and nothing trims",
+          "locations": [
+            "eventbus/middleware/retry.py:25",
+            "eventbus/middleware/retry.py:20",
+            "eventbus/bus.py:70"
+          ]
+        },
+        {
+          "index": 8,
+          "title": "[P2] The SQLite index does not cover the sort, so the query sorts every row of the topic",
+          "locations": [
+            "eventbus/storage/sqlite.py:28",
+            "eventbus/storage/sqlite.py:54"
+          ]
+        },
+        {
+          "index": 9,
+          "title": "[P2] The webhook handler opens a new TCP and TLS connection for every event",
+          "locations": [
+            "eventbus/handlers/webhook.py:33",
+            "eventbus/bus.py:89"
+          ]
+        },
+        {
+          "index": 10,
+          "title": "[P2] The topic index of MemoryStorage grows without bound and breaks the documented limit",
+          "locations": [
+            "eventbus/storage/memory.py:19",
+            "eventbus/storage/memory.py:13",
+            "eventbus/storage/memory.py:10"
+          ]
+        },
+        {
+          "index": 11,
+          "title": "[P3] The process loop wraps every queue read in asyncio.wait_for",
+          "locations": [
+            "eventbus/bus.py:62",
+            "eventbus/bus.py:60",
+            "eventbus/bus.py:60"
+          ]
+        },
+        {
+          "index": 12,
+          "title": "[P3] The event factory builds a hyphenated UUID string for every event",
+          "locations": [
+            "eventbus/event.py:15",
+            "eventbus/bus.py:46",
+            "eventbus/event.py:30"
+          ]
+        },
+        {
+          "index": 13,
+          "title": "[P3] get_recent copies the whole 100,000-event deque to return 100 events",
+          "locations": [
+            "eventbus/storage/memory.py:30",
+            "eventbus/storage/memory.py:12",
+            "eventbus/storage/memory.py:12"
+          ]
+        },
+        {
+          "index": 14,
+          "title": "[P4] count() scans the whole table",
+          "locations": [
+            "eventbus/storage/sqlite.py:69",
+            "eventbus/storage/sqlite.py:40",
+            "eventbus/storage/sqlite.py:16"
+          ]
+        }
+      ],
+      "trap_location_hits": [
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[P1] SQLite storage commits one time for every event",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[P2] The SQLite index does not cover the sort, so the query sorts every row of the topic",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Parameterized SQL query \u2014 NOT injection despite a misleading comment",
+          "finding": "[P4] count() scans the whole table",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Dedup overflow drops oldest (correct) despite misleading comment claim",
+          "finding": "[P1] The deduplication middleware scans all 10,000 entries for every event",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        }
+      ]
+    }
+  },
+  "perf-perfburn-base": {
+    "timing": {
+      "wall_seconds": 292,
+      "num_turns": 26,
+      "cost_usd": 1.2090935000000003,
+      "output_tokens": 22301,
+      "total_tokens": 453064,
+      "permission_denials": 3,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 0,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [
+        "# Performance Audit Report",
+        "## Summary",
+        "## Findings",
+        "## Cold-Code Notes",
+        "## Not Found"
+      ],
+      "missing_fields": [
+        "**Category**",
+        "**Location**",
+        "**Hot path**",
+        "**Problem**",
+        "**Evidence**",
+        "**Estimate**",
+        "**Impact**",
+        "**Effort**",
+        "**Suggested fix**"
+      ],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 14,
+      "template_passed": 0,
+      "template_pass_rate": 0.0,
+      "report_chars": 16647
+    },
+    "ste": {
+      "sentences": 99,
+      "words": 1600,
+      "mean_sentence_words": 16.2,
+      "max_sentence_words": 43,
+      "over_25_words": 21,
+      "over_25_rate": 0.212,
+      "over_20_words": 29,
+      "over_20_rate": 0.293,
+      "non_approved_total": 1,
+      "non_approved_terms": [
+        {
+          "term": "sufficient",
+          "approved": "enough",
+          "count": 1
+        }
+      ],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 11,
+      "passive_per_100_sentences": 11.1,
+      "passive_examples": [
+        {
+          "match": "being appended",
+          "sentence": "CODE defaults to 50,000, so after ~10 seconds of ingestion the buffer is full and every non-duplicate event \u2014 the common case \u2014 scans all 50"
+        },
+        {
+          "match": "are only appended",
+          "sentence": "Note the eviction policy is FIFO, not LRU ( CODE pins this), and ids are only appended when unseen, so entries are unique \u2014 a CODE for membe"
+        },
+        {
+          "match": "is placed",
+          "sentence": "I grepped the repo: the returned CODE is placed in the wiring dict at CODE and never read by any consumer."
+        },
+        {
+          "match": "is wanted",
+          "sentence": "If a tag index is wanted later, it belongs in SQLite (see #9), not rebuilt in memory at boot."
+        },
+        {
+          "match": "is never closed",
+          "sentence": "CODE ( CODE ) is a second connection to the same file, is unused in ingest mode once the index call is gone, and is never closed."
+        },
+        {
+          "match": "is thrown",
+          "sentence": "With CODE defaulting to CODE , the record is thrown away \u2014 but the full JSON serialization (~5\u201310 \u00b5s/event) is paid regardless."
+        },
+        {
+          "match": "is sorted",
+          "sentence": "The full matched set is sorted to return CODE items \u2014 use CODE ."
+        },
+        {
+          "match": "is indexed",
+          "sentence": "CODE is a CODE so the lookup is indexed and reasonably fast (~5\u201315 \u00b5s), but it is a synchronous database call executed on the event-loop thr"
+        },
+        {
+          "match": "was planned",
+          "sentence": "Source cardinality is low \u2014 the config even has an unused CODE key suggesting this was planned."
+        },
+        {
+          "match": "be enabled",
+          "sentence": "Do next (needs a real change to the batch path): #2 batched inserts with a single commit \u2014 the biggest remaining win and the one that lifts "
+        },
+        {
+          "match": "be scheduled",
+          "sentence": "Then: #9, the query path, which is independent of ingest and can be scheduled separately."
+        }
+      ],
+      "ing_opener_total": 3,
+      "ing_opener_examples": [
+        {
+          "opener": "Logging",
+          "sentence": "Logging's lazy CODE -formatting defers formatting, not argument evaluation."
+        },
+        {
+          "opener": "Caching",
+          "sentence": "Caching on CODE alone (the character loop) and dividing by CODE at the call site would be strictly better, but this is noise next to #9."
+        },
+        {
+          "opener": "Measuring",
+          "sentence": "Measuring CODE under a full 50,000-entry buffer is the fastest way to confirm where you actually stand \u2014 I'd start there before committing t"
+        }
+      ],
+      "longest_sentences": [
+        "Given CODE is a comma-joined string, the durable answer is a normalized CODE table with an index on CODE , or FTS5; short of that, at least push a CODE predicate into the existing CODE query so the rows never cross into Python.",
+        "My honest read: as written, the ingest pipeline cannot sustain 5,000 events/s on one core \u2014 the per-event CPU in #1, #3, and #4 alone appears to exceed the 200 \u00b5s budget by several multiples, before the per-event fsync in #2.",
+        "Default routing sends both CODE and CODE to CODE , so at 5,000 ev/s even a 1% alert rate is 50 blocking HTTP round trips per second; at 20 ms RTT that is a saturated loop with zero remaining capacity.",
+        "Do next (needs a real change to the batch path): #2 batched inserts with a single commit \u2014 the biggest remaining win and the one that lifts the fsync ceiling \u2014 plus #5 if webhooks are or will be enabled.",
+        "CODE is a CODE so the lookup is indexed and reasonably fast (~5\u201315 \u00b5s), but it is a synchronous database call executed on the event-loop thread, once per event, and it contends on the shared connection mutex (see #2).",
+        "Note the eviction policy is FIFO, not LRU ( CODE pins this), and ids are only appended when unseen, so entries are unique \u2014 a CODE for membership plus a CODE for order is a drop-in:"
+      ]
+    },
+    "detail": {
+      "findings": 12,
+      "chars": 16647,
+      "chars_per_finding": 1387,
+      "quantities": 50,
+      "quantities_per_finding": 4.17,
+      "quantity_examples": [
+        "5,000 events",
+        "200",
+        "5,000",
+        "50,000 entries",
+        "50,000",
+        "10 seconds",
+        "50,000 entries",
+        "2 ms",
+        "10",
+        "1,000",
+        "10,000",
+        "50",
+        "150",
+        "25"
+      ],
+      "citations": 26,
+      "citations_per_finding": 2.17,
+      "unique_files_cited": 15,
+      "code_refs": 148,
+      "code_refs_per_finding": 12.33,
+      "causal_links": 7,
+      "causal_per_finding": 0.58
+    },
+    "ground_truth": {
+      "planted_total": 18,
+      "planted_found": 17,
+      "recall": 0.944,
+      "findings_reported": 12,
+      "matched": [
+        {
+          "id": "PB-ALGO-1",
+          "finding": "1. `Deduper.seen()` is an O(n) list scan over 50,000 entries, per event",
+          "finding_index": 0,
+          "overlap": 0.79,
+          "line_hit": true
+        },
+        {
+          "id": "PB-WORK-1",
+          "finding": "12. `archive.compress_day()` reads the whole file into memory",
+          "finding_index": 11,
+          "overlap": 0.71,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-1",
+          "finding": "2. One transaction + one `to_thread` hop per event",
+          "finding_index": 1,
+          "overlap": 0.57,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-4",
+          "finding": "5. Blocking `urlopen` inside the async event loop",
+          "finding_index": 4,
+          "overlap": 0.83,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALLOC-2",
+          "finding": "7. `copy.deepcopy()` per event in `enrich()`",
+          "finding_index": 6,
+          "overlap": 0.7,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-2",
+          "finding": "11. `Enricher.lookup_source()` hits SQLite once per event",
+          "finding_index": 10,
+          "overlap": 0.44,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-3",
+          "finding": "2. One transaction + one `to_thread` hop per event",
+          "finding_index": 1,
+          "overlap": 0.46,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALGO-2",
+          "finding": "9. `Searcher` pulls a full day of rows and filters in Python",
+          "finding_index": 8,
+          "overlap": 0.56,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALLOC-1",
+          "finding": "12. `archive.compress_day()` reads the whole file into memory",
+          "finding_index": 11,
+          "overlap": 0.57,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALLOC-3",
+          "finding": "12. `archive.compress_day()` reads the whole file into memory",
+          "finding_index": 11,
+          "overlap": 0.47,
+          "line_hit": true
+        },
+        {
+          "id": "PB-WORK-2",
+          "finding": "3. `Enricher.tag_region()` re-parses the entire region CSV on every event",
+          "finding_index": 2,
+          "overlap": 0.78,
+          "line_hit": true
+        },
+        {
+          "id": "PB-HYG-1",
+          "finding": "8. `json.dumps()` runs on every event for a log line that is discarded",
+          "finding_index": 7,
+          "overlap": 0.64,
+          "line_hit": true
+        },
+        {
+          "id": "PB-HYG-2",
+          "finding": "4. `LatencyTracker.observe()` sorts the full 1024-sample window on every event",
+          "finding_index": 3,
+          "overlap": 0.5,
+          "line_hit": true
+        },
+        {
+          "id": "PB-LAYOUT-1",
+          "finding": "9. `Searcher` pulls a full day of rows and filters in Python",
+          "finding_index": 8,
+          "overlap": 0.64,
+          "line_hit": true
+        },
+        {
+          "id": "PB-WORK-3",
+          "finding": "10. `reportgen.render()` runs the same aggregation query four times",
+          "finding_index": 9,
+          "overlap": 0.75,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-5",
+          "finding": "12. `archive.compress_day()` reads the whole file into memory",
+          "finding_index": 11,
+          "overlap": 0.58,
+          "line_hit": true
+        },
+        {
+          "id": "PB-WORK-4",
+          "finding": "6. `build_query_index()` scans the entire events table at startup, and nothing reads the r",
+          "finding_index": 5,
+          "overlap": 0.47,
+          "line_hit": true
+        }
+      ],
+      "missed": [
+        {
+          "id": "PB-ALGO-3",
+          "file": "perfburn/query/reportgen.py",
+          "line": 20,
+          "description": "top_events sorts all rows to take the top 10 - heapq.nlargest is O(n log 10); but this runs once per day"
+        }
+      ],
+      "unmatched_findings": [],
+      "trap_location_hits": [
+        {
+          "trap": "score_term looks like repeated pure computation per row",
+          "finding": "12. `archive.compress_day()` reads the whole file into memory",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Per-row conn.commit() in the legacy-row copy loop - deliberate mirror ",
+          "finding": "12. `archive.compress_day()` reads the whole file into memory",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        }
+      ]
+    },
+    "priority": {
+      "ranked_findings": 0,
+      "matched_count": 0,
+      "orderable_pairs": 0,
+      "pairwise_order_accuracy": null,
+      "top3_mean_expected_tier": null,
+      "impact_label_accuracy": null,
+      "impact_unparsed": 0,
+      "effort_label_accuracy": null,
+      "effort_unparsed": 0,
+      "tier_label_accuracy": null,
+      "tier_unparsed": 0,
+      "strict_precision": null,
+      "fp_traps_total": 6,
+      "fp_trap_hits": 0,
+      "trap_details": [],
+      "label_mismatches": [],
+      "recall_ranked": 0.0,
+      "noted_in_cold_notes": [],
+      "dismissed_in_not_found": [],
+      "recall_total": 0.0,
+      "missed": [
+        {
+          "id": "PB-ALGO-1",
+          "file": "perfburn/ingest/dedupe.py",
+          "line": 10,
+          "description": "Dedupe membership test scans a plain list per event - event_id in self._seen is O(n) with n up to 50000, and pop(0) shifts the whole list; a set plus deque gives O(1)"
+        },
+        {
+          "id": "PB-WORK-1",
+          "file": "perfburn/ingest/parser.py",
+          "line": 15,
+          "description": "re.compile(FIELD_PATTERN) executes inside parse_line on every event instead of once at module level"
+        },
+        {
+          "id": "PB-IO-1",
+          "file": "perfburn/store/db.py",
+          "line": 26,
+          "description": "conn.commit() after every single event insert - one fsync per event at 5000 events/s; batch inserts and commit per batch"
+        },
+        {
+          "id": "PB-IO-4",
+          "file": "perfburn/ingest/pipeline.py",
+          "line": 59,
+          "description": "Blocking urllib.request.urlopen called inside async notify() - stalls the event loop for every alert webhook, blocking all other event processing"
+        },
+        {
+          "id": "PB-ALLOC-2",
+          "file": "perfburn/ingest/enrich.py",
+          "line": 33,
+          "description": "copy.deepcopy(event) per event where a shallow copy is safe - the enricher only adds new top-level keys"
+        },
+        {
+          "id": "PB-IO-2",
+          "file": "perfburn/ingest/enrich.py",
+          "line": 15,
+          "description": "N+1 query: lookup_source runs one SELECT per event for source metadata; sources are few and static - preload a map or batch with IN"
+        },
+        {
+          "id": "PB-IO-3",
+          "file": "perfburn/ingest/pipeline.py",
+          "line": 47,
+          "description": "process_batch awaits process_one sequentially per line; the inserts are independent and could overlap with asyncio.gather or grouped batch inserts"
+        },
+        {
+          "id": "PB-ALGO-2",
+          "file": "perfburn/query/search.py",
+          "line": 29,
+          "description": "match_tags splits row tags and scans them per query tag for every row - O(rows x tags) with a re-split per check; split once per row into a set"
+        },
+        {
+          "id": "PB-ALLOC-1",
+          "file": "perfburn/ingest/parser.py",
+          "line": 26,
+          "description": "normalize builds the canonical string with += in a loop per event - quadratic reallocation; use str.join"
+        },
+        {
+          "id": "PB-ALLOC-3",
+          "file": "perfburn/ingest/pipeline.py",
+          "line": 28,
+          "description": "route() rebuilds the destination routing dict from the config routes list for each routed event - the mapping from level to destination never changes after startup; build the routing dict in the constructor and reuse it"
+        },
+        {
+          "id": "PB-WORK-2",
+          "file": "perfburn/ingest/enrich.py",
+          "line": 23,
+          "description": "tag_region re-parses the region CSV text and rebuilds the prefix map on every event - the text is static; parse once in __init__"
+        },
+        {
+          "id": "PB-HYG-1",
+          "file": "perfburn/ingest/pipeline.py",
+          "line": 38,
+          "description": "logger.debug argument json.dumps(event) is evaluated eagerly on every event even when DEBUG is off - serialization cost paid unconditionally"
+        },
+        {
+          "id": "PB-HYG-2",
+          "file": "perfburn/metrics.py",
+          "line": 15,
+          "description": "observe() sorts the whole 1024-sample window on every event to recompute p95 - O(window log window) per event; compute on snapshot or sample"
+        },
+        {
+          "id": "PB-LAYOUT-1",
+          "file": "perfburn/query/search.py",
+          "line": 21,
+          "description": "load_rows does SELECT * and materializes every column into a dict per row; search uses only id, day, and tags - select the three columns into tuples"
+        },
+        {
+          "id": "PB-ALGO-3",
+          "file": "perfburn/query/reportgen.py",
+          "line": 20,
+          "description": "top_events sorts all rows to take the top 10 - heapq.nlargest is O(n log 10); but this runs once per day"
+        },
+        {
+          "id": "PB-WORK-3",
+          "file": "perfburn/query/reportgen.py",
+          "line": 51,
+          "description": "render() calls summarize(conn, day) four times with identical arguments - same GROUP BY query and aggregation repeated per section; call once and reuse - but this runs once per day"
+        },
+        {
+          "id": "PB-IO-5",
+          "file": "perfburn/store/archive.py",
+          "line": 9,
+          "description": "compress_day reads the whole day file into memory before writing - streaming in chunks bounds memory; runs hourly on small files"
+        },
+        {
+          "id": "PB-WORK-4",
+          "file": "perfburn/app.py",
+          "line": 34,
+          "description": "main() eagerly builds the full historical query index at startup even in ingest-only mode where nothing reads it - build lazily or only for query mode; startup-only cost"
+        }
+      ]
+    }
+  },
+  "perf-perfburn-v1": {
+    "timing": {
+      "wall_seconds": 529,
+      "num_turns": 26,
+      "cost_usd": 1.8750639999999996,
+      "output_tokens": 41406,
+      "total_tokens": 603171,
+      "permission_denials": 5,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 13,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 14,
+      "template_passed": 14,
+      "template_pass_rate": 1.0,
+      "report_chars": 32282
+    },
+    "ste": {
+      "sentences": 297,
+      "words": 4327,
+      "mean_sentence_words": 14.6,
+      "max_sentence_words": 41,
+      "over_25_words": 22,
+      "over_25_rate": 0.074,
+      "over_20_words": 66,
+      "over_20_rate": 0.222,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 1,
+      "passive_per_100_sentences": 0.3,
+      "passive_examples": [
+        {
+          "match": "is bounded",
+          "sentence": "The loop is bounded to the number of fields in one event, which is about 6, so the cost is about 1.5 \u00b5s."
+        }
+      ],
+      "ing_opener_total": 0,
+      "ing_opener_examples": [],
+      "longest_sentences": [
+        "With 200 rows the method costs about 260 \u00b5s for each event, which is 1.3 times the whole 200 \u00b5s budget for one event; at 5,000 events per second that is 1.3 s of CPU for each second of wall time.",
+        "The best quick win is CODE ( CODE ): it scans a list of 50,000 event ids for each event, which costs about 1.5 ms per event and caps the pipeline at about 660 events per second on its own.",
+        "Keep CODE unless you can show that the input never holds control characters; the regex CODE already excludes most of them, so the step may be redundant, but that is a correctness question for the input source.",
+        "CODE alone holds every row in memory, and each row plus each list entry costs about 100 bytes, so one day of data needs more than 40 GB and about 400 s of CPU.",
+        "Two more points: the tracked value is CODE , which is a field count and not a latency, and nothing in this repository reads the CODE rows that CODE writes ( CODE ).",
+        "A second effect: this read uses the same connection object as the writer thread ( CODE , CODE ), so it can wait behind an in-flight commit of 1 ms to 10 ms."
+      ]
+    },
+    "detail": {
+      "findings": 13,
+      "chars": 32282,
+      "chars_per_finding": 2483,
+      "quantities": 217,
+      "quantities_per_finding": 16.69,
+      "quantity_examples": [
+        "5,000 events",
+        "50,000 event",
+        "1.5 ms",
+        "660 events",
+        "5,000 events",
+        "200",
+        "2.4 ms",
+        "12 times",
+        "50,000 event",
+        "5,000 events",
+        "50,000",
+        "50,000 entries",
+        "49,999",
+        "50,000 entries"
+      ],
+      "citations": 120,
+      "citations_per_finding": 9.23,
+      "unique_files_cited": 15,
+      "code_refs": 342,
+      "code_refs_per_finding": 26.31,
+      "causal_links": 29,
+      "causal_per_finding": 2.23
+    },
+    "ground_truth": {
+      "planted_total": 18,
+      "planted_found": 18,
+      "recall": 1.0,
+      "findings_reported": 13,
+      "matched": [
+        {
+          "id": "PB-ALGO-1",
+          "finding": "[P1] Deduper.seen scans a list of 50,000 event ids for each event",
+          "finding_index": 0,
+          "overlap": 0.71,
+          "line_hit": true
+        },
+        {
+          "id": "PB-WORK-1",
+          "finding": "[P3] parse_line compiles the regex and translates control characters on each call",
+          "finding_index": 10,
+          "overlap": 0.86,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-1",
+          "finding": "[P1] EventStore commits and hops to a thread once for each event",
+          "finding_index": 3,
+          "overlap": 0.71,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-4",
+          "finding": "[P1] Pipeline.notify makes a synchronous HTTP call inside the event loop",
+          "finding_index": 2,
+          "overlap": 0.75,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALLOC-2",
+          "finding": "[P2] Enricher.enrich deep-copies the event for each event",
+          "finding_index": 6,
+          "overlap": 0.8,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-2",
+          "finding": "[P2] Enricher.lookup_source runs one SQLite query for each event with no cache",
+          "finding_index": 7,
+          "overlap": 0.67,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-3",
+          "finding": "[P1] EventStore commits and hops to a thread once for each event",
+          "finding_index": 3,
+          "overlap": 0.62,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALGO-2",
+          "finding": "[P1] Searcher.load_rows reads a whole day of rows and filters them in Python",
+          "finding_index": 4,
+          "overlap": 0.67,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALLOC-1",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "finding_index": 12,
+          "overlap": 0.57,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALLOC-3",
+          "finding": "[P3] Pipeline.route rebuilds the route dict for each event",
+          "finding_index": 11,
+          "overlap": 0.47,
+          "line_hit": true
+        },
+        {
+          "id": "PB-WORK-2",
+          "finding": "[P1] Enricher.tag_region parses the whole region CSV for each event",
+          "finding_index": 1,
+          "overlap": 0.78,
+          "line_hit": true
+        },
+        {
+          "id": "PB-HYG-1",
+          "finding": "[P2] The debug log call builds a JSON string even when debug output is off",
+          "finding_index": 8,
+          "overlap": 0.64,
+          "line_hit": true
+        },
+        {
+          "id": "PB-HYG-2",
+          "finding": "[P2] LatencyTracker.observe sorts a 1,024 sample window for each event",
+          "finding_index": 5,
+          "overlap": 0.62,
+          "line_hit": true
+        },
+        {
+          "id": "PB-LAYOUT-1",
+          "finding": "[P1] Searcher.load_rows reads a whole day of rows and filters them in Python",
+          "finding_index": 4,
+          "overlap": 0.73,
+          "line_hit": true
+        },
+        {
+          "id": "PB-ALGO-3",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "finding_index": 12,
+          "overlap": 0.67,
+          "line_hit": false
+        },
+        {
+          "id": "PB-WORK-3",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "finding_index": 12,
+          "overlap": 0.42,
+          "line_hit": true
+        },
+        {
+          "id": "PB-IO-5",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "finding_index": 12,
+          "overlap": 0.58,
+          "line_hit": true
+        },
+        {
+          "id": "PB-WORK-4",
+          "finding": "[P2] app.main builds a tag index that no code reads",
+          "finding_index": 9,
+          "overlap": 0.53,
+          "line_hit": true
+        }
+      ],
+      "missed": [],
+      "unmatched_findings": [],
+      "trap_location_hits": [
+        {
+          "trap": "re.compile inside the per-key loop in config.load looks like repeated ",
+          "finding": "[P3] Pipeline.route rebuilds the route dict for each event",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "re.compile inside the per-key loop in config.load looks like repeated ",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "score_term looks like repeated pure computation per row",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "flush_metrics has an insert pattern that superficially looks per-item",
+          "finding": "[P1] EventStore commits and hops to a thread once for each event",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "flush_metrics has an insert pattern that superficially looks per-item",
+          "finding": "[P2] LatencyTracker.observe sorts a 1,024 sample window for each event",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "make_events builds a 10000-line blob with string += in a loop",
+          "finding": "[P2] Enricher.lookup_source runs one SQLite query for each event with no cache",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "make_events builds a 10000-line blob with string += in a loop",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "Per-row conn.commit() in the legacy-row copy loop - deliberate mirror ",
+          "finding": "[P3] Searcher.search sorts every matched row to return 100 rows",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        }
+      ]
+    },
+    "priority": {
+      "ranked_findings": 13,
+      "matched_count": 14,
+      "orderable_pairs": 60,
+      "pairwise_order_accuracy": 0.95,
+      "top3_mean_expected_tier": 1.0,
+      "impact_label_accuracy": 0.929,
+      "impact_unparsed": 0,
+      "effort_label_accuracy": 0.929,
+      "effort_unparsed": 0,
+      "tier_label_accuracy": 0.929,
+      "tier_unparsed": 0,
+      "strict_precision": 0.923,
+      "fp_traps_total": 6,
+      "fp_trap_hits": 0,
+      "trap_details": [],
+      "label_mismatches": [
+        {
+          "id": "PB-IO-1",
+          "field": "effort",
+          "expected": "Small",
+          "reported": "Medium"
+        },
+        {
+          "id": "PB-IO-3",
+          "field": "impact",
+          "expected": "Medium",
+          "reported": "High"
+        },
+        {
+          "id": "PB-IO-3",
+          "field": "tier",
+          "expected": 2,
+          "reported": 1
+        }
+      ],
+      "recall_ranked": 0.778,
+      "noted_in_cold_notes": [
+        "PB-WORK-3",
+        "PB-IO-5"
+      ],
+      "dismissed_in_not_found": [
+        "PB-ALLOC-1"
+      ],
+      "recall_total": 0.944,
+      "missed": [
+        {
+          "id": "PB-ALGO-3",
+          "file": "perfburn/query/reportgen.py",
+          "line": 20,
+          "description": "top_events sorts all rows to take the top 10 - heapq.nlargest is O(n log 10); but this runs once per day"
+        }
+      ]
+    }
+  }
+}

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SKILLS=("spring_clean" "rebug" "audit" "address-pr-comments" "pr-review")
+SKILLS=("spring_clean" "rebug" "audit" "address-pr-comments" "pr-review" "perform-like-jeff-dean")
 DEFAULT_TARGET="$HOME/.claude/skills"
 
 MODE="install"
@@ -151,6 +151,7 @@ if [[ "$MODE" == "install" ]]; then
     echo "  /audit                — full pipeline (discover + validate)"
     echo "  /address-pr-comments  — evaluate unresolved PR review comments"
     echo "  /pr-review            — independent first-principles review of a GitHub PR"
+    echo "  /perform-like-jeff-dean — performance audit prioritized by impact vs effort"
     if [[ "$COPY_MODE" != true ]]; then
         echo ""
         echo "Skills are symlinked — run 'git pull' in this repo to get updates."
