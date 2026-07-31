@@ -154,6 +154,10 @@ Round trips dominate; amortize them.
 
 For each candidate, read enough surrounding code to confirm the pattern is real and the path is hot. If you cannot name the loop, handler, or caller that multiplies the cost, put the item in Cold-Code Notes or drop it.
 
+Run the same pattern sweep over the cold files. A hit in cold code becomes one line in Cold-Code Notes, not a finding — but an unswept file is a blind spot, and cold code sometimes moves to a hot path later. When one file gives you a Cold-Code Note, check the rest of that file for the other patterns before you move on.
+
+When you check a candidate and dismiss it, record the dismissal in Not Found with the number that dismissed it. A silent drop and a considered dismissal read the same to the user unless you write the reason.
+
 ## Phase 3: Report
 
 Present findings in this structure:
