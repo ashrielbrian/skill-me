@@ -1,0 +1,534 @@
+{
+  "perf-bazaar-adjudicate": {
+    "timing": {
+      "wall_seconds": 650,
+      "num_turns": 55,
+      "cost_usd": 4.1928835,
+      "output_tokens": 51087,
+      "total_tokens": 2849047,
+      "permission_denials": 6,
+      "is_error": false
+    },
+    "structure": {
+      "findings_count": 20,
+      "heading_format": null,
+      "severity_case": null,
+      "missing_headings": [],
+      "missing_fields": [],
+      "optional_headings_present": [],
+      "enum_violations": {},
+      "template_checks": 14,
+      "template_passed": 14,
+      "template_pass_rate": 1.0,
+      "report_chars": 48871
+    },
+    "ste": {
+      "sentences": 434,
+      "words": 5748,
+      "mean_sentence_words": 13.2,
+      "max_sentence_words": 40,
+      "over_25_words": 22,
+      "over_25_rate": 0.051,
+      "over_20_words": 57,
+      "over_20_rate": 0.131,
+      "non_approved_total": 0,
+      "non_approved_terms": [],
+      "idiom_total": 0,
+      "idiom_terms": [],
+      "passive_total": 4,
+      "passive_per_100_sentences": 0.9,
+      "passive_examples": [
+        {
+          "match": "are not promoted",
+          "sentence": "Most product ids are not promoted, and a probe that fails scans all 3,000 elements."
+        },
+        {
+          "match": "is already written",
+          "sentence": "The batch path is already written and already uses array parameters ( CODE )."
+        },
+        {
+          "match": "are cached",
+          "sentence": "CODE allocates one CODE per frame and does one CODE dict lookup per frame, which costs about 50\u2013150 \u00b5s after the source files are cached."
+        },
+        {
+          "match": "is scanned",
+          "sentence": "CODE \u2014 CODE runs one full CODE pass over the template for each parameter, so the template is scanned N times for N parameters."
+        }
+      ],
+      "ing_opener_total": 1,
+      "ing_opener_examples": [
+        {
+          "opener": "Writing",
+          "sentence": "Writing the report."
+        }
+      ],
+      "longest_sentences": [
+        "Each cell costs about 300\u2013500 ns: one function call, one string comparison, one CODE or one band scan, and three dict operations. 2,000 cells cost 0.6\u20131.0 ms per search, which is 2% to 3% of the 30 ms search p50.",
+        "The page cache normally serves the read, so count about 50 \u00b5s for the syscalls and the copy; a cold read costs 23 random 4 KB SSD reads at 20 \u00b5s each, which is 460 \u00b5s.",
+        "The 25 KB also crosses the wire: at 40 req/s that is 1 MB/s of database traffic, and the transfer plus the decode add roughly 0.3\u20130.5 ms to a query whose round trip is 0.5\u20132 ms.",
+        "At 1,200 req/s that is 840\u20131,560 ms of CPU time per second, which is more than one full core. p50 is 8 ms, so the parse is 9\u201316% of p50 before the event loop stall.",
+        "Assume a simple indexed query costs 0.5\u20132 ms, as CODE states. 25 sequential queries cost 25 \u00d7 0.5 ms = 12.5 ms at best and 25 \u00d7 2 ms = 50 ms at worst.",
+        "The gateway therefore loses 17% to 66% of its wall clock to a stall during which every other request queues. p50 is 8 ms, so one 20 ms stall alone is 2.5 times p50."
+      ]
+    },
+    "detail": {
+      "findings": 20,
+      "chars": 48871,
+      "chars_per_finding": 2444,
+      "quantities": 449,
+      "quantities_per_finding": 22.45,
+      "quantity_examples": [
+        "1,200",
+        "300",
+        "500",
+        "200 events",
+        "13",
+        "90 ms",
+        "500",
+        "3,000",
+        "22 ms",
+        "30 ms",
+        "25",
+        "300 times",
+        "25",
+        "0.5"
+      ],
+      "citations": 189,
+      "citations_per_finding": 9.45,
+      "unique_files_cited": 75,
+      "code_refs": 496,
+      "code_refs_per_finding": 24.8,
+      "causal_links": 41,
+      "causal_per_finding": 2.05
+    },
+    "ground_truth": {
+      "planted_total": 31,
+      "planted_found": 27,
+      "recall": 0.871,
+      "findings_reported": 20,
+      "matched": [
+        {
+          "id": "BZ-IO-1",
+          "finding": "[P1] `rate_for` scans a 5,100-row list for each tax lookup",
+          "finding_index": 8,
+          "overlap": 0.42,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-IO-2",
+          "finding": "[P1] `reserve_items` calls the single-item endpoint once for each of the 8 line items",
+          "finding_index": 2,
+          "overlap": 0.73,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-IO-3",
+          "finding": "[P1] `attach_sellers` runs one query for each of the 25 page rows",
+          "finding_index": 0,
+          "overlap": 0.79,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-IO-5",
+          "finding": "[P1] `attach_session` makes a blocking HTTP call inside the async handler",
+          "finding_index": 6,
+          "overlap": 0.85,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-ALGO-1",
+          "finding": "[P1] `rerank` tests membership against a 3,000-element list for each of 500 candidates",
+          "finding_index": 1,
+          "overlap": 0.93,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-WORK-1",
+          "finding": "[P1] `apply_price_update` reads and parses the 500 KB promo snapshot for each event",
+          "finding_index": 4,
+          "overlap": 0.67,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-WORK-3",
+          "finding": "[P2] `money.convert` parses a 2.9 KB JSON rate table on each call",
+          "finding_index": 14,
+          "overlap": 1.0,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-ALGO-3",
+          "finding": "[P1] `rate_for` scans a 5,100-row list for each tax lookup",
+          "finding_index": 8,
+          "overlap": 0.69,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-OBS-1",
+          "finding": "[P1] `fetch_all` serializes every result set to JSON for a debug log that is off",
+          "finding_index": 7,
+          "overlap": 0.71,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-OBS-3",
+          "finding": "[P3] `log_request` serializes the access record for a debug log that is off",
+          "finding_index": 17,
+          "overlap": 0.82,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-WORK-2",
+          "finding": "[P1] `ratelimit.check` opens and parses the 2,000-entry rules file on every request",
+          "finding_index": 5,
+          "overlap": 0.69,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-IO-7",
+          "finding": "[P2] `send_order_event` builds a new HTTP client and connection pool for each delivery",
+          "finding_index": 10,
+          "overlap": 0.55,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-LAYOUT-1",
+          "finding": "[P2] `get_product` uses `SELECT *` and reads the 20 KB description column that the view dr",
+          "finding_index": 12,
+          "overlap": 0.64,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-ALGO-2",
+          "finding": "[P1] `find_affected_skus` scans a 2,000-element list for each of 30 candidate SKUs",
+          "finding_index": 3,
+          "overlap": 0.7,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-OBS-2",
+          "finding": "[P2] `LatencyWindow.record` sorts the whole 2,048-sample window for each event",
+          "finding_index": 11,
+          "overlap": 0.5,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-WORK-4",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "finding_index": 19,
+          "overlap": 0.7,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-ALLOC-3",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "finding_index": 19,
+          "overlap": 0.67,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-ALLOC-4",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "finding_index": 19,
+          "overlap": 0.36,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-WORK-5",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "finding_index": 19,
+          "overlap": 0.5,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-ALGO-4",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "finding_index": 19,
+          "overlap": 0.7,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-WORK-6",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "finding_index": 19,
+          "overlap": 0.42,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-LAYOUT-3",
+          "finding": "[P2] `order_status_view` reads and parses the 25 KB items blob to compute two numbers",
+          "finding_index": 13,
+          "overlap": 0.44,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-LAYOUT-2",
+          "finding": "[P3] `facet_counts` re-derives the field kind for each of 2,000 cells",
+          "finding_index": 15,
+          "overlap": 0.29,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-OBS-4",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "finding_index": 19,
+          "overlap": 0.67,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-IO-8",
+          "finding": "[P2] `dispatch` delivers webhooks one at a time on the order placement path",
+          "finding_index": 9,
+          "overlap": 0.85,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-IO-9",
+          "finding": "[P3] `carts/repo` runs two separate statements for one cart edit",
+          "finding_index": 18,
+          "overlap": 0.83,
+          "line_hit": true
+        },
+        {
+          "id": "BZ-ALGO-5",
+          "finding": "[P3] `facets.summary` sorts every facet value to return the leading 8",
+          "finding_index": 16,
+          "overlap": 0.73,
+          "line_hit": true
+        }
+      ],
+      "missed": [
+        {
+          "id": "BZ-IO-4",
+          "file": "services/pricing/consumer/apply.py",
+          "line": 35,
+          "description": "One transaction and one fsync per consumed price event - the update handler commits per event although the stream delivers batches of 100; executemany plus one commit per batch removes 99% of the fsyncs"
+        },
+        {
+          "id": "BZ-IO-6",
+          "file": "services/checkout/orders/context.py",
+          "line": 21,
+          "description": "load_order_context awaits the buyer, cart, and address reads sequentially although the three queries are independent - asyncio.gather overlaps them"
+        },
+        {
+          "id": "BZ-ALLOC-1",
+          "file": "services/gateway/responses.py",
+          "line": 23,
+          "description": "envelope rebuilds the constant security-header dict from the module _HEADER_PAIRS list on every response instead of hoisting the finished dict"
+        },
+        {
+          "id": "BZ-ALLOC-2",
+          "file": "services/pricing/consumer/decode.py",
+          "line": 19,
+          "description": "to_event builds the routing key with += over four bounded parts per event - a join or f-string does one allocation"
+        }
+      ],
+      "unmatched_findings": [],
+      "trap_location_hits": [
+        {
+          "trap": "semantic_rescore runs an O(candidates x embeddings) similarity double ",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "match_legacy_rows nests a full scan of current rows inside the legacy-",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "publish looks like one Redis send per event",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "bin_weight looks like repeated pure computation per reservation",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "format_money_rows near-duplicates libs/commerce money formatting and b",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        },
+        {
+          "trap": "load_flag_file runs re.compile inside its per-key loop over ~30 flag k",
+          "finding": "[P3] `audit_context` walks the whole call stack for each audit record",
+          "note": "cites trap location \u2014 verify manually whether it is flagged as a bug"
+        }
+      ]
+    },
+    "priority": {
+      "ranked_findings": 20,
+      "matched_count": 21,
+      "orderable_pairs": 140,
+      "pairwise_order_accuracy": 0.95,
+      "top3_mean_expected_tier": 1.0,
+      "impact_label_accuracy": 0.81,
+      "impact_unparsed": 0,
+      "effort_label_accuracy": 0.905,
+      "effort_unparsed": 0,
+      "tier_label_accuracy": 0.81,
+      "tier_unparsed": 0,
+      "strict_precision": 1.0,
+      "fp_traps_total": 10,
+      "fp_trap_hits": 0,
+      "trap_details": [],
+      "label_mismatches": [
+        {
+          "id": "BZ-IO-2",
+          "field": "effort",
+          "expected": "Medium",
+          "reported": "Small"
+        },
+        {
+          "id": "BZ-WORK-1",
+          "field": "effort",
+          "expected": "Medium",
+          "reported": "Small"
+        },
+        {
+          "id": "BZ-ALGO-3",
+          "field": "impact",
+          "expected": "Medium",
+          "reported": "High"
+        },
+        {
+          "id": "BZ-ALGO-3",
+          "field": "tier",
+          "expected": 2,
+          "reported": 1
+        },
+        {
+          "id": "BZ-OBS-1",
+          "field": "impact",
+          "expected": "Medium",
+          "reported": "High"
+        },
+        {
+          "id": "BZ-OBS-1",
+          "field": "tier",
+          "expected": 2,
+          "reported": 1
+        },
+        {
+          "id": "BZ-WORK-2",
+          "field": "impact",
+          "expected": "Medium",
+          "reported": "High"
+        },
+        {
+          "id": "BZ-WORK-2",
+          "field": "tier",
+          "expected": 2,
+          "reported": 1
+        },
+        {
+          "id": "BZ-ALGO-2",
+          "field": "impact",
+          "expected": "Medium",
+          "reported": "High"
+        },
+        {
+          "id": "BZ-ALGO-2",
+          "field": "tier",
+          "expected": 2,
+          "reported": 1
+        }
+      ],
+      "recall_ranked": 0.677,
+      "noted_in_cold_notes": [
+        "BZ-ALLOC-3",
+        "BZ-ALLOC-4",
+        "BZ-WORK-5",
+        "BZ-ALGO-4",
+        "BZ-WORK-6"
+      ],
+      "dismissed_in_not_found": [
+        "BZ-WORK-4"
+      ],
+      "recall_total": 0.871,
+      "missed": [
+        {
+          "id": "BZ-IO-4",
+          "file": "services/pricing/consumer/apply.py",
+          "line": 35,
+          "description": "One transaction and one fsync per consumed price event - the update handler commits per event although the stream delivers batches of 100; executemany plus one commit per batch removes 99% of the fsyncs"
+        },
+        {
+          "id": "BZ-IO-6",
+          "file": "services/checkout/orders/context.py",
+          "line": 21,
+          "description": "load_order_context awaits the buyer, cart, and address reads sequentially although the three queries are independent - asyncio.gather overlaps them"
+        },
+        {
+          "id": "BZ-ALLOC-1",
+          "file": "services/gateway/responses.py",
+          "line": 23,
+          "description": "envelope rebuilds the constant security-header dict from the module _HEADER_PAIRS list on every response instead of hoisting the finished dict"
+        },
+        {
+          "id": "BZ-ALLOC-2",
+          "file": "services/pricing/consumer/decode.py",
+          "line": 19,
+          "description": "to_event builds the routing key with += over four bounded parts per event - a join or f-string does one allocation"
+        }
+      ]
+    },
+    "coverage": {
+      "subsystems_bearing": [
+        "libs/commerce",
+        "libs/dbkit",
+        "services/catalog",
+        "services/checkout",
+        "services/gateway",
+        "services/pricing",
+        "services/settlement"
+      ],
+      "subsystems_covered": [
+        "libs/commerce",
+        "libs/dbkit",
+        "services/catalog",
+        "services/checkout",
+        "services/gateway",
+        "services/pricing",
+        "services/settlement"
+      ],
+      "subsystem_coverage": 1.0,
+      "restraint_violations": [],
+      "restraint_violation_count": 0,
+      "cross_subsystem_total": 4,
+      "cross_subsystem_found": 4,
+      "cross_subsystem_recall": 1.0,
+      "caller_cited": [
+        {
+          "id": "BZ-WORK-3",
+          "callers_named": [
+            "pricing",
+            "checkout"
+          ]
+        },
+        {
+          "id": "BZ-ALGO-3",
+          "callers_named": [
+            "pricing",
+            "checkout",
+            "catalog"
+          ]
+        },
+        {
+          "id": "BZ-OBS-1",
+          "callers_named": [
+            "pricing",
+            "catalog",
+            "gateway",
+            "settlement"
+          ]
+        }
+      ],
+      "caller_cited_count": 3,
+      "p4_total": 0,
+      "p4_matched": 0,
+      "p4_labeled_p4": 0
+    }
+  }
+}

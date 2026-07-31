@@ -1,0 +1,15 @@
+{
+  "run_id": "perf-bazaar-adjudicate",
+  "wall_seconds": 650,
+  "duration_api_ms": 646995,
+  "num_turns": 55,
+  "cost_usd": 4.1928835,
+  "input_tokens": 52,
+  "output_tokens": 51087,
+  "cache_read_input_tokens": 2638277,
+  "cache_creation_input_tokens": 159631,
+  "total_tokens": 2849047,
+  "is_error": false,
+  "permission_denials": 6,
+  "exit_status": 0
+}
