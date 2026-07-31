@@ -280,7 +280,7 @@
     },
     {
       "id": 6,
-      "skill_commit": "4bc5785 (v2; v1 at 4b13b10)",
+      "skill_commit": "adff035 (v3; v2 4bc5785, v1 4b13b10)",
       "baseline_commit": null,
       "timestamp": "2026-07-31T00:00:00Z",
       "targets": [
@@ -288,28 +288,41 @@
         "test-repo/eventbus"
       ],
       "has_ground_truth": true,
-      "changes": "New skill perform-like-jeff-dean: performance audit distilled from Abseil's Performance Hints. Hot/cold classification before flagging, back-of-envelope Estimate field anchored in the latency-numbers table, 6-category taxonomy, and a P1-P4 priority matrix (impact x effort) so quick wins rank first; cold-code inefficiencies become one-line notes. New eval assets: test-repo/perfburn (18 planted issues, 6 FP traps, no in-source BUG annotations) and priority_score.py (pairwise order accuracy, label accuracy, section-aware recall, trap hits on unmatched findings only). 10 ground-truth labels corrected after arithmetic review, recorded in the corrections array. v2 (one ralph-wiggum cycle later): sweep cold files with the same patterns (hits become Cold-Code Notes) and record every dismissed candidate in Not Found with the dismissing number.",
+      "changes": "New skill perform-like-jeff-dean: performance audit distilled from Abseil's Performance Hints. Hot/cold classification before flagging, back-of-envelope Estimate field anchored in the latency-numbers table, 6-category taxonomy, and a P1-P4 priority matrix (impact x effort) so quick wins rank first; cold-code inefficiencies become one-line notes. New eval assets: test-repo/perfburn (18 planted issues, 6 FP traps, no in-source BUG annotations) and priority_score.py (pairwise order accuracy, label accuracy, section-aware recall, trap hits on unmatched findings only). 10 ground-truth labels corrected after arithmetic review, recorded in the corrections array. v2 (one ralph-wiggum cycle later): sweep cold files with the same patterns (hits become Cold-Code Notes) and record every dismissed candidate in Not Found with the dismissing number. v3: fan out read-only exploration subagents on large repositories (split by subsystem, candidates not findings, central verification); inert on small repos by design.",
       "arms": {
         "base": "stub-perf.md, a 2-line prompt with no skill body",
         "v1": "the skill as committed (4b13b10)",
-        "v2": "v1 + cold-file pattern sweep + record dismissals in Not Found (4bc5785)"
+        "v2": "v1 + cold-file pattern sweep + record dismissals in Not Found (4bc5785)",
+        "v3": "v2 + parallel-exploration-subagents section for large repos, agent: Plan removed so the skill runs inline where Task/Agent exist (adff035); two perfburn samples v3/v3-b"
       },
       "metrics": {
         "perfburn": {
           "recall_total": {
             "base": 0.0,
             "v1": 0.944,
-            "v2": 1.0
+            "v2": 1.0,
+            "v3_samples": [
+              1.0,
+              0.944
+            ]
           },
           "recall_ranked": {
             "base": 0.0,
             "v1": 0.778,
-            "v2": 0.833
+            "v2": 0.833,
+            "v3_samples": [
+              0.778,
+              0.889
+            ]
           },
           "pairwise_order_accuracy": {
             "base": null,
             "v1": 0.95,
-            "v2": 0.931
+            "v2": 0.931,
+            "v3_samples": [
+              0.783,
+              0.893
+            ]
           },
           "top3_mean_expected_tier": {
             "base": null,
@@ -319,32 +332,56 @@
           "impact_label_accuracy": {
             "base": null,
             "v1": 0.929,
-            "v2": 0.933
+            "v2": 0.933,
+            "v3_samples": [
+              0.714,
+              0.812
+            ]
           },
           "effort_label_accuracy": {
             "base": null,
             "v1": 0.929,
-            "v2": 0.933
+            "v2": 0.933,
+            "v3_samples": [
+              0.857,
+              0.875
+            ]
           },
           "tier_label_accuracy": {
             "base": null,
             "v1": 0.929,
-            "v2": 0.933
+            "v2": 0.933,
+            "v3_samples": [
+              0.714,
+              0.812
+            ]
           },
           "strict_precision": {
             "base": null,
             "v1": 0.923,
-            "v2": 0.929
+            "v2": 0.929,
+            "v3_samples": [
+              0.867,
+              1.0
+            ]
           },
           "fp_trap_hits": {
             "base": 0,
             "v1": 0,
-            "v2": 0
+            "v2": 0,
+            "v3_samples": [
+              1,
+              0
+            ]
           },
           "template_pass_rate": {
             "base": 0.0,
             "v1": 1.0,
-            "v2": 1.0
+            "v2": 1.0,
+            "v3_samples": [
+              1.0,
+              1.0
+            ]
           },
           "over_25_rate": {
             "base": 0.212,
@@ -359,7 +396,11 @@
           "citations_per_finding": {
             "base": 2.17,
             "v1": 9.23,
-            "v2": 6.07
+            "v2": 6.07,
+            "v3_samples": [
+              7.67,
+              10.21
+            ]
           },
           "quantities_per_finding": {
             "base": 4.17,
@@ -369,7 +410,11 @@
           "output_tokens": {
             "base": 22301,
             "v1": 41406,
-            "v2": 36290
+            "v2": 36290,
+            "v3_samples": [
+              39664,
+              34311
+            ]
           },
           "wall_seconds": {
             "base": 292,
@@ -381,12 +426,14 @@
           "recall": {
             "base": 0.0,
             "v1": 1.0,
-            "v2": 1.0
+            "v2": 1.0,
+            "v3": 1.0
           },
           "template_pass_rate": {
             "base": 0.0,
             "v1": 1.0,
-            "v2": 1.0
+            "v2": 1.0,
+            "v3": 1.0
           },
           "citations_per_finding": {
             "v1": 5.47,
@@ -394,9 +441,9 @@
           }
         }
       },
-      "notes": "The stub baseline found issues but produced no parseable template, so its structure and priority metrics are zero/absent by construction. The v1 report's estimates exposed 10 miscalibrated ground-truth labels (e.g. re.compile is cached by CPython; SELECT * over a 432M-row day is High, not Medium; the 'startup-only' index build actually runs per CLI query invocation and has no reader). All 6 FP traps handled correctly: cold inefficiencies went to Cold-Code Notes, the lru_cache and batched-flush traps were explicitly dismissed or praised. v2 verdict: recall_total 1.0 (PB-ALGO-3 caught), precision and STE up, cost down 16%. citations_per_finding dropped 34% on perfburn but rose 42% on eventbus under the same skill text; inspection showed de-duplication of repeated chain/README citations with unique files cited unchanged - judged variance plus compression of redundancy, not information loss. All stop-rule targets met at v2; loop stopped per rule (a).",
+      "notes": "The stub baseline found issues but produced no parseable template, so its structure and priority metrics are zero/absent by construction. The v1 report's estimates exposed 10 miscalibrated ground-truth labels (e.g. re.compile is cached by CPython; SELECT * over a 432M-row day is High, not Medium; the 'startup-only' index build actually runs per CLI query invocation and has no reader). All 6 FP traps handled correctly: cold inefficiencies went to Cold-Code Notes, the lru_cache and batched-flush traps were explicitly dismissed or praised. v2 verdict: recall_total 1.0 (PB-ALGO-3 caught), precision and STE up, cost down 16%. citations_per_finding dropped 34% on perfburn but rose 42% on eventbus under the same skill text; inspection showed de-duplication of repeated chain/README citations with unique files cited unchanged - judged variance plus compression of redundancy, not information loss. All stop-rule targets met at v2; loop stopped per rule (a). v3 verdict: the fan-out text is inert on the small targets (the model never attempted subagents; denial patterns identical to v2), so the two-sample run checked prompt dilution only. v3 sample regressed on ordering/labels, the v3-b duplicate swung back above every gate (precision 1.0, traps 0, citations 10.21) - judged run variance, committed. Ordering spread across all versions is 0.78-0.95; treating single-sample ordering deltas as signal is a mistake this eval should stop making (raise samples or plant wider tier gaps). The fan-out behavior itself needs the planned large target (test-repo/bazaar).",
       "caveats": "Single sample per arm (<10% deltas are noise). The only true miss is PB-ALGO-3 (sorted() for top-10 in the daily reportgen). Label-accuracy denominators are matched ranked findings only.",
-      "verdict": "committed (v1 4b13b10, v2 4bc5785)"
+      "verdict": "committed (v1 4b13b10, v2 4bc5785, v3 adff035)"
     }
   ]
 }
