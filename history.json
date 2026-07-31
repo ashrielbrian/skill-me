@@ -444,6 +444,100 @@
       "notes": "The stub baseline found issues but produced no parseable template, so its structure and priority metrics are zero/absent by construction. The v1 report's estimates exposed 10 miscalibrated ground-truth labels (e.g. re.compile is cached by CPython; SELECT * over a 432M-row day is High, not Medium; the 'startup-only' index build actually runs per CLI query invocation and has no reader). All 6 FP traps handled correctly: cold inefficiencies went to Cold-Code Notes, the lru_cache and batched-flush traps were explicitly dismissed or praised. v2 verdict: recall_total 1.0 (PB-ALGO-3 caught), precision and STE up, cost down 16%. citations_per_finding dropped 34% on perfburn but rose 42% on eventbus under the same skill text; inspection showed de-duplication of repeated chain/README citations with unique files cited unchanged - judged variance plus compression of redundancy, not information loss. All stop-rule targets met at v2; loop stopped per rule (a). v3 verdict: the fan-out text is inert on the small targets (the model never attempted subagents; denial patterns identical to v2), so the two-sample run checked prompt dilution only. v3 sample regressed on ordering/labels, the v3-b duplicate swung back above every gate (precision 1.0, traps 0, citations 10.21) - judged run variance, committed. Ordering spread across all versions is 0.78-0.95; treating single-sample ordering deltas as signal is a mistake this eval should stop making (raise samples or plant wider tier gaps). The fan-out behavior itself needs the planned large target (test-repo/bazaar).",
       "caveats": "Single sample per arm (<10% deltas are noise). The only true miss is PB-ALGO-3 (sorted() for top-10 in the daily reportgen). Label-accuracy denominators are matched ranked findings only.",
       "verdict": "committed (v1 4b13b10, v2 4bc5785, v3 adff035)"
+    },
+    {
+      "id": 7,
+      "skill_commit": "adff035 (unchanged - test-surface iteration)",
+      "baseline_commit": "adff035",
+      "timestamp": "2026-08-01T00:00:00Z",
+      "targets": [
+        "test-repo/bazaar",
+        "test-repo/perfburn (guard)"
+      ],
+      "has_ground_truth": true,
+      "changes": "New test surface, no skill change: test-repo/bazaar, a 250-file / 11.3k-LOC async marketplace monorepo authored by 7 parallel writer agents (31 planted issues after adjudication, 10 traps, 8 clean items, 4 cross-subsystem issues, 3 client-server N+1s, 2 zero-plant restraint subsystems, no in-source annotations). Iteration-7 harness adds a disallowed-tools override to run_skill.sh, batch-bazaar.sh (solo/fanout/guard), and coverage_score.py (subsystem coverage, restraint, cross-subsystem synthesis, P4 discipline).",
+      "arms": {
+        "adjudicate": "fanout tools vs draft GT (in-sample after corrections)",
+        "solo": "no subagents",
+        "fanout": "Task/Agent allowed",
+        "v3-g": "perfburn guard"
+      },
+      "metrics": {
+        "bazaar_differential": {
+          "recall_total": {
+            "solo": 0.968,
+            "fanout": 0.935
+          },
+          "strict_precision": {
+            "solo": 0.885,
+            "fanout": 1.0
+          },
+          "pairwise_order_accuracy": {
+            "solo": 0.862,
+            "fanout": 0.884
+          },
+          "subsystem_coverage": {
+            "solo": 1.0,
+            "fanout": 1.0
+          },
+          "cross_subsystem_recall": {
+            "solo": 1.0,
+            "fanout": 1.0
+          },
+          "caller_cited": {
+            "solo": 3,
+            "fanout": 4
+          },
+          "fp_trap_hits": {
+            "solo": 0,
+            "fanout": 0
+          },
+          "restraint_violations": {
+            "solo": 0,
+            "fanout": 0
+          },
+          "template_pass_rate": {
+            "solo": 1.0,
+            "fanout": 1.0
+          },
+          "impact_label_accuracy": {
+            "solo": 0.56,
+            "fanout": 0.625
+          },
+          "wall_seconds": {
+            "solo": 1143,
+            "fanout": 853
+          },
+          "total_tokens": {
+            "solo": 15333890,
+            "fanout": 3282953
+          },
+          "cost_usd": {
+            "solo": 11.18,
+            "fanout": 4.89
+          }
+        },
+        "bazaar_adjudicate": {
+          "recall_total": 0.871,
+          "strict_precision": 1.0,
+          "pairwise_order_accuracy": 0.95,
+          "subsystem_coverage": 1.0,
+          "cross_subsystem_recall": 1.0,
+          "fp_trap_hits": 0,
+          "wall_seconds": 650,
+          "cost_usd": 4.19
+        },
+        "perfburn_guard": {
+          "recall_total": 0.944,
+          "pairwise_order_accuracy": 0.903,
+          "strict_precision": 0.812,
+          "fp_trap_hits": 1,
+          "template_pass_rate": 1.0
+        }
+      },
+      "notes": "The differential answers the iteration-6 open question: on a repo above the skill's fan-out threshold, parallel exploration subagents match or beat the solo sweep on every quality gate (precision 1.0 vs 0.885, ordering 0.884 vs 0.862, coverage and cross-subsystem synthesis perfect in both) at 43% of the cost, 22% of the tokens, and 75% of the wall time - the solo arm burned 15.3M tokens dragging the whole repo through one context. Adjudication against the draft GT produced 8 corrections: 3 organic writer-agent defects adopted as planted issues (serial webhook dispatch P2 among them), all 3 designed P4s demoted because the written code offered Small fixes, one matcher-blur false match fixed by rewording. The guard run stayed within iteration-6 bands.",
+      "caveats": "Single sample per arm. The adjudicate arm is in-sample by construction. p4 metrics are vacuous until a true P4 plant survives adjudication. Solo's 3 unmatched P3-grade extras await review.",
+      "verdict": "committed (test surface 9325dde; skill unchanged at adff035)"
     }
   ]
 }

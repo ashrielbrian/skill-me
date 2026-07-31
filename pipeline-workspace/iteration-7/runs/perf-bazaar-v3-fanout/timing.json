@@ -1,0 +1,15 @@
+{
+  "run_id": "perf-bazaar-v3-fanout",
+  "wall_seconds": 853,
+  "duration_api_ms": 849742,
+  "num_turns": 157,
+  "cost_usd": 4.8945735,
+  "input_tokens": 48,
+  "output_tokens": 70104,
+  "cache_read_input_tokens": 3051187,
+  "cache_creation_input_tokens": 161614,
+  "total_tokens": 3282953,
+  "is_error": false,
+  "permission_denials": 6,
+  "exit_status": 0
+}
