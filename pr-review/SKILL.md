@@ -1,6 +1,6 @@
 ---
 name: pr-review
-description: Independently reviews a GitHub pull request from first principles — reads the diff and PR description, deliberately ignores other reviewers' comments to avoid anchoring, and produces a severity-ranked report covering architectural fit, API design, correctness, security, performance, testing, observability, and maintainability. Optionally creates a temporary git worktree for deeper inspection. Use when the user says things like "review this PR", "give me an independent review of PR #123", "code review this PR", or passes a PR URL/number for a fresh look.
+description: Independently reviews a GitHub pull request from first principles — reads the diff and PR description, deliberately ignores other reviewers' comments to avoid anchoring, and produces a severity-ranked report covering architectural fit, simplicity and proportionality (code bloat, speculative generality, duplication), API design, correctness, security, performance, testing, observability, and maintainability. Optionally creates a temporary git worktree for deeper inspection. Use when the user says things like "review this PR", "give me an independent review of PR #123", "code review this PR", "is this PR over-engineered", or passes a PR URL/number for a fresh look.
 agent: Plan
 allowed-tools: Bash, Read, Grep
 ---
@@ -15,6 +15,7 @@ Two principles drive everything below:
 2. **Design before implementation.** A correct implementation of the wrong design is often worse than a buggy implementation of the right design, because design mistakes calcify. Walk the taxonomy top-down — architecture and API design come *before* line-level correctness, performance, and style.
 
 The GitHub CLI (`gh`) is installed and authenticated. Use it to fetch PR data; use Read and Grep to investigate the code.
+
 
 ## Input
 
@@ -49,6 +50,7 @@ Before judging the change, build the context to judge it from.
 3. **Map the change shape.** From `files`, `additions`, `deletions`: is this one tight change in one file, or cross-cutting? New feature, refactor, bugfix, dependency bump, infra change? The shape changes which categories matter most.
 4. **Read the surrounding code, not just the diff hunks.** For every changed file, Read the full file (or at least the surrounding function, class, and immediate callers). The diff hides invariants, callers, types, and — crucially — the patterns the codebase already uses for this kind of work. **This is the single most important step for architectural-fit findings.** Skipping it is how reviewers miss design issues and over-focus on line-level nits.
 5. **Find the precedents.** Before judging any non-trivial new code, Grep for sibling/analogous code already in the repo: other route handlers, other migrations, other components of the same kind, other places the same problem has been solved. Note 1-2 concrete file:line references for each pattern you find — you will cite these in any architectural-fit finding.
+6. **State the problem, then sketch the minimal solution.** In 1-2 sentences, state the underlying problem the PR solves — the user-visible need or defect, not the mechanism ("uploads over 5 MB fail silently", not "adds a ChunkedUploadManager"). Then, working only from that problem statement and the precedents from step 5 — not from the diff — sketch the smallest plausible change: which existing files would change, which existing helpers would be reused, roughly what footprint. Self-check: if your sketch names the new files or classes the PR adds, you are describing the diff, not deriving a solution — rebuild it from the precedent files. Compare footprints: a close match is fast positive signal that the change is proportionate. A large gap is not automatically a finding — the author may know constraints you don't — but it shifts the burden of proof: every layer, file, or abstraction beyond your sketch must earn its place in Phase 4 under Simplicity & economy.
 
 Spend real time here. The orientation determines whether you can see design issues at all.
 
@@ -95,8 +97,18 @@ The change is correct in isolation; the question is whether it belongs *here*, *
 - **Pattern match.** Does the change look like other implementations of similar features in this codebase? Compare structure, naming, layering, error-handling style, dependency direction. **For every architectural-fit finding, cite a concrete sibling with file:line so the author can see the pattern the change diverges from.** "This doesn't match the codebase's style" without a precedent is opinion, not a finding.
 - **Right layer.** Business logic leaking into a controller; DB access in a view; cross-cutting concerns duplicated inline rather than extracted; a feature that should be a middleware implemented as a helper called from twelve places.
 - **Reused utilities.** Did the author build a helper, parser, error type, or constant that already exists somewhere in the repo? Grep before judging the new code on its own merit. Duplicated logic that will drift is an architectural finding, not a maintainability nit.
-- **Right time to abstract.** Premature generalization (a flexible framework for a one-shot need) and missed abstraction (the third copy of the same five lines) are both findings.
 - **Module boundaries / coupling.** Does the change create a new dependency edge that crosses a boundary the rest of the codebase respects (e.g. `api` importing from `internal`, a model reaching into a sibling domain)?
+
+### Simplicity & economy
+The change may be correct and well-placed and still be too much code. Judge it against the minimal sketch from orientation: everything beyond the sketch must answer "what breaks if this is deleted?" — and "nothing today" is a finding.
+
+- **Disproportionate solution.** The diff's footprint far exceeds the minimal sketch — new layers, files, or abstractions where editing an existing function would do. In the finding, name the smaller shape the change could have taken.
+- **Speculative generality.** Parameters, options, or config keys that take exactly one value at every call site; interfaces or base classes with one implementation; registries, factories, or plugin points with one registrant; backwards-compat shims for code with no external consumers. If an unstated future requirement justifies the machinery, that justification belongs in the PR description — absent it, flag the machinery.
+- **Needless indirection.** Single-use wrappers that add a name but no abstraction: a function that forwards its arguments to another, a class wrapping one function, a one-off dataclass or enum where a literal would do. Test by inlining: if the call site gets no worse, the wrapper is a finding.
+- **Duplication within the PR.** Near-identical blocks copy-paste-modified inside the diff instead of parameterized. (Duplication against code that already exists in the repo is Architectural fit → Reused utilities; this is the PR duplicating itself.)
+- **AI-slop tells.** The signatures of unedited machine-generated code: comments that restate the line below them; banner or section-divider comments; docstrings that paraphrase a trivial signature; try/except or null-guards around code that cannot fail (a guard that hides a real error is Error handling — this is the guard with nothing to hide); the same validation repeated at every layer; log lines narrating control flow; emoji in log or output strings; unreachable "just in case" branches; unused imports, parameters, or functions introduced — or orphaned — by the diff; commented-out blocks. Batch repeated instances of the same tell into one finding with representative locations.
+
+Calibrate: a single narrating comment is Low; the same tells across the whole PR, or speculative machinery that downstream code will start depending on, rates Medium-High under the one-year regret test.
 
 ### API & interface design
 Anything that becomes a contract: exported functions, types, route shapes, CLI flags, event payloads, public config.
@@ -145,7 +157,7 @@ Anything that becomes a contract: exported functions, types, route shapes, CLI f
 - Hardcoded sleeps where adaptive backoff would be more appropriate.
 
 ### Testing
-- Does the PR add tests for the new behavior? Are they meaningful — do they assert behavior, or just that no exception was raised?
+- Does the PR add tests for the new behavior? Are they meaningful — do they assert behavior, or just that no exception was raised? A test that mocks every collaborator and asserts only that the mocks were called verifies nothing.
 - Are edge cases covered (empty input, boundary values, failure paths)? Are test names descriptive?
 - For bug fixes: is there a regression test that would have failed without the fix?
 - For new public APIs: is there at least one test exercising the contract?
@@ -156,11 +168,9 @@ Anything that becomes a contract: exported functions, types, route shapes, CLI f
 - Sufficient context in error messages and logs to diagnose failures in production.
 
 ### Maintainability
-- Dead code: unused functions, unreachable branches, commented-out blocks left behind by the change.
 - Circular dependencies introduced by the change.
 - God objects/functions (a single unit doing far too many things).
 - Missing or misleading documentation on new public APIs.
-- Duplicated business logic that could drift out of sync.
 - Implicit, undocumented behavior or configuration.
 
 ### Scope & PR hygiene
@@ -193,20 +203,23 @@ These belong in their own finding category — they're how a PR ships the wrong 
 ## What the author says it does
 [1-2 sentences paraphrased from the PR body — or "(no description provided)" if the body is empty]
 
+## The underlying problem
+[1-2 sentences: the user-visible need or defect this PR exists to solve — from orientation step 6. Plus one sentence comparing the diff's footprint to your minimal sketch: proportionate, or carrying machinery beyond the minimal shape (details under Simplicity & economy findings).]
+
 ## Summary
 [2-3 sentences: overall assessment, does the implementation match the intent, what is the single most important finding. If nothing significant was found, say so directly.]
 
 ## Findings
 
 ### [SEVERITY] Finding title
-- **Category**: Architectural fit | API & interface design | Best practices & idioms | Correctness | Security | Error handling | Performance | Testing | Observability | Maintainability | Scope & PR hygiene | Intent vs implementation
+- **Category**: Architectural fit | Simplicity & economy | API & interface design | Best practices & idioms | Correctness | Security | Error handling | Performance | Testing | Observability | Maintainability | Scope & PR hygiene | Intent vs implementation
 - **Location**: path:line (head <short-sha>)   *(or "PR-wide" for cross-cutting design findings)*
 - **Problem**: [What is wrong and what concrete harm it causes or could cause]
 - **Evidence**: [The specific code pattern or snippet. For architectural-fit findings, cite the sibling/analogous code with file:line so the author can see the pattern the change diverges from.]
 - **Suggested fix**: [Brief description of the approach]
 - **Effort**: Small (< 1 hour) | Medium (hours) | Large (days) | Architectural (significant redesign)
 
-[Order: highest severity first. Within the same severity, design findings (Architectural fit, API design, Scope) before implementation findings.]
+[Order: highest severity first. Within the same severity, design findings (Architectural fit, Simplicity & economy, API design, Scope) before implementation findings.]
 
 ## Issues Not Found
 [Briefly note which categories had no significant findings — useful signal, not filler]
@@ -233,6 +246,7 @@ Two calibration tests:
 
 - **Do not fetch existing reviews or review comments.** The `gh` flags listed in Phase 1 are the complete allowed set. Independence is the whole point of this skill.
 - **Design before implementation.** Walk the taxonomy in the order written. Don't bury an architectural finding under twenty line-level nits.
+- **Review the problem, not just the diff.** The diff is one candidate solution to an underlying problem. Your minimal sketch from orientation is the baseline it must justify itself against — machinery beyond the baseline is judged by "what breaks if this is deleted?", not by guessing the author's intent. "Nothing today" is a finding, not an Open Question.
 - **Every architectural-fit finding needs a concrete precedent.** Before claiming a change doesn't fit the codebase's patterns, Grep for at least one sibling/analogous implementation and cite it with `file:line`. Pattern-fit claims without a cited sibling are opinion.
 - **Look for the utility the author missed.** When the PR introduces a helper, parser, error type, or constant, search the repo for an existing equivalent before reviewing the new code in isolation. Duplicated logic that will drift is a real finding.
 - **Read the diff first, then the description.** Writing "What this PR does (from the diff)" before "What the author says it does" is the anti-anchor step against the author's framing — the same mechanism, in reverse, that keeps you independent from other reviewers.
@@ -242,7 +256,7 @@ Two calibration tests:
 - **Calibrate severity to blast radius.** A wrong design choice that downstream code will depend on is High/Critical even if no bug is visible today. A correctness bug in a rarely-hit branch may be Medium.
 - **Be specific, not exhaustive.** Five well-evidenced findings are worth more than twenty vague ones. Every finding has a file path and line number (or "PR-wide" for cross-cutting design findings, with the sibling citations doing the locating).
 - **Assume competent authors.** If something looks wrong but might be intentional, give benefit of the doubt and surface the ambiguity in Open Questions rather than firing a finding.
-- **No style nits.** Naming, formatting, and aesthetic preferences are not findings unless they hurt clarity or break a clearly established codebase convention.
+- **No style nits.** Naming, formatting, and aesthetic preferences are not findings unless they hurt clarity or break a clearly established codebase convention. This does not shield noise: comments that restate the code, single-use indirection, and "just in case" guards are Simplicity & economy findings, not style — whether deletion loses anything is the test.
 - **Worktree is opt-in, not default.** Only escalate when Phase 3's criteria are met. If you create one, you remove it before finishing.
 - **Don't apply edits or post comments on the PR.** This skill produces a report and stops. The user decides what to do with it.
 
