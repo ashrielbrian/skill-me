@@ -1,0 +1,31 @@
+{
+  "iteration": 6,
+  "timestamp": "2026-07-31T00:00:00Z",
+  "skill_under_test": "perform-like-jeff-dean",
+  "current_skill_commit": "4bc5785",
+  "baseline_skill_commit": null,
+  "baseline_note": "The skill is new; arm 'base' is stub-perf.md, a 2-line prompt with no skill body. It measures the value the full skill adds over the bare model. From v2 onward the baseline is the last committed skill version.",
+  "targets": [
+    "test-repo/perfburn",
+    "test-repo/eventbus"
+  ],
+  "has_ground_truth": true,
+  "ground_truth_files": {
+    "perfburn": "ground_truth_perfburn.json",
+    "eventbus": "../iteration-4/ground_truth_eventbus.json (Performance slice: 4 issues + traps)"
+  },
+  "arms": {
+    "base": "stub-perf.md - minimal prompt, no skill body",
+    "v1": "perform-like-jeff-dean/SKILL.md as first committed (4b13b10)",
+    "v2": "v1 + cold-file pattern sweep + record dismissals in Not Found (4bc5785)"
+  },
+  "skill_changes_summary": "New skill: Abseil Performance Hints distilled into hot/cold discipline, latency-table estimates, 6-category taxonomy, and a P1-P4 impact-vs-effort priority matrix. New scorer priority_score.py measures the ordering promise directly.",
+  "known_limitations": [
+    "One sample per arm: run-to-run deltas under ~10% are noise; borderline commit decisions get a duplicate -b run.",
+    "perfburn carries no in-source BUG annotations, so recall is a real signal there; eventbus still carries them, so its recall saturates and is a sanity check only.",
+    "strict_precision treats the perfburn ground truth as exhaustive; a real unplanted find must be recorded in the corrections array, not counted against precision.",
+    "10 ground-truth labels were corrected in this iteration after arithmetic review (see corrections array); the original labels were gut-calibrated and the v1 report's estimates exposed them. Residual circularity risk is bounded by requiring an arithmetic justification independent of the model's claim for every correction.",
+    "After the corrections no planted issue derives to P4; planting a true P4 (and a client-server DB variant where N+1 really costs a network round trip) is future test-surface work.",
+    "gt_score keyword matching is loose by design; iteration-6 tightened it with a perfburn-specific line_window of 6 and a domain-generic STOP-word extension, but matches are still reviewed via benchmark.json's matched/unmatched lists."
+  ]
+}

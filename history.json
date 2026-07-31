@@ -277,6 +277,126 @@
       "notes": "STE conformance improved on every skill with no structural regression: template_pass_rate stayed 1.0 in all arms, recall stayed 1.0, and address-pr-comments kept 100% verdict accuracy with both false-positive traps caught. The one real regression in v1 was information loss \u2014 citations per finding roughly halved on spring_clean (4.28 -> 1.94) and rebug (4.7 -> 1.87), because a sentence-length budget invites dropping the subordinate clause that carried a quantity or an extra location. v2 fixes it: citations recover to 3.42 and quantities rise above baseline (1.78 -> 4.05), while conformance holds or improves. Side benefit: the 'keep the section titles and field names exactly as they are' rule hardened template fidelity \u2014 the base arm drifted to [CRITICAL] casing and numbered '### Issue 3:' headings, the STE arms did not. Two eval-asset defects found and recorded in iteration-4/ground_truth_eventbus.json corrections: MemoryStorage is mislabelled clean, and the RetryMiddleware clean label needs to name with_retry() rather than the class.",
       "caveats": "One sample per arm, so differences under roughly 10 percent are inside run-to-run variance. Recall saturates at 1.0 because test-repo sources carry greppable '# BUG [CATEGORY]:' annotations, so recall cannot detect a small loss of discovery \u2014 a blind copy is the next harness fix. pr-review is confounded: its base arm came from c1019cd, which predates both the STE section and the uncommitted 'Simplicity & economy' taxonomy, so its base-vs-ste delta mixes two changes. That work is committed separately, immediately before this iteration, so the next pr-review measurement has a clean baseline.",
       "verdict": "committed"
+    },
+    {
+      "id": 6,
+      "skill_commit": "4bc5785 (v2; v1 at 4b13b10)",
+      "baseline_commit": null,
+      "timestamp": "2026-07-31T00:00:00Z",
+      "targets": [
+        "test-repo/perfburn",
+        "test-repo/eventbus"
+      ],
+      "has_ground_truth": true,
+      "changes": "New skill perform-like-jeff-dean: performance audit distilled from Abseil's Performance Hints. Hot/cold classification before flagging, back-of-envelope Estimate field anchored in the latency-numbers table, 6-category taxonomy, and a P1-P4 priority matrix (impact x effort) so quick wins rank first; cold-code inefficiencies become one-line notes. New eval assets: test-repo/perfburn (18 planted issues, 6 FP traps, no in-source BUG annotations) and priority_score.py (pairwise order accuracy, label accuracy, section-aware recall, trap hits on unmatched findings only). 10 ground-truth labels corrected after arithmetic review, recorded in the corrections array. v2 (one ralph-wiggum cycle later): sweep cold files with the same patterns (hits become Cold-Code Notes) and record every dismissed candidate in Not Found with the dismissing number.",
+      "arms": {
+        "base": "stub-perf.md, a 2-line prompt with no skill body",
+        "v1": "the skill as committed (4b13b10)",
+        "v2": "v1 + cold-file pattern sweep + record dismissals in Not Found (4bc5785)"
+      },
+      "metrics": {
+        "perfburn": {
+          "recall_total": {
+            "base": 0.0,
+            "v1": 0.944,
+            "v2": 1.0
+          },
+          "recall_ranked": {
+            "base": 0.0,
+            "v1": 0.778,
+            "v2": 0.833
+          },
+          "pairwise_order_accuracy": {
+            "base": null,
+            "v1": 0.95,
+            "v2": 0.931
+          },
+          "top3_mean_expected_tier": {
+            "base": null,
+            "v1": 1.0,
+            "v2": 1.33
+          },
+          "impact_label_accuracy": {
+            "base": null,
+            "v1": 0.929,
+            "v2": 0.933
+          },
+          "effort_label_accuracy": {
+            "base": null,
+            "v1": 0.929,
+            "v2": 0.933
+          },
+          "tier_label_accuracy": {
+            "base": null,
+            "v1": 0.929,
+            "v2": 0.933
+          },
+          "strict_precision": {
+            "base": null,
+            "v1": 0.923,
+            "v2": 0.929
+          },
+          "fp_trap_hits": {
+            "base": 0,
+            "v1": 0,
+            "v2": 0
+          },
+          "template_pass_rate": {
+            "base": 0.0,
+            "v1": 1.0,
+            "v2": 1.0
+          },
+          "over_25_rate": {
+            "base": 0.212,
+            "v1": 0.074,
+            "v2": 0.04
+          },
+          "passive_per_100_sentences": {
+            "base": 11.1,
+            "v1": 0.3,
+            "v2": 0.3
+          },
+          "citations_per_finding": {
+            "base": 2.17,
+            "v1": 9.23,
+            "v2": 6.07
+          },
+          "quantities_per_finding": {
+            "base": 4.17,
+            "v1": 16.69,
+            "v2": 18.36
+          },
+          "output_tokens": {
+            "base": 22301,
+            "v1": 41406,
+            "v2": 36290
+          },
+          "wall_seconds": {
+            "base": 292,
+            "v1": 529,
+            "v2": 457
+          }
+        },
+        "eventbus_perf_slice": {
+          "recall": {
+            "base": 0.0,
+            "v1": 1.0,
+            "v2": 1.0
+          },
+          "template_pass_rate": {
+            "base": 0.0,
+            "v1": 1.0,
+            "v2": 1.0
+          },
+          "citations_per_finding": {
+            "v1": 5.47,
+            "v2": 7.75
+          }
+        }
+      },
+      "notes": "The stub baseline found issues but produced no parseable template, so its structure and priority metrics are zero/absent by construction. The v1 report's estimates exposed 10 miscalibrated ground-truth labels (e.g. re.compile is cached by CPython; SELECT * over a 432M-row day is High, not Medium; the 'startup-only' index build actually runs per CLI query invocation and has no reader). All 6 FP traps handled correctly: cold inefficiencies went to Cold-Code Notes, the lru_cache and batched-flush traps were explicitly dismissed or praised. v2 verdict: recall_total 1.0 (PB-ALGO-3 caught), precision and STE up, cost down 16%. citations_per_finding dropped 34% on perfburn but rose 42% on eventbus under the same skill text; inspection showed de-duplication of repeated chain/README citations with unique files cited unchanged - judged variance plus compression of redundancy, not information loss. All stop-rule targets met at v2; loop stopped per rule (a).",
+      "caveats": "Single sample per arm (<10% deltas are noise). The only true miss is PB-ALGO-3 (sorted() for top-10 in the daily reportgen). Label-accuracy denominators are matched ranked findings only.",
+      "verdict": "committed (v1 4b13b10, v2 4bc5785)"
     }
   ]
 }
