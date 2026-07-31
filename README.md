@@ -26,7 +26,7 @@ Independent first-principles review of a GitHub PR. Reads the diff and PR descri
 
 ### `/perform-like-jeff-dean`
 
-Read-only performance audit distilled from Abseil's ["Performance Hints"](https://abseil.io/fast/hints.html). Maps hot and cold paths first, then hunts six categories of waste (algorithms, I/O round trips, allocation, redundant work, data layout, observability overhead). Every finding carries a back-of-envelope estimate anchored in the classic latency-numbers table, and the report is ordered by a priority matrix that weighs impact against effort — the low-hanging, high-impact fruit ranks first, and real-but-cold inefficiencies get a one-line note instead of a finding. Use with `/perform-like-jeff-dean`, or scope it: `/perform-like-jeff-dean src/ingest`.
+Read-only performance audit distilled from Abseil's ["Performance Hints"](https://abseil.io/fast/hints.html). Maps hot and cold paths first, then hunts six categories of waste (algorithms, I/O round trips, allocation, redundant work, data layout, observability overhead). Every finding carries a back-of-envelope estimate anchored in the classic latency-numbers table, and the report is ordered by a priority matrix that weighs impact against effort — the low-hanging, high-impact fruit ranks first, and real-but-cold inefficiencies get a one-line note instead of a finding. On a large repository it fans the category sweep out to parallel read-only subagents (one per subsystem) and verifies every candidate centrally before it becomes a finding. Use with `/perform-like-jeff-dean`, or scope it: `/perform-like-jeff-dean src/ingest`.
 
 ## Output language
 

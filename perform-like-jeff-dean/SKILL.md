@@ -2,8 +2,7 @@
 name: perform-like-jeff-dean
 description: Performs a read-only performance audit of a codebase, distilled from Abseil's "Performance Hints" — it maps hot and cold code, estimates costs with back-of-envelope arithmetic, and returns optimization opportunities prioritized by impact weighed against effort, so quick wins with large savings rank first. Use when the user wants a performance review, speed audit, optimization pass, latency assessment, or asks to find slow code across a project. Also use when someone says things like "make this faster", "find performance problems", "where are the quick wins", "why is this slow", or "perform like Jeff Dean".
 disable-model-invocation: true
-agent: Plan
-allowed-tools: Grep, Read, Glob
+allowed-tools: Grep, Read, Glob, Task, Agent
 ---
 
 # Performance Audit
@@ -99,6 +98,17 @@ Rules of thumb that follow:
 ## Phase 2: Opportunity Discovery
 
 Work through each category below. For each, use Grep to search for the patterns and Read to examine candidates in context. Confirm the path is hot before you record a finding. Not every category will have findings — that is fine.
+
+### Parallel exploration on a large repository
+
+The category sweep is independent reading — the search for an N+1 loop in one subsystem does not depend on the allocation scan in another. If a subagent tool (Task or Agent) is available and the repository is large — more than about 200 source files, several services or subsystems, or more code than you can read in one pass — fan the sweep out instead of reading serially:
+
+- Launch read-only exploration subagents in parallel, in a single message. Split by subsystem first — hotness is a property of a subsystem's callers, so one agent per subsystem keeps caller and callee in the same head. Split by category group only when the code has no clean subsystem boundary.
+- Give each subagent the hot-path signals from Phase 1, the patterns for its categories, and the scale numbers you found. Ask it to return candidates, not findings: the pattern, its `file:line`, the loop or handler that multiplies the cost, and the N it observed.
+- Verify every candidate yourself before it becomes a finding: read the cited code, confirm the path is hot, and do the estimate arithmetic. Subagents propose; the auditor disposes. A candidate you did not read is not a finding.
+- Do not fan out on a small repository. The setup cost outweighs the reading, and one pass keeps the whole hot-path picture in one head.
+
+If no subagent tool is available, run the same sweep yourself, category by category, in the same order.
 
 ### Algorithms
 The biggest wins live here.
@@ -223,6 +233,7 @@ Order the findings from P1 to P4. Within one priority, put higher impact first, 
 - **Count the round trips first.** One same-datacenter round trip costs 50 µs — the price of 100,000 L1 references. An I/O finding usually outweighs every micro-optimization in the same file.
 - **Prefer the boring quick win.** A batch query beats a clever rewrite. Order the report so a P1 Small fix always sits above an elegant Architectural one.
 - **Assume competent authors.** A missing cache may be a correctness choice — invalidation is hard. If a slow pattern has a comment, a test, or a bound that explains it, note the trade-off instead of flagging it.
+- **Fan out breadth, verify centrally.** On a large repository, parallel subagents do the reading and you do the judging. Every Hot path and Estimate field must come from code you read yourself.
 - **Write the report in Simplified Technical English.** Apply the STE rules above to every sentence, including the Estimate and Suggested fix fields. Keep every number — a saving without a quantity is not a finding.
 
 ## Scope directive
