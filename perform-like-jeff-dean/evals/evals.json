@@ -1,0 +1,57 @@
+{
+  "skill_name": "perform-like-jeff-dean",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Perform a performance audit of the codebase in the current working directory. Return the full report.",
+      "expected_output": "A Performance Audit Report with findings ordered by priority (P1 first), each carrying a hot-path citation, a back-of-envelope estimate, and impact/effort labels; cold-code inefficiencies listed as one-line notes, not findings.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "has_summary_section",
+          "text": "Report contains a Summary section that names the hot paths and the single best quick win"
+        },
+        {
+          "id": "findings_ordered_by_priority",
+          "text": "Findings appear in priority order: all P1 findings before P2, P2 before P3, P3 before P4"
+        },
+        {
+          "id": "findings_have_priority_heading",
+          "text": "Each finding heading carries a priority tag of the form [P1] through [P4]"
+        },
+        {
+          "id": "findings_have_category",
+          "text": "Each finding has a Category from: Algorithms, I/O and Round Trips, Allocation and Copies, Redundant Work, Data Layout, Observability Overhead"
+        },
+        {
+          "id": "findings_cite_locations",
+          "text": "Each finding cites at least one file path with a line number"
+        },
+        {
+          "id": "findings_have_hot_path",
+          "text": "Each finding's Hot path field names the loop, handler, or caller that multiplies the cost, with a file:line citation"
+        },
+        {
+          "id": "findings_have_estimate",
+          "text": "Each finding's Estimate field contains arithmetic (cost per operation times frequency) with stated assumptions, marked as an estimate"
+        },
+        {
+          "id": "findings_have_impact_and_effort",
+          "text": "Each finding has an Impact label (High/Medium/Low) and an Effort label (Small/Medium/Large/Architectural) consistent with its priority per the matrix"
+        },
+        {
+          "id": "cold_code_not_in_findings",
+          "text": "Inefficiencies in startup, config, CLI, test, or one-shot migration code do not appear as findings; they appear (if at all) as one-line entries in Cold-Code Notes"
+        },
+        {
+          "id": "has_cold_code_notes_and_not_found",
+          "text": "Report contains a Cold-Code Notes section and a Not Found section"
+        },
+        {
+          "id": "no_speculative_findings",
+          "text": "No finding flags code whose cost the report cannot tie to a named hot path or documented frequency"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "run_id": "perf-eventbus-base",
+  "wall_seconds": 388,
+  "duration_api_ms": 384338,
+  "num_turns": 25,
+  "cost_usd": 1.3061875,
+  "input_tokens": 28,
+  "output_tokens": 28740,
+  "cache_read_input_tokens": 535195,
+  "cache_creation_input_tokens": 31995,
+  "total_tokens": 595958,
+  "is_error": false,
+  "permission_denials": 7,
+  "exit_status": 0
+}

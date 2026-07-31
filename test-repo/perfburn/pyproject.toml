@@ -1,0 +1,13 @@
+[project]
+name = "perfburn"
+version = "0.4.1"
+description = "Telemetry ingestion service: parse, dedupe, enrich, store, query"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+perfburn = "perfburn.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
