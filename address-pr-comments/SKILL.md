@@ -11,6 +11,47 @@ You have been asked to work through review comments on a pull request. Source ca
 
 The GitHub CLI (`gh`) is installed and authenticated. Use it to fetch PR data when the source is GitHub; use `Read` and `Grep` to investigate the code regardless of source.
 
+## Output language: ASD-STE100 Simplified Technical English
+
+Write all of your output in ASD-STE100 Simplified Technical English (STE). This applies to the report, to the reply drafts, and to any text that you write around them. STE removes ambiguity from a technical claim, and it keeps a reply direct without a defensive tone.
+
+### Words
+- Use one word for one meaning. Use the same term for the same thing through the whole report.
+- Use short, common words: "use" (not "utilize"), "to" (not "in order to"), "before" (not "prior to"), "because" (not "due to the fact that"), "about" (not "approximately"), "make sure" (not "ensure"), "get" (not "obtain"), "enough" (not "sufficient"), "many" (not "numerous"), "start" (not "commence"), "stop" (not "terminate"), "help" (not "assist"), "let" (not "permit"), "show" (not "demonstrate"), "try" (not "attempt").
+- Do not use slang, idioms, or metaphors. Write "the middleware checks the token before the handler runs", not "the middleware has us covered here".
+- Do not put more than three nouns together. Write "the handler for the upload request", not "the upload request handler chain".
+
+### Verbs
+- Use the active voice: "the middleware validates the token", not "the token is validated by the middleware".
+- Use the imperative in a suggested fix: "Move the check into `validate_payload`."
+- Use simple tenses only: simple present, simple past, simple future.
+- Do not use an "-ing" form as a noun or to start a clause. Write "The decorator sets the lock. The race cannot occur." Do not write "Holding the lock in the decorator prevents the race."
+- Do not remove the verb to make a sentence shorter.
+
+### Sentences and paragraphs
+- Keep an instruction to 20 words or fewer. Keep a descriptive sentence to 25 words or fewer.
+- Give one instruction per sentence.
+- Use the articles "a", "an", and "the" where you can.
+- Keep a paragraph to one topic and to six sentences or fewer.
+- Use a vertical list when the text has three or more related parts.
+
+### Do not lose information
+STE limits the length of a sentence. It does not limit the number of sentences, and it does not limit the facts in the report. If a sentence goes over the limit, split it into two sentences. Never delete a fact to make the text shorter.
+
+- Keep every number, measurement, limit, and default value. A number is technical data. Write "the timeout is 30 seconds", not "the timeout is long".
+- Keep every `file:line` citation. A verdict needs the evidence, so cite each location that you read, not only the first one.
+- Keep the effects that follow: what else breaks, which caller sees the failure, and what the suggested fix must also change.
+- The six-sentence limit applies to one paragraph. If a field needs more facts, write more paragraphs, or use a vertical list.
+
+### What you must not change
+STE applies to the prose that you write. Keep these exactly as they are:
+- The section titles and the field names in the output format. Tools parse them.
+- The verdict names (Valid, Invalid, Partially valid, Needs discussion) and the status values (Unresolved, Outdated).
+- Code, file paths, symbol names, SHAs, command lines, and error strings. These are technical names.
+- Text that you quote from the code, from a review comment, or from a source file. Quote it exactly. The "Reviewer's claim" field is your summary, so write it in STE — but any words inside quotation marks stay in the reviewer's own words.
+
+Accuracy has priority over the word list. If STE cannot show a technical point correctly, write the point in the shortest clear sentences that you can, and keep the technical accuracy.
+
 ## Input
 
 Check the `$ARGUMENTS` block at the end of this file:
@@ -169,6 +210,7 @@ Fields that the source doesn't carry should be omitted, not faked. File-mode rep
 - **Don't apply edits.** This skill produces a report and stops. The user decides what to do with the verdicts.
 - **File mode: list before evaluating.** When the source is a file, surface the extracted comments back to the user as a brief checklist before diving into Phase 2 — it lets them catch parsing mistakes (missed comments, picked up something that wasn't a comment) before you spend tokens evaluating the wrong inputs.
 - **File mode: don't invent metadata.** If the source file doesn't carry resolution state, reviewer handles, or comment URLs, leave those fields out. A fabricated `@reviewer` or a guessed "Unresolved" status is worse than no field.
+- **Write the report and the reply drafts in Simplified Technical English.** Apply the STE rules above to every sentence you write. This matters most in a reply draft for an Invalid verdict: a short, active statement of what the code does reads as information, and a long hedged one reads as a defence.
 
 ## Input
 

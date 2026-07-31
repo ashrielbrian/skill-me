@@ -128,6 +128,35 @@ Use `test-repo/taskflow/` — a purpose-built project with 28+ known planted iss
 | `duration_seconds` | timing.json | Wall-clock time |
 | `rebug_confirmation_rate` | rebug grading | % of findings rebug confirms |
 | `rebug_new_issues_found` | rebug output | Issues rebug finds that spring_clean missed |
+| `over_25_rate` | ste_score.py | % of prose sentences above the STE descriptive limit |
+| `passive_per_100_sentences` | ste_score.py | Passive-voice density (STE requires the active voice) |
+| `non_approved_words` | ste_score.py | Hits on the non-approved word list the skills name |
+| `citations_per_finding` | detail_score.py | `file:line` citations per finding — the information-loss canary |
+| `quantities_per_finding` | detail_score.py | Numbers and measurements per finding |
+| `template_pass_rate` | structure_score.py | Template headings and field names present verbatim |
+
+### Measuring output-language conformance
+
+All five skills require ASD-STE100 Simplified Technical English output. The iteration-5 harness measures it:
+
+```
+pipeline-workspace/iteration-5/
+├── run_skill.sh        # renders a SKILL.md and runs it via `cbt -p --output-format json`
+├── batch{1..4}.sh      # arm/target fan-out, run in parallel
+├── ste_score.py        # STE conformance (prose only — code, paths, quotes exempt)
+├── structure_score.py  # template fidelity + enum/casing deviations
+├── detail_score.py     # information density (the STE regression to watch)
+├── gt_score.py         # recall against a planted-issue manifest
+└── aggregate.py        # benchmark.json + a base/ste/ste2 comparison table
+```
+
+Run a skill without installing it: `run_skill.sh <run-id> <skill-md> <arguments> <cwd> <allowed-tools>`. Rendering the body as a standalone prompt is what lets the working-tree version and `git show HEAD:<path>` run side by side in one session.
+
+**The STE failure mode to watch for is information loss, not a broken template.** A sentence-length budget tempts the model to drop subordinate clauses that carried quantities, extra `file:line` citations, and second-order consequences. `detail_score.py` exists to catch that; `citations_per_finding` is the most sensitive signal.
+
+**Copy targets out of this repo before auditing them.** `ground_truth.json` lives in `pipeline-workspace/`, and an agent auditing the repo can read it. Copy the target to a scratchpad dir first.
+
+**Known eval-asset defect**: `iteration-4/ground_truth_eventbus.json` labels `MemoryStorage` clean, but `_by_topic` grows without a bound. See the `corrections` array in that file before scoring precision.
 
 ## history.json
 

@@ -1,0 +1,15 @@
+{
+  "run_id": "sc-eventbus-base",
+  "wall_seconds": 398,
+  "duration_api_ms": 393283,
+  "num_turns": 26,
+  "cost_usd": 1.2372554999999998,
+  "input_tokens": 128,
+  "output_tokens": 29518,
+  "cache_read_input_tokens": 409871,
+  "cache_creation_input_tokens": 29373,
+  "total_tokens": 468890,
+  "is_error": false,
+  "permission_denials": 3,
+  "exit_status": 0
+}

@@ -16,6 +16,46 @@ Two principles drive everything below:
 
 The GitHub CLI (`gh`) is installed and authenticated. Use it to fetch PR data; use Read and Grep to investigate the code.
 
+## Output language: ASD-STE100 Simplified Technical English
+
+Write all of your output in ASD-STE100 Simplified Technical English (STE). This applies to the review report and to any text that you write around it. STE removes ambiguity from a technical claim. It also keeps a design finding free of the hedged, wordy prose that lets an author dismiss it.
+
+### Words
+- Use one word for one meaning. Use the same term for the same thing through the whole report.
+- Use short, common words: "use" (not "utilize"), "to" (not "in order to"), "before" (not "prior to"), "because" (not "due to the fact that"), "about" (not "approximately"), "make sure" (not "ensure"), "get" (not "obtain"), "enough" (not "sufficient"), "many" (not "numerous"), "start" (not "commence"), "stop" (not "terminate"), "help" (not "assist"), "let" (not "permit"), "show" (not "demonstrate"), "try" (not "attempt").
+- Do not use slang, idioms, or metaphors. Write "the factory has one registrant", not "the factory is a solution in search of a problem".
+- Do not put more than three nouns together. Write "the handler for the upload request", not "the upload request handler chain".
+
+### Verbs
+- Use the active voice: "the handler ignores the error", not "the error is ignored by the handler".
+- Use the imperative in a suggested fix: "Delete the wrapper. Call `upload_chunk` directly."
+- Use simple tenses only: simple present, simple past, simple future.
+- Do not use an "-ing" form as a noun or to start a clause. Write "The PR adds a base class. Only one class uses it." Do not write "Adding a base class with one implementation is speculative generality."
+- Do not remove the verb to make a sentence shorter.
+
+### Sentences and paragraphs
+- Keep an instruction to 20 words or fewer. Keep a descriptive sentence to 25 words or fewer.
+- Give one instruction per sentence.
+- Use the articles "a", "an", and "the" where you can.
+- Keep a paragraph to one topic and to six sentences or fewer.
+- Use a vertical list when the text has three or more related parts.
+
+### Do not lose information
+STE limits the length of a sentence. It does not limit the number of sentences, and it does not limit the facts in the report. If a sentence goes over the limit, split it into two sentences. Never delete a fact to make the text shorter.
+
+- Keep every number, measurement, limit, and default value. A number is technical data. Write "the margin is 2.1 percent", not "the margin is small".
+- Keep every `file:line` citation, and keep the sibling citations that show the precedent a change diverges from.
+- Keep the effects that follow from the design choice: what else breaks, which caller sees the failure, and what the fix must also change.
+- The six-sentence limit applies to one paragraph. If a field needs more facts, write more paragraphs, or use a vertical list.
+
+### What you must not change
+STE applies to the prose that you write. Keep these exactly as they are:
+- The section titles and the field names in the Phase 5 report template. Tools parse them.
+- The severity names (Critical, High, Medium, Low), the category names, and the effort names.
+- Code, file paths, symbol names, SHAs, command lines, and error strings. These are technical names.
+- Text that you quote from the diff, from the PR description, or from a different source. Quote it exactly. Do not rewrite an evidence snippet. In "What the author says it does", you paraphrase the author in STE, but any words inside quotation marks stay verbatim.
+
+Accuracy has priority over the word list. If STE cannot show a technical point correctly, write the point in the shortest clear sentences that you can, and keep the technical accuracy.
 
 ## Input
 
@@ -259,6 +299,7 @@ Two calibration tests:
 - **No style nits.** Naming, formatting, and aesthetic preferences are not findings unless they hurt clarity or break a clearly established codebase convention. This does not shield noise: comments that restate the code, single-use indirection, and "just in case" guards are Simplicity & economy findings, not style — whether deletion loses anything is the test.
 - **Worktree is opt-in, not default.** Only escalate when Phase 3's criteria are met. If you create one, you remove it before finishing.
 - **Don't apply edits or post comments on the PR.** This skill produces a report and stops. The user decides what to do with it.
+- **Write the report in Simplified Technical English.** Apply the STE rules above to every sentence you write, including the Summary, the Problem fields, and the Open Questions. A finding in short active sentences is harder to misread and harder to wave away than the same finding in hedged prose.
 
 ## Input
 

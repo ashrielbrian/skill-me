@@ -1,0 +1,15 @@
+{
+  "run_id": "apc-eventbus-base",
+  "wall_seconds": 213,
+  "duration_api_ms": 209147,
+  "num_turns": 17,
+  "cost_usd": 0.7792669999999999,
+  "input_tokens": 13,
+  "output_tokens": 15497,
+  "cache_read_input_tokens": 218594,
+  "cache_creation_input_tokens": 28248,
+  "total_tokens": 262352,
+  "is_error": false,
+  "permission_denials": 4,
+  "exit_status": 0
+}
