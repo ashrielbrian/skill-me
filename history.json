@@ -628,6 +628,62 @@
       "notes": "First ground-truth eval for pr-review. On the planted PR both pr-review arms find all 17 planted issues with 0 trap hits and 0 review-comment reads; cost, time and length are unchanged within noise. On the clean PR the subtraction is a clear gain over three samples per arm: findings 1.67 -> 0 (the base arm reported older, out-of-scope defects as Low findings), report length -51%, wall time -45%, cost -32%. The native /code-review matches pr-review on implementation recall (1.0) at about one fifth of the cost and one sixth of the time, finds 61% of design-tier issues (it misses the mock-only tests, the weakened test, and the description mismatches), gives no severity, and reported 6 findings on the clean PR.",
       "caveats": "Recall is saturated, so this iteration cannot show that the removed checklists cost nothing on harder PRs. Small samples.",
       "verdict": "committed"
+    },
+    {
+      "id": 9,
+      "skill": "pr-review",
+      "skill_commit": "1972cb6",
+      "baseline_commit": "dfe7b21",
+      "timestamp": "2026-11-13T00:00:00Z",
+      "targets": [
+        "test-repo/parcelpost PR #3 (bulk: 13 planted issues that need cross-file context, 3 traps)"
+      ],
+      "changes": "Test surface only: PR #3 with cross-file bugs and architectural defects.",
+      "arms": {
+        "base": "pr-review at dfe7b21",
+        "cur": "pr-review at 1972cb6",
+        "native": "built-in /code-review high 3"
+      },
+      "metrics": {
+        "base": {
+          "n": 2,
+          "recall": 1.0,
+          "recall_impl": 1.0,
+          "recall_design": 1.0,
+          "findings": 13,
+          "report_chars": 20944.5,
+          "wall_seconds": 341,
+          "cost_usd": 1.344,
+          "gh_review_reads": 0,
+          "trap_hits_adjudicated": 0
+        },
+        "cur": {
+          "n": 2,
+          "recall": 1.0,
+          "recall_impl": 1.0,
+          "recall_design": 1.0,
+          "findings": 12,
+          "report_chars": 18587,
+          "wall_seconds": 330,
+          "cost_usd": 1.285,
+          "gh_review_reads": 0,
+          "trap_hits_adjudicated": 0
+        },
+        "native": {
+          "n": 2,
+          "recall": 0.769,
+          "recall_impl": 1.0,
+          "recall_design": 0.5,
+          "findings": 10,
+          "report_chars": 6211.5,
+          "wall_seconds": 62,
+          "cost_usd": 0.295,
+          "gh_review_reads": 0,
+          "trap_hits_adjudicated": 0
+        }
+      },
+      "notes": "The subtle tier did not separate the arms. Both pr-review versions found all 13 planted issues in both samples, with 0 trap hits and 0 review-comment reads; the matches were checked by hand (the two F5 trap candidates are the phrase 'leaks 2 labels', not the trap claim). The native /code-review again found every implementation bug (7 of 7) at about a fifth of the cost; it missed the description mismatch and the weak rollback test in both samples, and two architectural findings in one sample. Conclusion: at +150 lines in a 15-file repo the reviewer reads every relevant file, so cross-file subtlety is not hard for this model. Difficulty has to come from scale (a PR whose callers and precedents do not fit in one read, such as a PR into test-repo/bazaar) or from domain rules that are not written in the repo.",
+      "verdict": "committed (test surface; skill unchanged at 1972cb6)"
     }
   ]
 }

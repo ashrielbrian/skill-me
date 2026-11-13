@@ -28,11 +28,12 @@ commit_pr() {  # <overlay-dir> <branch> <message>
 }
 commit_pr pr-1 refunds "Add shipment refunds"
 commit_pr pr-2 limit-cap "Cap the listing page size at 100"
+commit_pr pr-3 bulk "Bulk shipment creation and uniform carrier retries"
 
 git remote add origin "$DEST/origin.git"
-git push -q origin main refunds limit-cap
-git push -q origin refunds:refs/pull/1/head limit-cap:refs/pull/2/head
-git branch -q -D refunds limit-cap
+git push -q origin main refunds limit-cap bulk
+git push -q origin refunds:refs/pull/1/head limit-cap:refs/pull/2/head bulk:refs/pull/3/head
+git branch -q -D refunds limit-cap bulk
 git fetch -q origin
 git branch -q --set-upstream-to=origin/main main
 

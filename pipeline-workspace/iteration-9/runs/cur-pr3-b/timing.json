@@ -1,0 +1,15 @@
+{
+  "run_id": "cur-pr3-b",
+  "wall_seconds": 316,
+  "num_turns": 31,
+  "cost_usd": 1.2057392,
+  "main_loop_tokens": 739207,
+  "is_error": false,
+  "permission_denials": 0,
+  "exit_status": 0,
+  "gh_calls": 3,
+  "gh_review_reads": 0,
+  "gh_mutations": 0,
+  "worktrees_left": 0,
+  "branches_left": []
+}

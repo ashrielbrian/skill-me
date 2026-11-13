@@ -1,0 +1,213 @@
+{
+  "summary": {
+    "base": {
+      "n": 2,
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "findings": 13,
+      "report_chars": 20944.5,
+      "wall_seconds": 341,
+      "cost_usd": 1.344,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    },
+    "cur": {
+      "n": 2,
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "findings": 12,
+      "report_chars": 18587,
+      "wall_seconds": 330,
+      "cost_usd": 1.285,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    },
+    "native": {
+      "n": 2,
+      "recall": 0.769,
+      "recall_impl": 1.0,
+      "recall_design": 0.5,
+      "findings": 10,
+      "report_chars": 6211.5,
+      "wall_seconds": 62,
+      "cost_usd": 0.295,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    }
+  },
+  "runs": {
+    "base-pr3-a": {
+      "findings": 11,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 4,
+        "Medium": 5,
+        "Low": 1
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 1.0,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {},
+      "unmatched_findings": [
+        "[Medium] The PR bundles two unrelated changes",
+        "[Low] The bulk log line leaves out the shipment and label IDs"
+      ],
+      "report_chars": 19239,
+      "report_words": 2964,
+      "wall_seconds": 335,
+      "cost_usd": 1.340585,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    },
+    "base-pr3-b": {
+      "findings": 15,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 5,
+        "Medium": 6,
+        "Low": 3
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 1.0,
+      "severity_sorted": true,
+      "design_first_violations": 1,
+      "trap_candidates": {},
+      "unmatched_findings": [
+        "[Medium] One PR holds two unrelated changes",
+        "[Low] Retries and bulk label IDs do not appear in the log"
+      ],
+      "report_chars": 22650,
+      "report_words": 3404,
+      "wall_seconds": 347,
+      "cost_usd": 1.34819,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    },
+    "cur-pr3-a": {
+      "findings": 12,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 4,
+        "Medium": 5,
+        "Low": 2
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 1.0,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F5": [
+          "[High] The bulk service calls the carrier inside the database transaction"
+        ]
+      },
+      "unmatched_findings": [
+        "[Low] The PR puts two unrelated changes together"
+      ],
+      "report_chars": 19570,
+      "report_words": 2877,
+      "wall_seconds": 344,
+      "cost_usd": 1.3649574,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    },
+    "cur-pr3-b": {
+      "findings": 12,
+      "severity_counts": {
+        "Critical": 2,
+        "High": 3,
+        "Medium": 4,
+        "Low": 3
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 1.0,
+      "severity_sorted": true,
+      "design_first_violations": 2,
+      "trap_candidates": {
+        "F5": [
+          "[MEDIUM] The all-or-nothing test checks only the DB"
+        ]
+      },
+      "unmatched_findings": [
+        "[LOW] A malformed `items` returns 500, and an empty list returns 201",
+        "[LOW] The PR bundles two unrelated changes"
+      ],
+      "report_chars": 17604,
+      "report_words": 2655,
+      "wall_seconds": 316,
+      "cost_usd": 1.2057392,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    },
+    "native-pr3-a": {
+      "findings": 10,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.846,
+      "recall_impl": 1.0,
+      "recall_design": 0.667,
+      "missed": [
+        "I1",
+        "T1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [],
+      "report_chars": 6057,
+      "report_words": 819,
+      "wall_seconds": 64,
+      "cost_usd": 0.3122994,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    },
+    "native-pr3-b": {
+      "findings": 10,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.692,
+      "recall_impl": 1.0,
+      "recall_design": 0.333,
+      "missed": [
+        "A2",
+        "A3",
+        "I1",
+        "T1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [],
+      "report_chars": 6366,
+      "report_words": 879,
+      "wall_seconds": 60,
+      "cost_usd": 0.2772728,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0
+    }
+  }
+}

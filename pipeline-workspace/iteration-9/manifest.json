@@ -1,0 +1,24 @@
+{
+  "iteration": 9,
+  "timestamp": "2026-11-13T00:00:00Z",
+  "skill": "pr-review",
+  "current_skill_commit": "1972cb6",
+  "baseline_skill_commit": "dfe7b21",
+  "targets": [
+    "test-repo/parcelpost PR #3 (bulk: 13 planted issues that need cross-file context, 3 traps)"
+  ],
+  "has_ground_truth": true,
+  "ground_truth_file": "ground_truth_parcelpost_pr3.json",
+  "skill_changes_summary": "None. Test-surface expansion only.",
+  "arms": {
+    "base": "pr-review at dfe7b21",
+    "cur": "pr-review at 1972cb6",
+    "native": "built-in /code-review high 3"
+  },
+  "harness": "Reuses iteration-8/run_skill.sh (RUNS_DIR override) and iteration-8/pr_score.py.",
+  "result": "The subtle tier did not separate the arms. Both pr-review versions found all 13 planted issues in both samples, with 0 trap hits and 0 review-comment reads; the matches were checked by hand (the two F5 trap candidates are the phrase 'leaks 2 labels', not the trap claim). The native /code-review again found every implementation bug (7 of 7) at about a fifth of the cost; it missed the description mismatch and the weak rollback test in both samples, and two architectural findings in one sample. Conclusion: at +150 lines in a 15-file repo the reviewer reads every relevant file, so cross-file subtlety is not hard for this model. Difficulty has to come from scale (a PR whose callers and precedents do not fit in one read, such as a PR into test-repo/bazaar) or from domain rules that are not written in the repo.",
+  "known_limitations": [
+    "Two samples per arm.",
+    "Recall is still saturated for pr-review, so this tier cannot grade a skill edit either."
+  ]
+}

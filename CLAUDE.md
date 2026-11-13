@@ -160,7 +160,7 @@ Run a skill without installing it: `run_skill.sh <run-id> <skill-md> <arguments>
 
 ### Evaluating pr-review
 
-`pr-review` reads a PR through `gh`, so it needs a PR, not a directory. `test-repo/parcelpost/` is a base tree plus two PR overlays: `pr-1` (refunds, planted issues) and `pr-2` (a clean change — the correct review has no finding).
+`pr-review` reads a PR through `gh`, so it needs a PR, not a directory. `test-repo/parcelpost/` is a base tree plus two PR overlays: `pr-1` (refunds, planted issues), `pr-2` (a clean change — the correct review has no finding), and `pr-3` (bulk create and client retries: defects that need the untouched callers and the README rules; ground truth in `iteration-9/`).
 
 - `test-repo/parcelpost/build_fixture.sh <dest>` builds a checkout with a local `origin` and `refs/pull/N/head`.
 - `test-repo/parcelpost/bin/gh` is a shim. Put it first on `PATH`. It logs every call, and it serves planted, incorrect review comments to any call that asks for them, so `gh_review_reads` measures independence.

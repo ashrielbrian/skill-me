@@ -9,7 +9,7 @@ set -euo pipefail
 IT="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$IT/../.." && pwd)"
 RUN_ID="$1"; SKILL="$2"; PR="$3"; DEST="$4/$RUN_ID"
-OUT="$IT/runs/$RUN_ID"
+OUT="${RUNS_DIR:-$IT/runs}/$RUN_ID"
 mkdir -p "$OUT"
 
 "$REPO/test-repo/parcelpost/build_fixture.sh" "$DEST" >/dev/null
