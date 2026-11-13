@@ -1,0 +1,15 @@
+{
+  "run_id": "cur-bz-d",
+  "wall_seconds": 533,
+  "num_turns": 71,
+  "cost_usd": 2.5728218,
+  "main_loop_tokens": 2899568,
+  "is_error": false,
+  "permission_denials": 0,
+  "exit_status": 0,
+  "gh_calls": 3,
+  "gh_review_reads": 0,
+  "gh_mutations": 0,
+  "worktrees_left": 0,
+  "branches_left": []
+}

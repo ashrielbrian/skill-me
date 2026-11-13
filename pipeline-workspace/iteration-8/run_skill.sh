@@ -12,7 +12,7 @@ RUN_ID="$1"; SKILL="$2"; PR="$3"; DEST="$4/$RUN_ID"
 OUT="${RUNS_DIR:-$IT/runs}/$RUN_ID"
 mkdir -p "$OUT"
 
-"$REPO/test-repo/parcelpost/build_fixture.sh" "$DEST" >/dev/null
+"${FIXTURE_BUILDER:-$REPO/test-repo/parcelpost/build_fixture.sh}" "$DEST" >/dev/null
 
 if [[ "$SKILL" == native:* ]]; then
     printf '/code-review %s %s' "${SKILL#native:}" "$PR" > "$OUT/prompt.md"

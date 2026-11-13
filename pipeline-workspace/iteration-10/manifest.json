@@ -1,0 +1,25 @@
+{
+  "iteration": 10,
+  "timestamp": "2026-11-13T00:00:00Z",
+  "skill": "pr-review",
+  "current_skill_commit": "1972cb6",
+  "baseline_skill_commit": "dfe7b21",
+  "targets": [
+    "test-repo/bazaar-pr PR #1 (order-refunds, +179/-4, on the 250-file bazaar repo: 15 planted issues, 2 traps)"
+  ],
+  "has_ground_truth": true,
+  "ground_truth_file": "ground_truth_bazaar_pr1.json",
+  "skill_changes_summary": "None. Test-surface expansion only.",
+  "arms": {
+    "base": "pr-review at dfe7b21 (n=4)",
+    "cur": "pr-review at 1972cb6 (n=4)",
+    "native": "built-in /code-review high 1 (n=2)"
+  },
+  "harness": "iteration-8/run_skill.sh with FIXTURE_BUILDER=test-repo/bazaar-pr/build_fixture.sh and RUNS_DIR; iteration-8/pr_score.py. recall_adjudicated and the A2/I1 columns in benchmark.json are hand-checked; the regex recall over-credits an issue that a report only names in passing.",
+  "result": "First tier that separates anything. Native /code-review raises 9 and 11 of 15 planted issues (pr-review: 14 to 15) at about a fifth of the cost; it never raises the service-boundary violation, the unused index, the description mismatch, or the weak tests. Between the two pr-review versions there is no separable difference over four samples each: adjudicated recall 1.0 vs 0.983 (one miss of the boundary finding), the boundary violation as a standalone finding 3 of 4 vs 2 of 4, the description mismatch as a standalone finding 2 of 4 vs 1 of 4, cost $2.20 vs $2.36. All inside run-to-run variance; the direction on the two design findings is worth watching. 0 trap hits and 0 review-comment reads in all 10 runs. No run reported an older bazaar defect as a finding against the PR. 7 of 8 pr-review runs found an unplanted real defect (cancel races refund); it is now in accepted_extras.",
+  "known_limitations": [
+    "Four samples per pr-review arm, two for native.",
+    "pr-review recall is still near its ceiling; the usable signal on this fixture is whether design findings stand alone, which needs a manual read.",
+    "pr_score.py credits passing mentions. A stricter scorer should require the issue in a finding's title or Problem field."
+  ]
+}

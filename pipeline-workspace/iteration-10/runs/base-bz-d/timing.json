@@ -1,0 +1,15 @@
+{
+  "run_id": "base-bz-d",
+  "wall_seconds": 422,
+  "num_turns": 46,
+  "cost_usd": 2.0009168,
+  "main_loop_tokens": 1748497,
+  "is_error": false,
+  "permission_denials": 0,
+  "exit_status": 0,
+  "gh_calls": 3,
+  "gh_review_reads": 0,
+  "gh_mutations": 0,
+  "worktrees_left": 0,
+  "branches_left": []
+}

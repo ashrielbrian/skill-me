@@ -1,0 +1,291 @@
+{
+  "target": "test-repo/bazaar-pr PR #1 (order-refunds) on test-repo/bazaar (250 files)",
+  "notes": "Scale tier. The PR is +179/-4 in 7 files, but the evidence for most issues sits in files the PR does not touch: other services, the shared libraries, and the root README load figures. bazaar also carries many older defects (it is the perf target); a finding against code the PR did not write is out of scope and counts in `preexisting_reported`, by hand. Same matching rules as iteration-8. Regex matches are candidates; benchmark.json records the hand-adjudicated result.",
+  "issues": [
+    {
+      "id": "M1",
+      "tier": "impl",
+      "severity": "High",
+      "file": "services/checkout/orders/refund.py",
+      "line": 34,
+      "evidence_in": "services/checkout/orders/create.py:75-80, services/checkout/promotions.py",
+      "description": "The refund amount is rebuilt from the line prices in items_json. A promo code lowers orders.total_cents only (create.py:_order_total), so an order placed with a promo refunds more than the buyer paid.",
+      "match": [
+        [
+          "promo|discount",
+          "refund",
+          "more than|over-?refund|exceed|higher than|undiscounted|ignor|full price|not (subtract|reflect|appl)"
+        ]
+      ]
+    },
+    {
+      "id": "M2",
+      "tier": "impl",
+      "severity": "Medium",
+      "file": "services/checkout/orders/refund.py",
+      "line": 34,
+      "evidence_in": "services/checkout/carts/totals.py:27-45",
+      "description": "refund_amount_cents does not equal the charged total even without a promo: it truncates line-plus-tax with int() where totals.py rounds each line's tax, and it leaves out shipping. The stored orders.total_cents is the amount charged.",
+      "match": [
+        [
+          "int\\(|truncat|round",
+          "tax",
+          "totals|round\\(|cent|differ|mismatch"
+        ],
+        [
+          "shipping",
+          "refund",
+          "not|omit|exclude|leave|without|miss|never"
+        ],
+        [
+          "total_cents",
+          "refund",
+          "stored|orders\\.total_cents|recomput|re-?deriv|already"
+        ]
+      ]
+    },
+    {
+      "id": "X1",
+      "tier": "impl",
+      "severity": "High",
+      "file": "services/checkout/orders/refund.py",
+      "line": 25,
+      "evidence_in": "services/settlement/payouts/adjustments.py:7-18",
+      "description": "The adjustment row uses reason 'refund'. settlement's VALID_REASONS holds refund_correction, chargeback, goodwill, fee_waiver; validate_adjustment rejects the row and merge_adjustments skips it without an error, so the seller's payout is never corrected.",
+      "match": [
+        [
+          "VALID_REASONS|refund_correction|validate_adjustment",
+          "refund"
+        ]
+      ]
+    },
+    {
+      "id": "X2",
+      "tier": "impl",
+      "severity": "High",
+      "file": "services/checkout/orders/refund.py",
+      "line": 60,
+      "evidence_in": "services/settlement/payouts/adjustments.py:34",
+      "description": "The adjustment amount is positive. merge_adjustments adds amount_cents to gross_cents, so a refund adjustment that did apply would raise the seller's payout.",
+      "match": [
+        [
+          "adjust",
+          "positive|sign|negat|\\+=|adds|increase|raise|credit"
+        ]
+      ]
+    },
+    {
+      "id": "W1",
+      "tier": "impl",
+      "severity": "Medium",
+      "file": "services/checkout/orders/refund.py",
+      "line": 69,
+      "evidence_in": "services/checkout/webhooks/registry.py:8-15,36",
+      "description": "order.refunded is not in registry.KNOWN_TOPICS, so add_subscription rejects it and dispatch always finds zero subscribers. The webhook the description promises cannot be received.",
+      "match": [
+        [
+          "KNOWN_TOPICS|add_subscription|registry",
+          "order\\.refunded|topic"
+        ]
+      ]
+    },
+    {
+      "id": "E1",
+      "tier": "impl",
+      "severity": "Medium",
+      "file": "services/checkout/orders/refund.py",
+      "line": 68,
+      "evidence_in": "libs/eventkit/schema.py:28-44",
+      "description": "checkout.order_refunded is not registered in eventkit.schema.KNOWN_EVENT_TYPES, the list of event types on the wire.",
+      "match": [
+        [
+          "KNOWN_EVENT_TYPES|is_known_type|schema\\.py",
+          "order_refunded|event type"
+        ]
+      ]
+    },
+    {
+      "id": "E2",
+      "tier": "impl",
+      "severity": "High",
+      "file": "services/checkout/orders/refund.py",
+      "line": 68,
+      "evidence_in": "libs/eventkit/publisher.py:1-8,33, libs/eventkit/config.py:10",
+      "description": "publish only queues. Nothing in checkout calls flush, and the buffer flushes by itself at 200 entries; at a few refunds per minute the event waits for hours and is lost on restart. publish also uses the sync Redis client on the event loop.",
+      "match": [
+        [
+          "flush",
+          "publish|buffer|event"
+        ]
+      ]
+    },
+    {
+      "id": "G2",
+      "tier": "impl",
+      "severity": "High",
+      "file": "services/gateway/handlers/orders_proxy.py",
+      "line": 55,
+      "evidence_in": "services/gateway/handlers/orders_proxy.py:18-24, services/gateway/middleware/auth.py:24, services/checkout/orders/refund.py:44",
+      "description": "Neither the gateway handler nor checkout checks that the caller owns the order or carries a scope: any signed-in user can refund any order id. Sibling handlers pass the session's tenant or user, and require_scope exists for handlers that guard writes.",
+      "match": [
+        [
+          "refund",
+          "any (signed-in |authenticated |logged-in )?(user|caller|session|buyer|client|tenant)|owner|ownership|buyer_id|require_scope|scope|authoriz|IDOR|someone else|another (buyer|user|tenant)|not (their|the caller)"
+        ]
+      ]
+    },
+    {
+      "id": "D1",
+      "tier": "impl",
+      "severity": "High",
+      "file": "services/checkout/migrations/0008_add_refunds.py",
+      "line": 23,
+      "evidence_in": "README.md (800 orders/min), services/checkout/orders/txn.py",
+      "description": "CREATE INDEX on the live orders table, without CONCURRENTLY and inside a transaction, blocks every order write (about 13 per second) for the length of the build.",
+      "match": [
+        [
+          "index",
+          "CONCURRENTLY|lock|block|stall|write"
+        ]
+      ]
+    },
+    {
+      "id": "G1",
+      "tier": "design",
+      "severity": "Medium",
+      "file": "services/gateway/handlers/orders_proxy.py",
+      "line": 60,
+      "evidence_in": "services/gateway/handlers/orders_proxy.py:25-29, services/gateway/responses.py",
+      "description": "The refund proxy returns checkout's body with web.json_response. Every sibling handler maps upstream 5xx to failure('upstream_error', ..., 502) and wraps the body in responses.envelope, which also sets the standard security headers.",
+      "match": [
+        [
+          "envelope|responses\\.failure|responses\\.|upstream_error|502|security headers",
+          "refund|proxy|handler|web\\.json_response"
+        ]
+      ]
+    },
+    {
+      "id": "A1",
+      "tier": "design",
+      "severity": "Medium",
+      "file": "services/checkout/orders/refund.py",
+      "line": 38,
+      "evidence_in": "libs/commerce/audit.py:1-7, services/checkout/orders/create.py:49, services/gateway/handlers/orders_proxy.py:27",
+      "description": "A refund moves money and writes no audit record. libs/commerce/audit is the audit path for money-moving actions; order placement writes one in checkout and one at the gateway.",
+      "match": [
+        [
+          "audit",
+          "refund",
+          "no |not |never|missing|without|omit|lack|absent"
+        ]
+      ]
+    },
+    {
+      "id": "A2",
+      "tier": "design",
+      "severity": "Medium",
+      "file": "services/checkout/orders/refund.py",
+      "line": 22,
+      "evidence_in": "services/settlement/cron.py:29-37, services/settlement/payouts/adjustments.py:1-5, README.md",
+      "description": "checkout reads settlement's settled_orders table and writes its payout_adjustments table directly. That couples checkout to another service's schema with no contract (the reason vocabulary and the sign convention are how it already broke); the adjustments table is documented as fed by the support tooling.",
+      "match": [
+        [
+          "settled_orders|payout_adjustments",
+          "boundar|coupl|owns|owned|another service|settlement'?s (table|schema|data)|cross-service|directly|contract|support tooling|reach"
+        ]
+      ]
+    },
+    {
+      "id": "D2",
+      "tier": "design",
+      "severity": "Low",
+      "file": "services/checkout/migrations/0008_add_refunds.py",
+      "line": 23,
+      "description": "No query in the PR or the repo uses orders_status_updated_idx. The 'refunds dashboard' does not exist in the diff.",
+      "match": [
+        [
+          "index",
+          "no query|unused|not used|nothing (reads|uses|queries)|no (reader|consumer|caller)|speculative|dashboard"
+        ]
+      ]
+    },
+    {
+      "id": "I1",
+      "tier": "design",
+      "severity": "Medium",
+      "file": "PR description",
+      "line": 0,
+      "description": "The description's claims fail against the code: 'the full amount the buyer was charged', 'the seller's payout is corrected in the next settlement run', and downstream services and integrators 'see refunds'.",
+      "match": [
+        [
+          "description|PR body|author (says|claims|states)|claims?",
+          "full amount|charged|payout is corrected|next settlement|see refunds|integrators|downstream",
+          "not true|false|wrong|does not hold|contradict|over-?claim|mis-?claim|incorrect|untrue|is not|does not"
+        ],
+        [
+          "Intent vs implementation"
+        ]
+      ]
+    },
+    {
+      "id": "T1",
+      "tier": "design",
+      "severity": "Medium",
+      "file": "services/checkout/tests/test_refund.py",
+      "line": 25,
+      "description": "The tests cover refund_amount_cents with values where int() equals round(), and can_transition. Nothing tests refund_order, a promo order, the adjustment row, the events, or the gateway handler.",
+      "match": [
+        [
+          "test",
+          "refund_order|promo|adjust|gateway|truncat|values|happy|only (cover|test|check|assert)|no test|not (cover|test)|never (test|cover|run|exercise)"
+        ]
+      ]
+    }
+  ],
+  "traps": [
+    {
+      "id": "F7",
+      "kind": "looks-wrong-is-right",
+      "file": "services/checkout/orders/refund.py",
+      "line": 48,
+      "description": "The status check runs under SELECT ... FOR UPDATE in the same transaction as the update, so two requests cannot both refund one order. There is no check-then-act race.",
+      "match": [
+        [
+          "race|check-then-act|both pass|twice|double refund|concurrent",
+          "can_transition|status check|refund"
+        ]
+      ]
+    },
+    {
+      "id": "F8",
+      "kind": "looks-wrong-is-right",
+      "file": "services/checkout/orders/refund.py",
+      "line": 69,
+      "description": "notify.dispatch catches WebhookDeliveryFailure and httpx.HTTPError per subscriber and returns a count; a failing subscriber does not raise into refund_order.",
+      "match": [
+        [
+          "dispatch",
+          "raises?|500|try/except|propagat"
+        ]
+      ]
+    }
+  ],
+  "preexisting_examples": [
+    "create.py:50 write_audit(audit_context()) call shape; notify.py builds an httpx client per delivery; txn.py get_pool() without await; summary.py recomputes the total from items_json without tax; the inventory service has no /v1/release route; the cancel route is not in the gateway table; 'cancelled' vs the library's 'canceled'."
+  ],
+  "accepted_extras": [
+    "cancel_order reads the status without a lock and writes 'cancelled' without a status condition, so a cancel that races a refund overwrites 'refunded'. Found by 7 of 8 pr-review runs; not planted. Real, and caused by the PR adding a second writer of the status.",
+    "The migration's index build can fail on a statement timeout.",
+    "A settled order with no settled_orders row makes seller None and raises TypeError (500) inside the transaction; an order with several sellers adjusts only the first.",
+    "merge_adjustments drops an adjustment when the seller has no settled orders that day.",
+    "No payment-provider call: the refund is a ledger row only.",
+    "Stock is not released or restocked on refund.",
+    "rfd_ ids are not registered in libs/commerce/ids.PREFIXES and use 32 hex characters.",
+    "config.ORDER_STATUS_VALUES is not updated; libs/commerce/order_types has its own status vocabulary and refundable_cents.",
+    "The external calls hold nothing open, but the transaction holds a pooled connection across four statements.",
+    "refunds.order_id has no index and no UNIQUE constraint.",
+    "A non-JSON or empty request body gives a 500 at both layers; the reason has no length limit.",
+    "The gateway does not forward x-tenant-id."
+  ],
+  "planted_comments": "The shim serves two incorrect review comments that assert F7 and F8, and one that endorses the amount logic."
+}

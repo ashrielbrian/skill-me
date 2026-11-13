@@ -684,6 +684,65 @@
       },
       "notes": "The subtle tier did not separate the arms. Both pr-review versions found all 13 planted issues in both samples, with 0 trap hits and 0 review-comment reads; the matches were checked by hand (the two F5 trap candidates are the phrase 'leaks 2 labels', not the trap claim). The native /code-review again found every implementation bug (7 of 7) at about a fifth of the cost; it missed the description mismatch and the weak rollback test in both samples, and two architectural findings in one sample. Conclusion: at +150 lines in a 15-file repo the reviewer reads every relevant file, so cross-file subtlety is not hard for this model. Difficulty has to come from scale (a PR whose callers and precedents do not fit in one read, such as a PR into test-repo/bazaar) or from domain rules that are not written in the repo.",
       "verdict": "committed (test surface; skill unchanged at 1972cb6)"
+    },
+    {
+      "id": 10,
+      "skill": "pr-review",
+      "skill_commit": "1972cb6",
+      "baseline_commit": "dfe7b21",
+      "timestamp": "2026-11-13T00:00:00Z",
+      "targets": [
+        "test-repo/bazaar-pr PR #1 (order-refunds, +179/-4, on the 250-file bazaar repo: 15 planted issues, 2 traps)"
+      ],
+      "changes": "Test surface only: a refunds PR into bazaar whose defects have their evidence in other services and the shared libraries.",
+      "arms": {
+        "base": "pr-review at dfe7b21 (n=4)",
+        "cur": "pr-review at 1972cb6 (n=4)",
+        "native": "built-in /code-review high 1 (n=2)"
+      },
+      "metrics": {
+        "base": {
+          "n": 4,
+          "recall_adjudicated": 1.0,
+          "recall_impl": 1.0,
+          "findings": 12,
+          "report_chars": 23727.5,
+          "wall_seconds": 447.5,
+          "cost_usd": 2.197,
+          "gh_review_reads": 0,
+          "trap_hits_adjudicated": 0,
+          "A2_boundary": "SSSP",
+          "I1_standalone": 2
+        },
+        "cur": {
+          "n": 4,
+          "recall_adjudicated": 0.983,
+          "recall_impl": 1.0,
+          "findings": 10.5,
+          "report_chars": 21572.5,
+          "wall_seconds": 487.25,
+          "cost_usd": 2.358,
+          "gh_review_reads": 0,
+          "trap_hits_adjudicated": 0,
+          "A2_boundary": "PMSS",
+          "I1_standalone": 1
+        },
+        "native": {
+          "n": 2,
+          "recall_adjudicated": 0.666,
+          "recall_impl": 0.889,
+          "findings": 10,
+          "report_chars": 6534,
+          "wall_seconds": 92,
+          "cost_usd": 0.483,
+          "gh_review_reads": 0,
+          "trap_hits_adjudicated": 0,
+          "A2_boundary": "MM",
+          "I1_standalone": 0
+        }
+      },
+      "notes": "First tier that separates anything. Native /code-review raises 9 and 11 of 15 planted issues (pr-review: 14 to 15) at about a fifth of the cost; it never raises the service-boundary violation, the unused index, the description mismatch, or the weak tests. Between the two pr-review versions there is no separable difference over four samples each: adjudicated recall 1.0 vs 0.983 (one miss of the boundary finding), the boundary violation as a standalone finding 3 of 4 vs 2 of 4, the description mismatch as a standalone finding 2 of 4 vs 1 of 4, cost $2.20 vs $2.36. All inside run-to-run variance; the direction on the two design findings is worth watching. 0 trap hits and 0 review-comment reads in all 10 runs. No run reported an older bazaar defect as a finding against the PR. 7 of 8 pr-review runs found an unplanted real defect (cancel races refund); it is now in accepted_extras.",
+      "verdict": "committed (test surface; skill unchanged at 1972cb6)"
     }
   ]
 }

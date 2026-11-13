@@ -1,0 +1,415 @@
+{
+  "summary": {
+    "base": {
+      "n": 4,
+      "recall_adjudicated": 1.0,
+      "recall_impl": 1.0,
+      "findings": 12,
+      "report_chars": 23727.5,
+      "wall_seconds": 447.5,
+      "cost_usd": 2.197,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary": "SSSP",
+      "I1_standalone": 2
+    },
+    "cur": {
+      "n": 4,
+      "recall_adjudicated": 0.983,
+      "recall_impl": 1.0,
+      "findings": 10.5,
+      "report_chars": 21572.5,
+      "wall_seconds": 487.25,
+      "cost_usd": 2.358,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary": "PMSS",
+      "I1_standalone": 1
+    },
+    "native": {
+      "n": 2,
+      "recall_adjudicated": 0.666,
+      "recall_impl": 0.889,
+      "findings": 10,
+      "report_chars": 6534,
+      "wall_seconds": 92,
+      "cost_usd": 0.483,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary": "MM",
+      "I1_standalone": 0
+    }
+  },
+  "runs": {
+    "base-bz-a": {
+      "findings": 13,
+      "severity_counts": {
+        "Critical": 2,
+        "High": 4,
+        "Medium": 5,
+        "Low": 2
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.933,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[High] The migration locks `orders` to build an index that no code reads",
+          "[Medium] A concurrent cancel can overwrite a refunded order",
+          "[Medium] Five claims in the PR description do not match the diff"
+        ],
+        "F8": [
+          "[High] No integrator can subscribe to `order.refunded`",
+          "[Medium] The stream event stays in a buffer that checkout never flushes"
+        ]
+      },
+      "unmatched_findings": [
+        "[Low] An empty or non-object request body causes a 500",
+        "[Low] A status list and the service README do not include the refund"
+      ],
+      "report_chars": 25627,
+      "report_words": 3643,
+      "wall_seconds": 548,
+      "cost_usd": 2.58197,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "S",
+      "I1_standalone_finding": true,
+      "recall_adjudicated": 1.0
+    },
+    "base-bz-b": {
+      "findings": 12,
+      "severity_counts": {
+        "Critical": 2,
+        "High": 5,
+        "Medium": 4,
+        "Low": 1
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.933,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[High] Migration 0008 locks `orders` against writes while it builds an index that no query uses"
+        ],
+        "F8": [
+          "[High] The `order.refunded` webhook can never reach a subscriber"
+        ]
+      },
+      "unmatched_findings": [
+        "[Medium] A refund of a placed order does not release the inventory holds",
+        "[Low] The status list and the endpoint list do not include the refund"
+      ],
+      "report_chars": 21889,
+      "report_words": 3187,
+      "wall_seconds": 356,
+      "cost_usd": 1.9279396,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "S",
+      "I1_standalone_finding": true,
+      "recall_adjudicated": 1.0
+    },
+    "base-bz-c": {
+      "findings": 11,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 5,
+        "Medium": 4,
+        "Low": 1
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.867,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[High] The migration blocks order writes, or fails on the 5-second statement timeout",
+          "[Medium] A concurrent cancel can overwrite `refunded` after the refund commits"
+        ],
+        "F8": [
+          "[High] The `order.refunded` webhook can never reach a subscriber"
+        ]
+      },
+      "unmatched_findings": [
+        "[Low] The status list and the service README do not show the new status and endpoint"
+      ],
+      "report_chars": 24678,
+      "report_words": 3534,
+      "wall_seconds": 464,
+      "cost_usd": 2.2790378,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "S",
+      "I1_standalone_finding": false,
+      "recall_adjudicated": 1.0
+    },
+    "base-bz-d": {
+      "findings": 12,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 5,
+        "Medium": 4,
+        "Low": 2
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.933,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[High] Migration 0008 adds an unused index on `orders` and blocks order writes during the build",
+          "[Medium] Cancel and refund can both apply to one placed order"
+        ],
+        "F8": [
+          "[High] Integrators cannot subscribe to `order.refunded`"
+        ]
+      },
+      "unmatched_findings": [
+        "[Low] The checkout status list does not include `refunded`"
+      ],
+      "report_chars": 22716,
+      "report_words": 3280,
+      "wall_seconds": 422,
+      "cost_usd": 2.0009168,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "P",
+      "I1_standalone_finding": false,
+      "recall_adjudicated": 1.0
+    },
+    "cur-bz-a": {
+      "findings": 9,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 4,
+        "Medium": 4,
+        "Low": 0
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.867,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[High] Migration 0008 builds an unused index on `orders` with a lock that blocks order writes",
+          "[Medium] A concurrent cancel can overwrite `refunded` with `cancelled`"
+        ]
+      },
+      "unmatched_findings": [
+        "[Medium] A refund of a `placed` order does not release the inventory hold"
+      ],
+      "report_chars": 22921,
+      "report_words": 3263,
+      "wall_seconds": 481,
+      "cost_usd": 2.2719023999999997,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "P",
+      "I1_standalone_finding": false,
+      "recall_adjudicated": 1.0
+    },
+    "cur-bz-b": {
+      "findings": 11,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 3,
+        "Medium": 6,
+        "Low": 1
+      },
+      "recall": 0.933,
+      "recall_impl": 1.0,
+      "recall_design": 0.833,
+      "missed": [
+        "A2"
+      ],
+      "severity_accuracy": 0.929,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[High] Migration 0008 locks the `orders` table to build an index that no code uses",
+          "[Medium] A concurrent cancel can overwrite a committed refund"
+        ]
+      },
+      "unmatched_findings": [
+        "[Low] The README and the status config do not show the new route and status"
+      ],
+      "report_chars": 19733,
+      "report_words": 2936,
+      "wall_seconds": 419,
+      "cost_usd": 2.0989134000000003,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "M",
+      "I1_standalone_finding": false,
+      "recall_adjudicated": 0.933
+    },
+    "cur-bz-c": {
+      "findings": 11,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 4,
+        "Medium": 6,
+        "Low": 0
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.933,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[Medium] Migration 0008 adds an orders index that nothing reads, and the build can block order writes",
+          "[Medium] A concurrent cancel can change `refunded` to `cancelled`"
+        ],
+        "F8": [
+          "[High] No integrator can subscribe to `order.refunded`"
+        ]
+      },
+      "unmatched_findings": [],
+      "report_chars": 22006,
+      "report_words": 3209,
+      "wall_seconds": 516,
+      "cost_usd": 2.4864028000000005,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "S",
+      "I1_standalone_finding": true,
+      "recall_adjudicated": 1.0
+    },
+    "cur-bz-d": {
+      "findings": 11,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 4,
+        "Medium": 5,
+        "Low": 1
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.933,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F7": [
+          "[High] Migration 0008 locks the busy `orders` table to build an index that no code uses",
+          "[Medium] A concurrent cancel can overwrite a refund"
+        ]
+      },
+      "unmatched_findings": [
+        "[Low] A refund request with no body returns 500"
+      ],
+      "report_chars": 21630,
+      "report_words": 3152,
+      "wall_seconds": 533,
+      "cost_usd": 2.5728218,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "S",
+      "I1_standalone_finding": false,
+      "recall_adjudicated": 1.0
+    },
+    "native-bz-a": {
+      "findings": 10,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.6,
+      "recall_impl": 0.778,
+      "recall_design": 0.333,
+      "missed": [
+        "W1",
+        "E1",
+        "A2",
+        "D2",
+        "I1",
+        "T1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {
+        "F7": [
+          "The migration runs CREATE INDEX (not CONCURRENTLY) on the hot orders table inside a transa"
+        ]
+      },
+      "unmatched_findings": [
+        "Refunding a 'placed' order moves it to refunded without calling inventory release_order. c",
+        "The handler calls request.json() and payload.get(...) outside the try block and doesn't ch"
+      ],
+      "report_chars": 6570,
+      "report_words": 914,
+      "wall_seconds": 91,
+      "cost_usd": 0.45413080000000006,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "M",
+      "I1_standalone_finding": false,
+      "recall_adjudicated": 0.6
+    },
+    "native-bz-b": {
+      "findings": 10,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.733,
+      "recall_impl": 1.0,
+      "recall_design": 0.333,
+      "missed": [
+        "A2",
+        "D2",
+        "I1",
+        "T1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {
+        "F7": [
+          "The payout adjustment is written with reason 'refund', but settlement's `validate_adjustme",
+          "`CREATE INDEX` on the busy orders table runs without CONCURRENTLY, inside a transaction, s"
+        ]
+      },
+      "unmatched_findings": [
+        "Refunding a 'placed' order moves it to a terminal state without releasing its inventory ho"
+      ],
+      "report_chars": 6498,
+      "report_words": 892,
+      "wall_seconds": 93,
+      "cost_usd": 0.511863,
+      "gh_review_reads": 0,
+      "trap_hits_adjudicated": 0,
+      "A2_boundary_adjudicated": "M",
+      "I1_standalone_finding": false,
+      "recall_adjudicated": 0.733
+    }
+  }
+}

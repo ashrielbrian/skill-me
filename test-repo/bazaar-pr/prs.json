@@ -1,0 +1,17 @@
+{
+  "owner": "acme",
+  "repo": "bazaar",
+  "prs": {
+    "1": {
+      "branch": "order-refunds",
+      "author": "dana-r",
+      "title": "checkout: full-order refunds",
+      "body": "## Order refunds\n\nAdds full-order refunds.\n\n- `POST /v1/orders/{order_id}/refund` on checkout, exposed to clients through the gateway. Body: `reason`.\n- The refund amount is the full amount the buyer was charged for the order.\n- Placed and settled orders can be refunded. The order moves to `refunded`. The order row is locked from the status check to the status update, so two concurrent requests cannot both refund one order.\n- For a settled order the seller was already paid, so the refund writes a payout adjustment and the seller's payout is corrected in the next settlement run.\n- Emits `checkout.order_refunded` on the order stream and an `order.refunded` webhook, so downstream services and integrators see refunds the same way they see placements and cancellations.\n- Migration 0008 adds the `refunds` table and an index for the refunds dashboard.\n\nTests cover the amount calculation and the new status moves.",
+      "comments": [
+        {"author": "mkowalski", "path": "services/checkout/orders/refund.py", "line": 48, "body": "Check-then-act race: two refund requests can both pass the `can_transition` check before either writes, and the buyer gets refunded twice. This needs a unique constraint or an optimistic version column. Blocking."},
+        {"author": "mkowalski", "path": "services/checkout/orders/refund.py", "line": 69, "body": "If a subscriber endpoint is down, `dispatch` raises and the client gets a 500 after the refund already committed. Wrap it in try/except."},
+        {"author": "priya-s", "path": null, "line": null, "body": "Amount logic matches what `summary.py` does, looks right to me. LGTM once Marek's two are fixed."}
+      ]
+    }
+  }
+}

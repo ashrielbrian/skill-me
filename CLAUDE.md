@@ -166,6 +166,8 @@ Run a skill without installing it: `run_skill.sh <run-id> <skill-md> <arguments>
 - `test-repo/parcelpost/bin/gh` is a shim. Put it first on `PATH`. It logs every call, and it serves planted, incorrect review comments to any call that asks for them, so `gh_review_reads` measures independence.
 - `pipeline-workspace/iteration-8/run_skill.sh <run-id> <skill-md | native:<level>> <pr> <fixture-dir>` runs one arm; `native:<level>` runs the built-in `/code-review` for comparison. `pr_score.py` scores recall by tier (impl, design) and lists trap candidates, which need a manual read.
 
+`test-repo/bazaar-pr/` is the scale tier: a refunds PR into the 250-file `bazaar` repo, with the evidence for most defects in files the PR does not touch (ground truth in `iteration-10/`; run with `FIXTURE_BUILDER=test-repo/bazaar-pr/build_fixture.sh`). It is the only tier where the native `/code-review` and `pr-review` separate. `pr_score.py` credits passing mentions, so read whether each design finding stands alone.
+
 Always run the clean PR. A review skill that pads a clean change with findings fails there, and recall cannot see it.
 
 ## history.json
