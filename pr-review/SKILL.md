@@ -129,7 +129,7 @@ Walk the taxonomy below **in order, top-down**. Design problems are higher lever
 1. State what the change does in neutral terms — *before* judging it.
 2. Compare against the surrounding code: callers, types, framework guarantees. Does it preserve invariants? Introduce new failure modes?
 3. Walk the categories below. Not every category will have findings — that's fine and worth saying so explicitly in the report.
-4. Confirm each candidate finding with `file:line` at the PR's head SHA before recording it. No speculative findings.
+4. Confirm each candidate finding with `file:line` at the PR's head SHA before recording it. For a runtime finding (Correctness, Security, Error handling, Performance), construct the concrete failure: the input or state, and the wrong result that follows. Run it if the environment lets you. If you cannot construct one, or the code might be intentional, it is an Open Question, not a finding.
 
 ### Architectural fit
 The change is correct in isolation; the question is whether it belongs *here*, *like this*, given what the rest of the codebase already does.
@@ -157,44 +157,14 @@ Anything that becomes a contract: exported functions, types, route shapes, CLI f
 - Backward compatibility — breaking changes to callers, DB schemas, on-the-wire formats, public types. If breaking, is there a migration path?
 - Defaults: safe, least-surprising, and consistent with the rest of the API surface.
 
-### Best practices & idioms
-- Language idioms appropriate to the stack (Pythonic, Go-style, Rust ownership patterns, modern JS/TS, framework-specific conventions).
-- Framework conventions (Django ORM patterns, React hook rules, ASGI middleware ordering, etc. — adjust to the stack you identified in orientation).
-- Concurrency and async correctness: proper `await`, no blocking calls on the event loop, lock ordering, cancellation handling.
+### Implementation categories
+You know the standard defect classes for these categories; do not walk them as a checklist. Trace each changed path with real values — the boundary, the empty input, the second call, the concurrent call — and report what breaks. The notes name only the checks that reviewers skip.
 
-### Correctness
-- Race conditions in concurrent code (shared mutable state, missing locks).
-- Null/undefined access without guards.
-- Off-by-one errors in loops and boundaries.
-- Type coercion bugs.
-- Incorrect error propagation (swallowed errors, wrong error types).
-- Logic errors in conditionals (inverted checks, missing cases in switches/matches).
-- Resource leaks (unclosed file handles, DB connections, sockets).
-
-### Security
-- SQL injection, command injection, path traversal.
-- Hardcoded secrets, API keys, credentials.
-- Missing input validation/sanitization on user-facing inputs.
-- Insecure crypto (weak hashing, predictable randomness).
-- Overly permissive CORS, authn, or authz checks.
-- Sensitive data leaking through logging — check ALL logging paths in the changed files and their neighbors.
-- **New attack surface introduced by the PR**: a new endpoint, file upload, deserialization path, eval-style construct, or third-party dependency. Flag explicitly even if nothing in the new surface is obviously broken — the surface itself is the finding.
-
-### Error handling
-- Bare catch blocks that swallow exceptions silently.
-- Missing error handling on I/O (file, network, database).
-- Panics or crashes on recoverable errors.
-- Inconsistent API error response formats.
-- Missing retry logic or timeouts on external service calls.
-
-### Performance
-- N+1 query patterns.
-- Missing indexes suggested by new query patterns.
-- Unbounded data structures.
-- Synchronous I/O blocking an event loop or main thread.
-- Missing caching/memoization where appropriate.
-- Memory-heavy operations on large datasets without streaming.
-- Hardcoded sleeps where adaptive backoff would be more appropriate.
+- **Best practices & idioms**: the idioms and framework conventions of the stack you identified in orientation; in async code, a blocking call on the event loop or a missing `await`.
+- **Correctness**: when the PR claims to fix a defect, check that the old code was wrong. A "fix" to correct code is a regression.
+- **Security**: sensitive data in logs — check all logging paths in the changed files and their neighbors. **New attack surface** (a new endpoint, file upload, deserialization path, eval-style construct, or third-party dependency) is a finding in itself, even if nothing in it is obviously broken.
+- **Error handling**: a failure that returns as success; a broad catch that changes the error contract that callers rely on.
+- **Performance**: cost that grows with data the PR does not bound; blocking waits on a request path.
 
 ### Testing
 - Does the PR add tests for the new behavior? Are they meaningful — do they assert behavior, or just that no exception was raised? A test that mocks every collaborator and asserts only that the mocks were called verifies nothing.
@@ -202,16 +172,9 @@ Anything that becomes a contract: exported functions, types, route shapes, CLI f
 - For bug fixes: is there a regression test that would have failed without the fix?
 - For new public APIs: is there at least one test exercising the contract?
 
-### Observability
-- Logging at appropriate levels; sensitive data redacted; new error paths surfaced.
-- Metrics/traces for new code paths if the codebase's conventions call for it.
-- Sufficient context in error messages and logs to diagnose failures in production.
-
-### Maintainability
-- Circular dependencies introduced by the change.
-- God objects/functions (a single unit doing far too many things).
-- Missing or misleading documentation on new public APIs.
-- Implicit, undocumented behavior or configuration.
+### Observability and Maintainability
+- **Observability**: new error paths are visible in logs or metrics, with enough context to diagnose, per the codebase's conventions.
+- **Maintainability**: missing or misleading documentation on new public APIs; implicit, undocumented behavior or configuration.
 
 ### Scope & PR hygiene
 - Is the PR doing one thing, or bundling unrelated changes that should be split?
@@ -262,7 +225,7 @@ These belong in their own finding category — they're how a PR ships the wrong 
 [Order: highest severity first. Within the same severity, design findings (Architectural fit, Simplicity & economy, API design, Scope) before implementation findings.]
 
 ## Issues Not Found
-[Briefly note which categories had no significant findings — useful signal, not filler]
+[One line: the categories with no findings. Add a sentence for a category only where a reader would expect a finding and you verified that there is none.]
 
 ## Open Questions
 [Things you can't determine from the code alone — depend on intent, runtime configuration, domain context, deployment topology. State exactly what information would resolve each one.]
@@ -284,22 +247,11 @@ Two calibration tests:
 
 ## Guidelines
 
-- **Do not fetch existing reviews or review comments.** The `gh` flags listed in Phase 1 are the complete allowed set. Independence is the whole point of this skill.
-- **Design before implementation.** Walk the taxonomy in the order written. Don't bury an architectural finding under twenty line-level nits.
-- **Review the problem, not just the diff.** The diff is one candidate solution to an underlying problem. Your minimal sketch from orientation is the baseline it must justify itself against — machinery beyond the baseline is judged by "what breaks if this is deleted?", not by guessing the author's intent. "Nothing today" is a finding, not an Open Question.
-- **Every architectural-fit finding needs a concrete precedent.** Before claiming a change doesn't fit the codebase's patterns, Grep for at least one sibling/analogous implementation and cite it with `file:line`. Pattern-fit claims without a cited sibling are opinion.
-- **Look for the utility the author missed.** When the PR introduces a helper, parser, error type, or constant, search the repo for an existing equivalent before reviewing the new code in isolation. Duplicated logic that will drift is a real finding.
-- **Read the diff first, then the description.** Writing "What this PR does (from the diff)" before "What the author says it does" is the anti-anchor step against the author's framing — the same mechanism, in reverse, that keeps you independent from other reviewers.
-- **Don't auto-trust the description.** Treat it as a claim. Verify against the diff.
-- **Read full files, not just diff hunks.** The diff hides invariants, callers, and the patterns the change should be fitting into. This is where design findings come from.
-- **Cite head SHA + line.** Line numbers from the head ref, not local HEAD, so the report stays meaningful after rebases.
-- **Calibrate severity to blast radius.** A wrong design choice that downstream code will depend on is High/Critical even if no bug is visible today. A correctness bug in a rarely-hit branch may be Medium.
-- **Be specific, not exhaustive.** Five well-evidenced findings are worth more than twenty vague ones. Every finding has a file path and line number (or "PR-wide" for cross-cutting design findings, with the sibling citations doing the locating).
-- **Assume competent authors.** If something looks wrong but might be intentional, give benefit of the doubt and surface the ambiguity in Open Questions rather than firing a finding.
+- **Scale the report to the PR.** A small, clean change gets a short report: say that it is clean and stop. Do not pad it with Low findings, a per-category tour, or questions that do not change the merge decision.
+- **Be specific, not exhaustive.** Five well-evidenced findings are worth more than twenty vague ones.
+- **Defects the PR did not introduce are not findings against it.** Mention one only if the PR makes it worse or depends on it, and say that it is older.
 - **No style nits.** Naming, formatting, and aesthetic preferences are not findings unless they hurt clarity or break a clearly established codebase convention. This does not shield noise: comments that restate the code, single-use indirection, and "just in case" guards are Simplicity & economy findings, not style — whether deletion loses anything is the test.
-- **Worktree is opt-in, not default.** Only escalate when Phase 3's criteria are met. If you create one, you remove it before finishing.
 - **Don't apply edits or post comments on the PR.** This skill produces a report and stops. The user decides what to do with it.
-- **Write the report in Simplified Technical English.** Apply the STE rules above to every sentence you write, including the Summary, the Problem fields, and the Open Questions. A finding in short active sentences is harder to misread and harder to wave away than the same finding in hedged prose.
 
 ## Input
 

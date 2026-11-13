@@ -538,6 +538,96 @@
       "notes": "The differential answers the iteration-6 open question: on a repo above the skill's fan-out threshold, parallel exploration subagents match or beat the solo sweep on every quality gate (precision 1.0 vs 0.885, ordering 0.884 vs 0.862, coverage and cross-subsystem synthesis perfect in both) at 43% of the cost, 22% of the tokens, and 75% of the wall time - the solo arm burned 15.3M tokens dragging the whole repo through one context. Adjudication against the draft GT produced 8 corrections: 3 organic writer-agent defects adopted as planted issues (serial webhook dispatch P2 among them), all 3 designed P4s demoted because the written code offered Small fixes, one matcher-blur false match fixed by rewording. The guard run stayed within iteration-6 bands.",
       "caveats": "Single sample per arm. The adjudicate arm is in-sample by construction. p4 metrics are vacuous until a true P4 plant survives adjudication. Solo's 3 unmatched P3-grade extras await review.",
       "verdict": "committed (test surface 9325dde; skill unchanged at adff035)"
+    },
+    {
+      "id": 8,
+      "skill": "pr-review",
+      "skill_commit": "(see git log: skill(pr-review) subtract)",
+      "baseline_commit": "dfe7b21",
+      "timestamp": "2026-11-13T00:00:00Z",
+      "targets": [
+        "test-repo/parcelpost PR #1 (planted)",
+        "test-repo/parcelpost PR #2 (clean)"
+      ],
+      "changes": "Subtraction, 306 -> 258 lines. Replaced the generic Correctness/Security/Error handling/Performance/Best practices/Observability/Maintainability checklists with one short 'Implementation categories' block that names only the checks reviewers skip. Replaced the 18-bullet Guidelines section (16 bullets restated earlier phases) with 5 rules. 'Issues Not Found' is now one line plus exceptions. Added: a runtime finding must construct the concrete failure (input or state -> wrong result) or go to Open Questions; scale the report to the PR; defects the PR did not introduce are not findings against it.",
+      "arms": {
+        "base": "pr-review at dfe7b21",
+        "v2": "working tree",
+        "native": "built-in /code-review high <pr>"
+      },
+      "metrics": {
+        "planted_pr1": {
+          "base": {
+            "n": 2,
+            "recall": 1.0,
+            "recall_impl": 1.0,
+            "recall_design": 1.0,
+            "findings": 12.5,
+            "report_chars": 24148.5,
+            "wall_seconds": 334.5,
+            "cost_usd": 1.348,
+            "gh_review_reads": 0
+          },
+          "v2": {
+            "n": 2,
+            "recall": 1.0,
+            "recall_impl": 1.0,
+            "recall_design": 1.0,
+            "findings": 13.5,
+            "report_chars": 22591,
+            "wall_seconds": 361.5,
+            "cost_usd": 1.389,
+            "gh_review_reads": 0
+          },
+          "native": {
+            "n": 2,
+            "recall": 0.794,
+            "recall_impl": 1.0,
+            "recall_design": 0.612,
+            "findings": 10,
+            "report_chars": 5804,
+            "wall_seconds": 57,
+            "cost_usd": 0.277,
+            "gh_review_reads": 0
+          }
+        },
+        "clean_pr2": {
+          "base": {
+            "n": 3,
+            "findings": 1.667,
+            "report_chars": 7668.667,
+            "wall_seconds": 172.667,
+            "cost_usd": 0.792
+          },
+          "v2": {
+            "n": 3,
+            "findings": 0,
+            "report_chars": 3793.667,
+            "wall_seconds": 94.333,
+            "cost_usd": 0.54
+          },
+          "native": {
+            "n": 1,
+            "findings": 6,
+            "report_chars": 4158,
+            "wall_seconds": 46,
+            "cost_usd": 0.249
+          }
+        },
+        "ste": {
+          "base": {
+            "over_25_rate": 0.008,
+            "passive_per_100_sentences": 0.78
+          },
+          "v2": {
+            "over_25_rate": 0.037,
+            "passive_per_100_sentences": 1.54
+          }
+        }
+      },
+      "notes": "First ground-truth eval for pr-review. On the planted PR both pr-review arms find all 17 planted issues with 0 trap hits and 0 review-comment reads; cost, time and length are unchanged within noise. On the clean PR the subtraction is a clear gain over three samples per arm: findings 1.67 -> 0 (the base arm reported older, out-of-scope defects as Low findings), report length -51%, wall time -45%, cost -32%. The native /code-review matches pr-review on implementation recall (1.0) at about one fifth of the cost and one sixth of the time, finds 61% of design-tier issues (it misses the mock-only tests, the weakened test, and the description mismatches), gives no severity, and reported 6 findings on the clean PR.",
+      "caveats": "Recall is saturated, so this iteration cannot show that the removed checklists cost nothing on harder PRs. Small samples.",
+      "verdict": "committed"
     }
   ]
 }

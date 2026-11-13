@@ -158,6 +158,16 @@ Run a skill without installing it: `run_skill.sh <run-id> <skill-md> <arguments>
 
 **Known eval-asset defect**: `iteration-4/ground_truth_eventbus.json` labels `MemoryStorage` clean, but `_by_topic` grows without a bound. See the `corrections` array in that file before scoring precision.
 
+### Evaluating pr-review
+
+`pr-review` reads a PR through `gh`, so it needs a PR, not a directory. `test-repo/parcelpost/` is a base tree plus two PR overlays: `pr-1` (refunds, planted issues) and `pr-2` (a clean change — the correct review has no finding).
+
+- `test-repo/parcelpost/build_fixture.sh <dest>` builds a checkout with a local `origin` and `refs/pull/N/head`.
+- `test-repo/parcelpost/bin/gh` is a shim. Put it first on `PATH`. It logs every call, and it serves planted, incorrect review comments to any call that asks for them, so `gh_review_reads` measures independence.
+- `pipeline-workspace/iteration-8/run_skill.sh <run-id> <skill-md | native:<level>> <pr> <fixture-dir>` runs one arm; `native:<level>` runs the built-in `/code-review` for comparison. `pr_score.py` scores recall by tier (impl, design) and lists trap candidates, which need a manual read.
+
+Always run the clean PR. A review skill that pads a clean change with findings fails there, and recall cannot see it.
+
 ## history.json
 
 Append after each graded iteration. This is the longitudinal record across all commits:
