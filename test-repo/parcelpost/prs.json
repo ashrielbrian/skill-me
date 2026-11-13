@@ -1,0 +1,26 @@
+{
+  "owner": "acme",
+  "repo": "parcelpost",
+  "prs": {
+    "1": {
+      "branch": "refunds",
+      "author": "dana-r",
+      "title": "Add shipment refunds",
+      "body": "## Refunds\n\nAdds refund support for shipments.\n\n- `POST /shipments/{id}/refund` refunds the full charge, or a partial `amount`. The amount is validated, so a shipment can never be refunded for more than it was charged.\n- `GET /customers/{id}/refunds` lists a customer's refunds, optionally filtered by shipment status.\n- The refund endpoint is idempotent: a retry with the same `Idempotency-Key` returns the original refund and never refunds twice.\n- Voids the label with the carrier, with retries.\n- The refund amount calculation sits behind a `RefundStrategy` so we can add other policies later.\n\nAlso fixes an off-by-one in shipment pagination where the shipment at the cursor was skipped.\n\nNo behaviour change to existing endpoints otherwise. Tests added.",
+      "comments": [
+        {"author": "mkowalski", "path": "parcelpost/services/refunds.py", "line": 26, "body": "`shipments_repo.get(shipment_id)` returns None for an unknown id, so the strategy call below blows up with a TypeError on `shipment[\"charge_cents\"]`. Needs a None check. Blocking."},
+        {"author": "mkowalski", "path": "parcelpost/repos/refunds.py", "line": 29, "body": "f-string in a SQL statement = SQL injection via `sort`. Blocking."},
+        {"author": "priya-s", "path": null, "line": null, "body": "LGTM apart from Marek's two points. Nice and clean."}
+      ]
+    },
+    "2": {
+      "branch": "limit-cap",
+      "author": "dana-r",
+      "title": "Cap the listing page size at 100",
+      "body": "`GET /customers/{id}/shipments` accepted any positive `limit`, so one request could ask for a customer's whole history.\n\nThis caps `limit` at 100 in `parse_limit`. A larger value is rejected with a 422, the same way the other invalid values are. The default stays 20.\n\nTests cover the boundary (100 passes, 101 fails) and the endpoint response. README updated.",
+      "comments": [
+        {"author": "mkowalski", "path": null, "line": null, "body": "LGTM"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "run_id": "native-pr1-b",
+  "wall_seconds": 54,
+  "num_turns": 0,
+  "cost_usd": 0.2520238,
+  "main_loop_tokens": 0,
+  "is_error": false,
+  "permission_denials": 0,
+  "exit_status": 0,
+  "gh_calls": 1,
+  "gh_review_reads": 0,
+  "gh_mutations": 0,
+  "worktrees_left": 0,
+  "branches_left": []
+}

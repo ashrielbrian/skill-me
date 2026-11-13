@@ -1,0 +1,3 @@
+{"argv": ["repo", "view", "--json", "owner,name"], "reads_reviews": false, "mutates": false}
+{"argv": ["pr", "view", "2", "--json", "number,title,url,body,headRefName,headRefOid,baseRefName,additions,deletions,changedFiles,files,author,isDraft,mergeable"], "reads_reviews": false, "mutates": false}
+{"argv": ["pr", "diff", "2"], "reads_reviews": false, "mutates": false}

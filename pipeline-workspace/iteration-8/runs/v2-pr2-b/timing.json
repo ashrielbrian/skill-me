@@ -1,0 +1,15 @@
+{
+  "run_id": "v2-pr2-b",
+  "wall_seconds": 91,
+  "num_turns": 15,
+  "cost_usd": 0.5176224,
+  "main_loop_tokens": 368500,
+  "is_error": false,
+  "permission_denials": 0,
+  "exit_status": 0,
+  "gh_calls": 3,
+  "gh_review_reads": 0,
+  "gh_mutations": 0,
+  "worktrees_left": 0,
+  "branches_left": []
+}

@@ -14,3 +14,5 @@ pipeline-workspace/*/runs/*/prompt.md
 # into a separate, ignored file.
 pipeline-workspace/*/runs/pr-private*/
 pipeline-workspace/*/benchmark-private.json
+pipeline-workspace/*/runs/*/worktrees_left.txt
+pipeline-workspace/*/runs/*/branches_left.txt

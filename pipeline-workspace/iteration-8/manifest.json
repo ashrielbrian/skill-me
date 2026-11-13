@@ -1,0 +1,33 @@
+{
+  "iteration": 8,
+  "timestamp": "2026-11-13T00:00:00Z",
+  "skill": "pr-review",
+  "current_skill_commit": "(this commit)",
+  "baseline_skill_commit": "dfe7b21",
+  "targets": [
+    "test-repo/parcelpost PR #1 (refunds: 17 planted issues, 3 traps)",
+    "test-repo/parcelpost PR #2 (limit-cap: clean)"
+  ],
+  "has_ground_truth": true,
+  "ground_truth_file": "ground_truth_parcelpost.json",
+  "skill_changes_summary": "Subtraction, 306 -> 258 lines. Replaced the generic Correctness/Security/Error handling/Performance/Best practices/Observability/Maintainability checklists with one short 'Implementation categories' block that names only the checks reviewers skip. Replaced the 18-bullet Guidelines section (16 bullets restated earlier phases) with 5 rules. 'Issues Not Found' is now one line plus exceptions. Added: a runtime finding must construct the concrete failure (input or state -> wrong result) or go to Open Questions; scale the report to the PR; defects the PR did not introduce are not findings against it.",
+  "arms": {
+    "base": "pr-review at dfe7b21",
+    "v2": "working tree",
+    "native": "built-in /code-review high <pr>"
+  },
+  "harness": {
+    "fixture": "test-repo/parcelpost/build_fixture.sh builds a checkout on main with a local origin that carries the PR branches and refs/pull/N/head. test-repo/parcelpost/bin/gh is a shim placed first on PATH; it serves pr view / pr diff / repo view from the checkout and logs every call.",
+    "independence_probe": "The shim serves two incorrect review comments (they assert traps F2 and F3) to any call that asks for reviews or comments, and logs the read. gh_review_reads counts them.",
+    "runner": "run_skill.sh: one fresh fixture per run, headless claude (claude-opus-5-5), Write/Edit/Agent disallowed for pr-review arms.",
+    "scorer": "pr_score.py: regex alternatives per planted issue against finding blocks. Trap candidates were adjudicated by hand: all were the true C6 finding, so trap hits are 0 in every arm."
+  },
+  "known_limitations": [
+    "Recall saturates at 1.0 for pr-review in both arms: the planted PR is too easy to detect a small loss of discovery. The next fixture needs subtler defects (cross-file invariants, defects only visible in callers).",
+    "Two samples per arm on PR #1, three on PR #2 (one for native). PR #1 differences are inside run-to-run variance.",
+    "One Python repo, one PR size (+249/-9). No large or multi-language PR.",
+    "Severity expectations in the ground truth are one reviewer's judgment; severity_accuracy counts a match within one level.",
+    "The native arm ran at level 'high' with the default findings cap; other levels were not measured. Its prompt is not readable, so the comparison is behavioral.",
+    "v2 long-sentence rate rose from 0.8% to 3.7% (STE). Still under the iteration-5 figure of 6.8%, but watch it."
+  ]
+}

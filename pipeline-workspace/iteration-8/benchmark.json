@@ -1,0 +1,622 @@
+{
+  "summary": {
+    "planted_pr1": {
+      "base": {
+        "n": 2,
+        "recall": 1.0,
+        "recall_impl": 1.0,
+        "recall_design": 1.0,
+        "findings": 12.5,
+        "report_chars": 24148.5,
+        "wall_seconds": 334.5,
+        "cost_usd": 1.348,
+        "gh_review_reads": 0
+      },
+      "v2": {
+        "n": 2,
+        "recall": 1.0,
+        "recall_impl": 1.0,
+        "recall_design": 1.0,
+        "findings": 13.5,
+        "report_chars": 22591,
+        "wall_seconds": 361.5,
+        "cost_usd": 1.389,
+        "gh_review_reads": 0
+      },
+      "native": {
+        "n": 2,
+        "recall": 0.794,
+        "recall_impl": 1.0,
+        "recall_design": 0.612,
+        "findings": 10,
+        "report_chars": 5804,
+        "wall_seconds": 57,
+        "cost_usd": 0.277,
+        "gh_review_reads": 0
+      }
+    },
+    "clean_pr2": {
+      "base": {
+        "n": 3,
+        "findings": 1.667,
+        "report_chars": 7668.667,
+        "wall_seconds": 172.667,
+        "cost_usd": 0.792
+      },
+      "v2": {
+        "n": 3,
+        "findings": 0,
+        "report_chars": 3793.667,
+        "wall_seconds": 94.333,
+        "cost_usd": 0.54
+      },
+      "native": {
+        "n": 1,
+        "findings": 6,
+        "report_chars": 4158,
+        "wall_seconds": 46,
+        "cost_usd": 0.249
+      }
+    },
+    "ste": {
+      "base": {
+        "over_25_rate": 0.008,
+        "passive_per_100_sentences": 0.78
+      },
+      "v2": {
+        "over_25_rate": 0.037,
+        "passive_per_100_sentences": 1.54
+      }
+    }
+  },
+  "runs": {
+    "base-pr1-a": {
+      "findings": 12,
+      "severity_counts": {
+        "Critical": 2,
+        "High": 8,
+        "Medium": 2,
+        "Low": 0
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.941,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F2": [
+          "[Critical] SQL injection through the `status` query parameter"
+        ]
+      },
+      "unmatched_findings": [],
+      "report_chars": 24154,
+      "report_words": 3596,
+      "wall_seconds": 322,
+      "cost_usd": 1.3279728,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.013,
+      "passive_per_100_sentences": 0.7
+    },
+    "base-pr1-b": {
+      "findings": 13,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 6,
+        "Medium": 5,
+        "Low": 1
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.941,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F2": [
+          "[Critical] SQL injection in the `status` filter of `GET /customers/{id}/refunds`",
+          "[Medium] The refund list handler does not go through the service and repo layers"
+        ]
+      },
+      "unmatched_findings": [],
+      "report_chars": 24143,
+      "report_words": 3567,
+      "wall_seconds": 347,
+      "cost_usd": 1.3688948,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.01,
+      "passive_per_100_sentences": 0.3
+    },
+    "base-pr2-a": {
+      "findings": 1,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 1
+      },
+      "recall": 0.0,
+      "recall_impl": 0.0,
+      "recall_design": 0.0,
+      "missed": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "T1",
+        "T2",
+        "I1",
+        "S1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {},
+      "unmatched_findings": [
+        "[Low] Older defect in the same handler: a non-integer `after` gives a 500, not a 422"
+      ],
+      "report_chars": 7279,
+      "report_words": 1124,
+      "wall_seconds": 161,
+      "cost_usd": 0.7506358,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.0,
+      "passive_per_100_sentences": 1.1
+    },
+    "base-pr2-b": {
+      "findings": 1,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 1
+      },
+      "recall": 0.0,
+      "recall_impl": 0.0,
+      "recall_design": 0.0,
+      "missed": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "T1",
+        "T2",
+        "I1",
+        "S1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {},
+      "unmatched_findings": [
+        "[Low] The README does not say what happens above the maximum"
+      ],
+      "report_chars": 6853,
+      "report_words": 1079,
+      "wall_seconds": 171,
+      "cost_usd": 0.7980192,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.0,
+      "passive_per_100_sentences": 0.0
+    },
+    "base-pr2-c": {
+      "findings": 3,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 3
+      },
+      "recall": 0.059,
+      "recall_impl": 0.0,
+      "recall_design": 0.111,
+      "missed": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "T1",
+        "I1",
+        "S1"
+      ],
+      "severity_accuracy": 1.0,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {},
+      "unmatched_findings": [
+        "[Low] The tests do not lock the documented maximum of 100",
+        "[Low] Pre-existing: on the same endpoint, a bad `after` value gives a 500, not a 422"
+      ],
+      "report_chars": 8874,
+      "report_words": 1364,
+      "wall_seconds": 186,
+      "cost_usd": 0.8285266,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.018,
+      "passive_per_100_sentences": 1.8
+    },
+    "native-pr1-a": {
+      "findings": 10,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.824,
+      "recall_impl": 1.0,
+      "recall_design": 0.667,
+      "missed": [
+        "T1",
+        "T2",
+        "I1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [
+        "A partial refund still sets the shipment status to 'refunded' and voids the carrier label,"
+      ],
+      "report_chars": 5707,
+      "report_words": 808,
+      "wall_seconds": 60,
+      "cost_usd": 0.30294940000000004,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "trap_hits_adjudicated": 0
+    },
+    "native-pr1-b": {
+      "findings": 10,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.765,
+      "recall_impl": 1.0,
+      "recall_design": 0.556,
+      "missed": [
+        "D2",
+        "T1",
+        "T2",
+        "I1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [],
+      "report_chars": 5901,
+      "report_words": 778,
+      "wall_seconds": 54,
+      "cost_usd": 0.2520238,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "trap_hits_adjudicated": 0
+    },
+    "native-pr2-a": {
+      "findings": 6,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.059,
+      "recall_impl": 0.0,
+      "recall_design": 0.111,
+      "missed": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D5",
+        "D6",
+        "T1",
+        "T2",
+        "I1",
+        "S1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [
+        "A `limit` above 100 is now rejected with a 422 instead of being reduced to 100, which brea",
+        "The cap is enforced only in the HTTP query parser. `list_shipments` and `shipments_repo.li",
+        "`next_cursor` is set whenever a page comes back exactly full, so a customer whose shipment",
+        "The endpoint-level test for the listing route is in the new test_validation.py, while ever",
+        "No test checks that a valid limit at the boundary (limit=100) works through the HTTP endpo"
+      ],
+      "report_chars": 4158,
+      "report_words": 598,
+      "wall_seconds": 46,
+      "cost_usd": 0.24917480000000003,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "trap_hits_adjudicated": 0
+    },
+    "v2-pr1-a": {
+      "findings": 14,
+      "severity_counts": {
+        "Critical": 1,
+        "High": 7,
+        "Medium": 5,
+        "Low": 1
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 1.0,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F2": [
+          "[Critical] SQL injection in the `status` filter of the refund list"
+        ]
+      },
+      "unmatched_findings": [
+        "[Medium] `GET /customers/{id}/refunds` has no pagination"
+      ],
+      "report_chars": 25824,
+      "report_words": 3813,
+      "wall_seconds": 398,
+      "cost_usd": 1.4936540000000003,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.01,
+      "passive_per_100_sentences": 0.3
+    },
+    "v2-pr1-b": {
+      "findings": 13,
+      "severity_counts": {
+        "Critical": 2,
+        "High": 6,
+        "Medium": 4,
+        "Low": 1
+      },
+      "recall": 1.0,
+      "recall_impl": 1.0,
+      "recall_design": 1.0,
+      "missed": [],
+      "severity_accuracy": 0.941,
+      "severity_sorted": true,
+      "design_first_violations": 0,
+      "trap_candidates": {
+        "F2": [
+          "[Critical] SQL injection in the refund list lets any caller read any table"
+        ]
+      },
+      "unmatched_findings": [],
+      "report_chars": 19358,
+      "report_words": 2897,
+      "wall_seconds": 325,
+      "cost_usd": 1.2839251999999999,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.008,
+      "passive_per_100_sentences": 0.4
+    },
+    "v2-pr2-a": {
+      "findings": 0,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.0,
+      "recall_impl": 0.0,
+      "recall_design": 0.0,
+      "missed": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "T1",
+        "T2",
+        "I1",
+        "S1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [],
+      "report_chars": 3814,
+      "report_words": 607,
+      "wall_seconds": 75,
+      "cost_usd": 0.4706276,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.073,
+      "passive_per_100_sentences": 4.9
+    },
+    "v2-pr2-b": {
+      "findings": 0,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.0,
+      "recall_impl": 0.0,
+      "recall_design": 0.0,
+      "missed": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "T1",
+        "T2",
+        "I1",
+        "S1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [],
+      "report_chars": 3752,
+      "report_words": 575,
+      "wall_seconds": 91,
+      "cost_usd": 0.5176224,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.073,
+      "passive_per_100_sentences": 0.0
+    },
+    "v2-pr2-c": {
+      "findings": 0,
+      "severity_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 0,
+        "Low": 0
+      },
+      "recall": 0.0,
+      "recall_impl": 0.0,
+      "recall_design": 0.0,
+      "missed": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "T1",
+        "T2",
+        "I1",
+        "S1"
+      ],
+      "severity_accuracy": null,
+      "severity_sorted": null,
+      "design_first_violations": null,
+      "trap_candidates": {},
+      "unmatched_findings": [],
+      "report_chars": 3815,
+      "report_words": 591,
+      "wall_seconds": 117,
+      "cost_usd": 0.6302864000000001,
+      "gh_review_reads": 0,
+      "gh_mutations": 0,
+      "worktrees_left": 0,
+      "branches_left": [],
+      "template_pass_rate": 1.0,
+      "trap_hits_adjudicated": 0,
+      "over_25_rate": 0.021,
+      "passive_per_100_sentences": 2.1
+    }
+  }
+}
