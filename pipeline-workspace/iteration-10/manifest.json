@@ -2,8 +2,8 @@
   "iteration": 10,
   "timestamp": "2026-11-13T00:00:00Z",
   "skill": "pr-review",
-  "current_skill_commit": "1972cb6",
-  "baseline_skill_commit": "dfe7b21",
+  "current_skill_commit": "561d71d",
+  "baseline_skill_commit": "04064dd",
   "targets": [
     "test-repo/bazaar-pr PR #1 (order-refunds, +179/-4, on the 250-file bazaar repo: 15 planted issues, 2 traps)"
   ],
@@ -11,8 +11,8 @@
   "ground_truth_file": "ground_truth_bazaar_pr1.json",
   "skill_changes_summary": "None. Test-surface expansion only.",
   "arms": {
-    "base": "pr-review at dfe7b21 (n=4)",
-    "cur": "pr-review at 1972cb6 (n=4)",
+    "base": "pr-review at 04064dd (n=4)",
+    "cur": "pr-review at 561d71d (n=4)",
     "native": "built-in /code-review high 1 (n=2)"
   },
   "harness": "iteration-8/run_skill.sh with FIXTURE_BUILDER=test-repo/bazaar-pr/build_fixture.sh and RUNS_DIR; iteration-8/pr_score.py. recall_adjudicated and the A2/I1 columns in benchmark.json are hand-checked; the regex recall over-credits an issue that a report only names in passing.",

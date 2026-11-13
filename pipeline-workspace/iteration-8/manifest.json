@@ -2,8 +2,8 @@
   "iteration": 8,
   "timestamp": "2026-11-13T00:00:00Z",
   "skill": "pr-review",
-  "current_skill_commit": "(this commit)",
-  "baseline_skill_commit": "dfe7b21",
+  "current_skill_commit": "561d71d",
+  "baseline_skill_commit": "04064dd",
   "targets": [
     "test-repo/parcelpost PR #1 (refunds: 17 planted issues, 3 traps)",
     "test-repo/parcelpost PR #2 (limit-cap: clean)"
@@ -12,7 +12,7 @@
   "ground_truth_file": "ground_truth_parcelpost.json",
   "skill_changes_summary": "Subtraction, 306 -> 258 lines. Replaced the generic Correctness/Security/Error handling/Performance/Best practices/Observability/Maintainability checklists with one short 'Implementation categories' block that names only the checks reviewers skip. Replaced the 18-bullet Guidelines section (16 bullets restated earlier phases) with 5 rules. 'Issues Not Found' is now one line plus exceptions. Added: a runtime finding must construct the concrete failure (input or state -> wrong result) or go to Open Questions; scale the report to the PR; defects the PR did not introduce are not findings against it.",
   "arms": {
-    "base": "pr-review at dfe7b21",
+    "base": "pr-review at 04064dd",
     "v2": "working tree",
     "native": "built-in /code-review high <pr>"
   },

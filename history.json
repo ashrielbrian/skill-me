@@ -542,8 +542,8 @@
     {
       "id": 8,
       "skill": "pr-review",
-      "skill_commit": "(see git log: skill(pr-review) subtract)",
-      "baseline_commit": "dfe7b21",
+      "skill_commit": "561d71d",
+      "baseline_commit": "04064dd",
       "timestamp": "2026-11-13T00:00:00Z",
       "targets": [
         "test-repo/parcelpost PR #1 (planted)",
@@ -551,7 +551,7 @@
       ],
       "changes": "Subtraction, 306 -> 258 lines. Replaced the generic Correctness/Security/Error handling/Performance/Best practices/Observability/Maintainability checklists with one short 'Implementation categories' block that names only the checks reviewers skip. Replaced the 18-bullet Guidelines section (16 bullets restated earlier phases) with 5 rules. 'Issues Not Found' is now one line plus exceptions. Added: a runtime finding must construct the concrete failure (input or state -> wrong result) or go to Open Questions; scale the report to the PR; defects the PR did not introduce are not findings against it.",
       "arms": {
-        "base": "pr-review at dfe7b21",
+        "base": "pr-review at 04064dd",
         "v2": "working tree",
         "native": "built-in /code-review high <pr>"
       },
@@ -632,16 +632,16 @@
     {
       "id": 9,
       "skill": "pr-review",
-      "skill_commit": "1972cb6",
-      "baseline_commit": "dfe7b21",
+      "skill_commit": "561d71d",
+      "baseline_commit": "04064dd",
       "timestamp": "2026-11-13T00:00:00Z",
       "targets": [
         "test-repo/parcelpost PR #3 (bulk: 13 planted issues that need cross-file context, 3 traps)"
       ],
       "changes": "Test surface only: PR #3 with cross-file bugs and architectural defects.",
       "arms": {
-        "base": "pr-review at dfe7b21",
-        "cur": "pr-review at 1972cb6",
+        "base": "pr-review at 04064dd",
+        "cur": "pr-review at 561d71d",
         "native": "built-in /code-review high 3"
       },
       "metrics": {
@@ -683,21 +683,21 @@
         }
       },
       "notes": "The subtle tier did not separate the arms. Both pr-review versions found all 13 planted issues in both samples, with 0 trap hits and 0 review-comment reads; the matches were checked by hand (the two F5 trap candidates are the phrase 'leaks 2 labels', not the trap claim). The native /code-review again found every implementation bug (7 of 7) at about a fifth of the cost; it missed the description mismatch and the weak rollback test in both samples, and two architectural findings in one sample. Conclusion: at +150 lines in a 15-file repo the reviewer reads every relevant file, so cross-file subtlety is not hard for this model. Difficulty has to come from scale (a PR whose callers and precedents do not fit in one read, such as a PR into test-repo/bazaar) or from domain rules that are not written in the repo.",
-      "verdict": "committed (test surface; skill unchanged at 1972cb6)"
+      "verdict": "committed (test surface; skill unchanged at 561d71d)"
     },
     {
       "id": 10,
       "skill": "pr-review",
-      "skill_commit": "1972cb6",
-      "baseline_commit": "dfe7b21",
+      "skill_commit": "561d71d",
+      "baseline_commit": "04064dd",
       "timestamp": "2026-11-13T00:00:00Z",
       "targets": [
         "test-repo/bazaar-pr PR #1 (order-refunds, +179/-4, on the 250-file bazaar repo: 15 planted issues, 2 traps)"
       ],
       "changes": "Test surface only: a refunds PR into bazaar whose defects have their evidence in other services and the shared libraries.",
       "arms": {
-        "base": "pr-review at dfe7b21 (n=4)",
-        "cur": "pr-review at 1972cb6 (n=4)",
+        "base": "pr-review at 04064dd (n=4)",
+        "cur": "pr-review at 561d71d (n=4)",
         "native": "built-in /code-review high 1 (n=2)"
       },
       "metrics": {
@@ -742,7 +742,7 @@
         }
       },
       "notes": "First tier that separates anything. Native /code-review raises 9 and 11 of 15 planted issues (pr-review: 14 to 15) at about a fifth of the cost; it never raises the service-boundary violation, the unused index, the description mismatch, or the weak tests. Between the two pr-review versions there is no separable difference over four samples each: adjudicated recall 1.0 vs 0.983 (one miss of the boundary finding), the boundary violation as a standalone finding 3 of 4 vs 2 of 4, the description mismatch as a standalone finding 2 of 4 vs 1 of 4, cost $2.20 vs $2.36. All inside run-to-run variance; the direction on the two design findings is worth watching. 0 trap hits and 0 review-comment reads in all 10 runs. No run reported an older bazaar defect as a finding against the PR. 7 of 8 pr-review runs found an unplanted real defect (cancel races refund); it is now in accepted_extras.",
-      "verdict": "committed (test surface; skill unchanged at 1972cb6)"
+      "verdict": "committed (test surface; skill unchanged at 561d71d)"
     }
   ]
 }

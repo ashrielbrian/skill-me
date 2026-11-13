@@ -2,8 +2,8 @@
   "iteration": 9,
   "timestamp": "2026-11-13T00:00:00Z",
   "skill": "pr-review",
-  "current_skill_commit": "1972cb6",
-  "baseline_skill_commit": "dfe7b21",
+  "current_skill_commit": "561d71d",
+  "baseline_skill_commit": "04064dd",
   "targets": [
     "test-repo/parcelpost PR #3 (bulk: 13 planted issues that need cross-file context, 3 traps)"
   ],
@@ -11,8 +11,8 @@
   "ground_truth_file": "ground_truth_parcelpost_pr3.json",
   "skill_changes_summary": "None. Test-surface expansion only.",
   "arms": {
-    "base": "pr-review at dfe7b21",
-    "cur": "pr-review at 1972cb6",
+    "base": "pr-review at 04064dd",
+    "cur": "pr-review at 561d71d",
     "native": "built-in /code-review high 3"
   },
   "harness": "Reuses iteration-8/run_skill.sh (RUNS_DIR override) and iteration-8/pr_score.py.",
